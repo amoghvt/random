@@ -92,7 +92,9 @@ the trade windows with no open position do not call the model at all.
 
 ## Knowledge: your files
 
-Put them in `knowledge/`, run `ingest`. See `knowledge/README.md`.
+Put them in `knowledge/`, run `ingest`. Folders and SQLite databases anywhere on
+the machine can be indexed in place with `ingest --dir PATH` or
+`knowledge.extra_dirs`. See `knowledge/README.md`.
 
 ## Journal and review
 

@@ -10,11 +10,14 @@ import json
 import math
 import os
 import re
+import sqlite3
 import subprocess
 
 INDEX_NAME = "knowledge_index.json"
 TOKEN = re.compile(r"[a-z0-9]+(?:[.'][a-z0-9]+)?")
 TEXT_EXT = {".md", ".txt", ".json", ".csv", ".html", ".htm", ".rst", ".log"}
+DB_EXT = {".db", ".sqlite", ".sqlite3"}
+MAX_DB_ROWS_PER_TABLE = 5000
 
 
 def tokenize(text):
@@ -39,6 +42,43 @@ def _read(path):
     return text
 
 
+def read_sqlite(path, max_rows=MAX_DB_ROWS_PER_TABLE):
+    """Yield (table_name, text) for every user table: each row rendered as
+    'col: value | col: value', one row per line. Binary cells are skipped."""
+    try:
+        con = sqlite3.connect("file:%s?mode=ro" % path, uri=True)
+    except sqlite3.Error:
+        return
+    try:
+        cur = con.cursor()
+        try:
+            tables = [r[0] for r in cur.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")]
+        except sqlite3.Error:  # not a SQLite file, encrypted, or locked
+            return
+        for t in tables:
+            try:
+                cols = [c[1] for c in cur.execute('PRAGMA table_info("%s")' % t.replace('"', '""'))]
+                rows = cur.execute('SELECT * FROM "%s" LIMIT %d' % (t.replace('"', '""'), max_rows)).fetchall()
+            except sqlite3.Error:
+                continue
+            lines = []
+            for row in rows:
+                cells = []
+                for c, v in zip(cols, row):
+                    if v is None or isinstance(v, (bytes, bytearray)):
+                        continue
+                    v = str(v).strip()
+                    if v:
+                        cells.append("%s: %s" % (c, v[:500]))
+                if cells:
+                    lines.append(" | ".join(cells))
+            if lines:
+                yield t, "\n".join(lines)
+    finally:
+        con.close()
+
+
 def chunk(text, size=900, overlap=150):
     text = re.sub(r"\r\n?", "\n", text)
     paras = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
@@ -61,21 +101,40 @@ def chunk(text, size=900, overlap=150):
     return out
 
 
-def build_index(kdir, exclude=()):
+def _sources(kdir, extra_dirs=()):
+    """(label, path) for every file to index: kdir plus any extra folders (your
+    databases, exports, research), read in place, never copied."""
+    for base in [kdir] + [d for d in (extra_dirs or []) if d]:
+        base = os.path.abspath(os.path.expanduser(base))
+        if not os.path.isdir(base):
+            continue
+        tag = "" if base == os.path.abspath(kdir) else os.path.basename(base.rstrip(os.sep)) + "/"
+        for root, _dirs, files in os.walk(base):
+            for name in sorted(files):
+                if name.startswith(".") or name == INDEX_NAME:
+                    continue
+                if name == "README.md" or name.endswith(".example.md"):
+                    continue
+                path = os.path.join(root, name)
+                yield tag + os.path.relpath(path, base), path
+
+
+def build_index(kdir, exclude=(), extra_dirs=()):
     docs = []
-    for root, _dirs, files in os.walk(kdir):
-        for name in sorted(files):
-            if name.startswith(".") or name == INDEX_NAME or name in exclude:
-                continue
-            if name == "README.md" or name.endswith(".example.md"):
-                continue
-            path = os.path.join(root, name)
-            text = _read(path)
-            if not text.strip():
-                continue
-            rel = os.path.relpath(path, kdir)
-            for i, c in enumerate(chunk(text)):
-                docs.append({"source": rel, "n": i, "text": c, "tokens": tokenize(c)})
+    for rel, path in _sources(kdir, extra_dirs):
+        if os.path.basename(path) in exclude:
+            continue
+        ext = os.path.splitext(path)[1].lower()
+        if ext in DB_EXT:
+            for table, text in read_sqlite(path):
+                for i, c in enumerate(chunk(text)):
+                    docs.append({"source": "%s:%s" % (rel, table), "n": i, "text": c, "tokens": tokenize(c)})
+            continue
+        text = _read(path)
+        if not text.strip():
+            continue
+        for i, c in enumerate(chunk(text)):
+            docs.append({"source": rel, "n": i, "text": c, "tokens": tokenize(c)})
     df = {}
     for d in docs:
         for term in set(d["tokens"]):

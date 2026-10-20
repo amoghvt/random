@@ -67,7 +67,8 @@
   "knowledge": {
     "dir": "knowledge",
     "top_k": 6,
-    "always_include": ["playbook.md"]
+    "always_include": ["playbook.md"],
+    "extra_dirs": []
   },
 
   "notify": {

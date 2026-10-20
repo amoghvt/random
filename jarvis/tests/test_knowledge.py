@@ -50,3 +50,39 @@ class Knowledge(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Databases(unittest.TestCase):
+    def test_sqlite_and_extra_dir(self):
+        import sqlite3
+        kdir = tempfile.mkdtemp()
+        extra = tempfile.mkdtemp()
+        con = sqlite3.connect(os.path.join(extra, "oracle.db"))
+        con.execute("create table notes (id integer, title text, body text, blob_col blob)")
+        con.execute("insert into notes values (1, 'FOMC playbook', 'fade the first move after the statement', x'00ff')")
+        con.execute("insert into notes values (2, 'VWAP', 'reclaim with volume is the tell', NULL)")
+        con.execute("create table empty (x text)")
+        con.commit(); con.close()
+        with open(os.path.join(extra, "aether.csv"), "w") as f:
+            f.write("date,level,note\n2026-10-19,29900,prior day high rejected twice\n")
+        idx = knowledge.build_index(kdir, extra_dirs=[extra])
+        srcs = {d["source"] for d in idx["docs"]}
+        tag = os.path.basename(extra) + "/"
+        self.assertIn(tag + "oracle.db:notes", srcs)
+        self.assertIn(tag + "aether.csv", srcs)
+        self.assertNotIn(tag + "oracle.db:empty", srcs)
+        hit = knowledge.search(idx, "fade first move fomc statement", k=1)[0]
+        self.assertTrue(hit["source"].endswith("oracle.db:notes"))
+        self.assertIn("title: FOMC playbook", hit["text"])
+        hit = knowledge.search(idx, "prior day high rejected", k=1)[0]
+        self.assertTrue(hit["source"].endswith("aether.csv"))
+
+    def test_missing_extra_dir_is_ignored(self):
+        idx = knowledge.build_index(tempfile.mkdtemp(), extra_dirs=["/nonexistent/path"])
+        self.assertEqual(idx["N"], 0)
+
+    def test_unreadable_db_is_skipped(self):
+        d = tempfile.mkdtemp()
+        with open(os.path.join(d, "broken.db"), "wb") as f:
+            f.write(b"not a database")
+        self.assertEqual(knowledge.build_index(d)["N"], 0)

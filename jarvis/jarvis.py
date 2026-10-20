@@ -10,7 +10,7 @@
   python3 jarvis.py approve <id>           execute a pending proposal
   python3 jarvis.py flatten                close everything now
   python3 jarvis.py stop | resume          kill switch on / off
-  python3 jarvis.py ingest                 index jarvis/knowledge/
+  python3 jarvis.py ingest [--dir PATH]    index jarvis/knowledge/ (+ any folders, in place)
   python3 jarvis.py review [YYYY-MM-DD]    end-of-day review -> state/reviews/
   python3 jarvis.py reset-paper            fresh paper account
 """
@@ -103,12 +103,15 @@ def cmd_resume(j, args):
 
 
 def cmd_ingest(j, args):
-    idx = knowledge.build_index(j.kdir, exclude=())
+    extra = list(j.cfg["knowledge"].get("extra_dirs") or []) + list(args.dir or [])
+    idx = knowledge.build_index(j.kdir, exclude=(), extra_dirs=extra)
     knowledge.save_index(idx, j.kdir)
-    srcs = sorted(set(d["source"] for d in idx["docs"]))
-    print("indexed %d chunks from %d files" % (idx["N"], len(srcs)))
+    srcs = sorted(set(d["source"].split(":")[0] for d in idx["docs"]))
+    print("indexed %d chunks from %d files%s" % (idx["N"], len(srcs),
+          (" (+%d extra folders)" % len(extra)) if extra else ""))
     for s in srcs:
-        print("  " + s)
+        n = sum(1 for d in idx["docs"] if d["source"].split(":")[0] == s)
+        print("  %-50s %d chunks" % (s, n))
 
 
 def cmd_review(j, args):
@@ -147,8 +150,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config", default=None, help="path to config.json (default: jarvis/config.json)")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("status", "picture", "brief", "flatten", "stop", "resume", "ingest", "reset-paper"):
+    for name in ("status", "picture", "brief", "flatten", "stop", "resume", "reset-paper"):
         sub.add_parser(name)
+    ig = sub.add_parser("ingest"); ig.add_argument("--dir", action="append", help="extra folder to index in place (repeatable)")
     a = sub.add_parser("ask"); a.add_argument("question")
     t = sub.add_parser("tick"); t.add_argument("--force", action="store_true", help="call the brain even outside windows")
     r = sub.add_parser("run"); r.add_argument("--every", type=int, default=None)

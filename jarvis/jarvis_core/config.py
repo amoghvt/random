@@ -26,7 +26,7 @@ DEFAULTS = {
     "session": {"timezone": "America/New_York",
                 "trade_windows": [["09:35", "11:30"], ["13:30", "15:45"]],
                 "flatten_at": "15:55", "no_trade_dates": [], "event_blackouts": []},
-    "knowledge": {"dir": "knowledge", "top_k": 6, "always_include": ["playbook.md"]},
+    "knowledge": {"dir": "knowledge", "top_k": 6, "always_include": ["playbook.md"], "extra_dirs": []},
     "notify": {"webhook_url_env": "JARVIS_WEBHOOK_URL"},
     "state_dir": "state",
 }
