@@ -1,0 +1,8 @@
+# private: your limits, keys live in env, your notes, your journal
+config.json
+state/
+STOP
+knowledge/*
+!knowledge/README.md
+!knowledge/playbook.example.md
+__pycache__/
