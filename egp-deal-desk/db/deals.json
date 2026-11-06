@@ -22,11 +22,13 @@
     "fee_proposed": "EUR 25k engagement (paid) + EUR 35k readiness + 7% success",
     "potential_fee_usd": 1540000,
     "last_contact": "2026-10-28",
-    "next_action": "Term sheet (USD 22M / 49%, Thomas Glasenberg) to Juan Carlos Cerda; confirm readiness fee paid",
-    "next_action_date": "2026-11-04",
+    "next_action": "Amogh confirms mandate/term-sheet status (playbook §10 suggests the relationship went adversarial); if live, send term-sheet cover note (outbox) and confirm EUR 35k readiness fee received",
+    "next_action_date": "2026-11-07",
     "brief": "",
-    "notes": "Reference deal. Mandate signed. Investor committed.",
-    "sources": []
+    "notes": "Reference deal. Mandate signed. Record says investor committed (Thomas Glasenberg, USD 22M / 49%). 2026-11-06: the archetype playbook (§10) records that a lead investor declined on the primary-vs-secondary framing inconsistency, that a mid-process fee request triggered lawyer letters, and that the client asked for all work product — Amogh to confirm whether the mandate and the term sheet are still live before the cover note goes out. Frozen story in deals/plan-seguro/snapshot.json; consistency check passes.",
+    "sources": [],
+    "archetype": "rescue_recap_succession",
+    "snapshot": "deals/plan-seguro/snapshot.json"
   },
   {
     "slug": "revolo",
@@ -51,11 +53,12 @@
     "fee_proposed": "EUR 25k engagement + 5% success",
     "potential_fee_usd": 3000000,
     "last_contact": "2026-08-05",
-    "next_action": "Decide: offer success-only + equity/warrants for a 6-month exclusive window, or hold the fee",
-    "next_action_date": "2026-11-05",
+    "next_action": "Amogh picks Variant A (success-only + warrants, 6-month exclusive) or B (hold fee, close politely) in outbox/revolo-followup-2026-11-06.md",
+    "next_action_date": "2026-11-07",
     "brief": "",
     "notes": "Stalled since Aug on engagement fee. Candidate for success-fee-only + equity structure.",
-    "sources": []
+    "sources": [],
+    "archetype": "growth"
   },
   {
     "slug": "schuele-druckguss",
@@ -64,23 +67,53 @@
     "region": "EU",
     "sector": "auto die-casting",
     "size_note": "EUR 111M rev, ~680 staff",
-    "signals": [],
-    "need_band_usd": "EUR 15-40M",
-    "need_type": "rescue/succession equity",
-    "decision_maker": "Family (since 1951); MD Michael Eidecker",
-    "intermediary": "Arndt Geiwitz (SGP); Martin Mucha (GRUB BRUGGER)",
-    "score": 80,
+    "signals": [
+      {
+        "date": "2026-09-18",
+        "signal": "Schutzschirmverfahren (§270d InsO) ordered by AG Aalen for the German GmbH only; PL/SK subs not affected; investor search to start 'zeitnah'",
+        "url": "https://www.der-indat.de/julius-schuele-druckguss-gmbh-stellt-antrag-auf-anordnung-eines-schutzschirmverfahrens/"
+      },
+      {
+        "date": "2026-09-22",
+        "signal": "Arndt Geiwitz appointed vorläufiger Sachwalter; SGP states a structured investor process will be initiated",
+        "url": "https://www.schneidergeiwitz.de/de/news/articles/julius-schule-druckguss-gmbh-arndt-geiwitz-zum-vorlaufigen-sachwalter-bestellt"
+      },
+      {
+        "date": "2026-09-22",
+        "signal": "Losses EUR 4.8M (2023) and EUR 9.6M (2024); 152 staff in DE on Insolvenzgeld through Nov 2026; holding Julius Schüle GmbH outside proceedings",
+        "url": "https://www.gmuender-tagespost.de/ostalb/schwaebisch-gmuend/stadt-schwaebisch-gmuend/schuele-druckguss-insolvenz-eigenverwaltung-in-schwaebisch-gmuend-94504409.html"
+      },
+      {
+        "date": "2026-10-05",
+        "signal": "Mucha: M&A adviser still to be selected with prelim. creditors' committee and Sachwalter; no bidder named; main proceedings expected to open 1 Dec 2026; PL/SK to stay outside",
+        "url": "https://www.gmuender-tagespost.de/ostalb/schwaebisch-gmuend/stadt-schwaebisch-gmuend/schuele-druckguss-insolvenz-gmuend-zukunft-und-investorensuche-94521832.html"
+      }
+    ],
+    "need_band_usd": "17-46M (EUR 15-40M)",
+    "need_type": "rescue equity / plan sponsor for DE OpCo + PL/SK network",
+    "decision_maker": "Martin Mucha (GRUB BRUGGER, Generalbevollmächtigter) with Arndt Geiwitz (SGP, vorl. Sachwalter) and prelim. creditors' committee; MD Michael Eidecker; owning family unnamed",
+    "intermediary": "Martin Mucha (GRUB BRUGGER); Arndt Geiwitz (SGP Schneider Geiwitz); bachert&partner (Helge Hoffmann)",
+    "score": 70,
     "stage": "qualified",
-    "fee_proposed": "EUR 35k readiness + 7% success + 2% equity",
-    "potential_fee_usd": 2000000,
+    "fee_proposed": "EUR 25k readiness + EUR 25k engagement + 5% success on EGP-introduced capital + 1% warrants",
+    "potential_fee_usd": 1650000,
     "last_contact": "",
-    "next_action": "Strategist: entry plan + first message to Geiwitz/Mucha",
-    "next_action_date": "2026-11-04",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
+    "next_action": "Amogh approves and sends first message to Martin Mucha (via GRUB BRUGGER Stuttgart contact page); second touch Geiwitz",
+    "next_action_date": "2026-11-10",
+    "brief": "deals/schuele-druckguss/brief.md",
+    "notes": "2026-11-06 re-verified. Score 80->70: M&A adviser not yet appointed as of 5 Oct, main proceedings open ~1 Dec, estate must approve any fee, owners unnamed; EGP seat = investor-side introducer for DE+PL+SK network; German counsel on MiFID/finder structure.",
     "sources": [
+      "http://bachert-partner.de/",
+      "https://chambers.com/lawyer/martin-mucha-germany-122:1602551",
+      "https://grub-brugger.de/kontakt.html",
+      "https://www.der-indat.de/julius-schuele-druckguss-gmbh-stellt-antrag-auf-anordnung-eines-schutzschirmverfahrens/",
+      "https://www.gmuender-tagespost.de/ostalb/schwaebisch-gmuend/stadt-schwaebisch-gmuend/schuele-druckguss-insolvenz-eigenverwaltung-in-schwaebisch-gmuend-94504409.html",
+      "https://www.gmuender-tagespost.de/ostalb/schwaebisch-gmuend/stadt-schwaebisch-gmuend/schuele-druckguss-insolvenz-gmuend-zukunft-und-investorensuche-94521832.html",
+      "https://www.schneidergeiwitz.de/de/news/articles/julius-schule-druckguss-gmbh-arndt-geiwitz-zum-vorlaufigen-sachwalter-bestellt",
+      "https://www.schuele.de/de/kontakt",
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "eliance",
@@ -89,23 +122,61 @@
     "region": "EU",
     "sector": "helicopter emergency services",
     "size_note": "EUR 54M rev, -EUR 24M loss",
-    "signals": [],
-    "need_band_usd": "EUR 15-40M",
-    "need_type": "bridge/rescue equity or sub-debt",
-    "decision_maker": "Swiss Life AM (owner); Infranity (lender)",
-    "intermediary": "Watson Farley & Williams; Beka Finance",
-    "score": 79,
+    "signals": [
+      {
+        "date": "2026-10-08",
+        "signal": "Preconcurso de acreedores filed; c. 230 staff informed; FY2025 loss EUR 23.9M on EUR 54M revenue, directors note need for sole-shareholder support",
+        "url": "https://www.helihub.com/2026/10/09/spanish-operator-eliance-starts-pre-bankruptcy-proceedings/"
+      },
+      {
+        "date": "2026-11-05",
+        "signal": "Both Madrid SUMMA 112 medical helicopters grounded; Comunidad de Madrid threatens EUR 6-10k/day fines and prepares re-tender; article states company entered concurso late October",
+        "url": "https://www.moncloa.com/2026/11/05/madrid-helicopteros-summa-112-quiebra-3462279/"
+      },
+      {
+        "date": "2026-11-03",
+        "signal": "Forbes España: concurso followed the preconcurso; Swiss Life's planned capital contributions reportedly did not materialise",
+        "url": "https://forbes.es/opinion/1061052/eliance-cronica-de-un-hundimiento-evitable/"
+      },
+      {
+        "date": "2026-10-09",
+        "signal": "DGT Pegasus aircraft at Malaga, Sevilla, Santiago grounded per CCOO; EUR 51.1M DGT contract at risk",
+        "url": "https://capital.es/empresas/eliance-que-gestiona-los-helicopteros-de-la-dgt-se-declara-en-preconcurso-de-acreedores/225224/"
+      },
+      {
+        "date": "2025-07-07",
+        "signal": "WFW advised Eliance on Infranity refinancing plus capex facility (EUR 190M per press) as part of Swiss Life AM acquisition",
+        "url": "https://www.wfw.com/press/wfw-advises-eliance-on-debt-refinancing-and-additional-loan-facility/"
+      }
+    ],
+    "need_band_usd": "USD 17-46M (EUR 15-40M)",
+    "need_type": "rescue equity / super-senior or sub-debt alongside Infranity, or sale of Spanish operating units",
+    "decision_maker": "Swiss Life Asset Managers, fund Global Infrastructure Opportunities Growth II (Matthew Dooley, Director Value-Add Infrastructure; Alexia Chocano, Spain branch head); CEO Fernando Gallardo; Infranity (senior lender); administrador concursal if the reported late-Oct concurso is real (unverified)",
+    "intermediary": "Watson Farley & Williams Madrid (Alfredo Cabellos, Partner Asset Finance); Dentons Spain (Jabier Badiola); Beka Finance; Lazard (2025 sole FA)",
+    "score": 66,
     "stage": "qualified",
-    "fee_proposed": "EUR 35k readiness + 6% success",
-    "potential_fee_usd": 1900000,
+    "fee_proposed": "EUR 35k readiness + EUR 25k engagement + 6% success + 2% warrants (expect to lose equity)",
+    "potential_fee_usd": 1984000,
     "last_contact": "",
-    "next_action": "Strategist: entry via WFW/Beka; owner angle to Swiss Life AM",
-    "next_action_date": "2026-11-04",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
+    "next_action": "Amogh to approve intermediary message to Alfredo Cabellos (WFW Madrid); before sending, confirm via Registro Público Concursal whether a concurso was declared late Oct 2026 — if yes with an adviser mandated, Park",
+    "next_action_date": "2026-11-10",
+    "brief": "deals/eliance/brief.md",
+    "notes": "2026-11-06 re-verified. Score 79->66 (Watch): institutional owner reportedly stopped funding, two reports of a declared concurso (unverified), operations collapsing with daily fines; probable unit-sale/exit; approach cheaply via WFW Cabellos, Park if concurso confirmed with adviser mandated.",
     "sources": [
+      "https://capital-riesgo.es/en/articles/buenavista-completes-the-sale-of-its-stake-in-eliance-to-swiss-life-asset-managers/",
+      "https://capital-riesgo.es/en/articles/la-firma-de-servicios-a-reos-eliance-levanta-100-m-para-comprar-5-helic-pteros-airbus-beka-finance-estructura-la-financiaci-n/",
+      "https://capital.es/empresas/eliance-que-gestiona-los-helicopteros-de-la-dgt-se-declara-en-preconcurso-de-acreedores/225224/",
+      "https://forbes.es/opinion/1061052/eliance-cronica-de-un-hundimiento-evitable/",
+      "https://prnewswire.co.uk/news-releases/swiss-life-asset-managers-acquires-a-majority-stake-in-eliance-302423527.html",
+      "https://www.elespanol.com/invertia/mis-finanzas/fondos-de-inversion/20260130/swiss-life-am-dueno-educare-eliance-socio-inmobiliario-mapfre-abre-espana-alexia-chocano/1003744107722_0.amp.html",
+      "https://www.helihub.com/2026/10/09/spanish-operator-eliance-starts-pre-bankruptcy-proceedings/",
+      "https://www.madridiario.es/averia-falta-permisos-inhabilita-dos-helicopteros-112",
+      "https://www.moncloa.com/2026/11/05/madrid-helicopteros-summa-112-quiebra-3462279/",
+      "https://www.wfw.com/people/alfredo-cabellos/",
+      "https://www.wfw.com/press/wfw-advises-eliance-on-debt-refinancing-and-additional-loan-facility/",
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "takween",
@@ -114,23 +185,64 @@
     "region": "GCC",
     "sector": "packaging",
     "size_note": "SAR 400M rights issue after 68% capital cut",
-    "signals": [],
-    "need_band_usd": "USD 60-110M",
-    "need_type": "sub-underwriting / strategic block",
-    "decision_maker": "Al Othman Holding (41.6%)",
-    "intermediary": "Albilad Capital (unverified)",
-    "score": 79,
+    "signals": [
+      {
+        "date": "2026-11-05",
+        "signal": "Board amends plan: capital cut 81.64% to SAR 140.4M; rights issue reduced SAR 400M -> SAR 300M; CMA file not yet submitted",
+        "url": "https://www.argaam.com/ar/article/articledetail/id/1950889"
+      },
+      {
+        "date": "2026-11-03",
+        "signal": "9M-26 net loss SAR 123.87M (Q3 SAR 61.68M); accumulated losses SAR 624.25M = 81.64% of capital",
+        "url": "https://www.argaam.com/en/financial-reports/company-report/1994/2026/72"
+      },
+      {
+        "date": "2026-07-12",
+        "signal": "Albilad Capital appointed financial adviser, lead manager and underwriter; CMA file not yet submitted",
+        "url": "https://english.mubasher.info/news/4639863/"
+      },
+      {
+        "date": "2026-06-24",
+        "signal": "Board recommends 67.92% capital reduction + immediate SAR 400M rights issue; no FA appointed",
+        "url": "https://english.mubasher.info/news/4631365/Takween-s-board-recommends-capital-restructuring/"
+      },
+      {
+        "date": "2026-06-15",
+        "signal": "CEO Majed Nofal resigns eff. 30 Jun 2026; board member Marwan Jreige acting CEO from 1 Jul",
+        "url": "https://english.mubasher.info/news/4626879/Takween-s-CEO-resigns-Acting-CEO-appointed/"
+      }
+    ],
+    "need_band_usd": "USD 40-80M",
+    "need_type": "sub-underwriting / strategic block in SAR 300M rights issue (via Albilad)",
+    "decision_maker": "Abdulmohsen Mohamed Abdullah Al Othman — Chairman, Takween; CEO, Al Othman Holding (41.64%)",
+    "intermediary": "Albilad Capital — appointed FA, lead manager and underwriter (verified 12 Jul 2026)",
+    "score": 70,
     "stage": "qualified",
-    "fee_proposed": "co-advisory with CMA-licensed AP; 3-5% on placed block",
-    "potential_fee_usd": 2500000,
+    "fee_proposed": "EUR 25k readiness + EUR 25k engagement (holdco, delivered from Dubai) + 4% (3-5%) of placed block via Albilad referral/co-advisory or SPV carry + 1% warrants ask",
+    "potential_fee_usd": 1654000,
     "last_contact": "",
-    "next_action": "Decide Saudi route (AP partner); then approach Al Othman",
-    "next_action_date": "2026-11-06",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
+    "next_action": "Amogh calls Albilad Capital advisory desk (contact page on albilad-capital.com) for the Takween IB team; in parallel get Saudi counsel memo on SBR Art. 4(b)(2) before any direct approach to Al Othman",
+    "next_action_date": "2026-11-10",
+    "brief": "deals/takween/brief.md",
+    "notes": "2026-11-06 re-verified. Score 79->70: Albilad already FA/lead manager/underwriter (sweep's 'unverified' now confirmed); rights issue cut to SAR 300M on 5 Nov 2026 with no CMA filing after 4.5 months; fee must flow via the AP or EGP's SPV (SBR Art. 4(b)(2)); Saudi counsel required. Saudi route decision memo in deals/takween/entry.md.",
     "sources": [
+      "https://albilad-capital.com/en/InvestmentBanking/Pages/advisoryservices.aspx",
+      "https://cma.gov.sa/en/MediaCenter/PR/Pages/CMA-Warns-Unauthorized-APs.aspx",
+      "https://cma.gov.sa/en/RulesRegulations/Regulations/Documents/Amended%20Securities%20Business%20Regulations.pdf",
+      "https://decypha.com/en/news/details/Takween-acquires-70--of-SAAF-s-shares/21573171?L=EN",
+      "https://english.mubasher.info/markets/TDWL/stocks/1201/profile",
+      "https://english.mubasher.info/news/4626879/Takween-s-CEO-resigns-Acting-CEO-appointed/",
+      "https://english.mubasher.info/news/4631365/Takween-s-board-recommends-capital-restructuring/",
+      "https://english.mubasher.info/news/4639863/",
+      "https://www.al-othman.com/",
+      "https://www.arabnews.com/finance/saudi-regulator-proposes-giving-shareholders-more-say-over-loss-making-firms-and-boards-3008840",
+      "https://www.argaam.com/ar/article/articledetail/id/1950889",
+      "https://www.argaam.com/en/financial-reports/company-report/1994/2026/72",
+      "https://www.decypha.com/en/news/details/Takween-shareholders-approve-contracts--several-financial-decisions/21558196?L=EN",
+      "https://www.zawya.com/en/capital-markets/takween-appoints-adviser-for-latest-capital-raise-ifr-401013",
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rights_issue_backstop"
   },
   {
     "slug": "windmoeller",
@@ -139,23 +251,65 @@
     "region": "EU",
     "sector": "flooring",
     "size_note": "EUR 83M rev, ~280 staff",
-    "signals": [],
-    "need_band_usd": "EUR 10-25M",
-    "need_type": "plan financing / minority equity",
-    "decision_maker": "3rd-gen family; CEO Matthias Windmöller",
-    "intermediary": "Streitbörger (Sachwalter); GÖRG (Rhode, Taras); Wittop (Montag & Montag)",
-    "score": 76,
+    "signals": [
+      {
+        "date": "2026-10-09",
+        "signal": "AG Detmold orders Schutzschirm (50 IN 209/26, §§270b/270d InsO); Streitbörger prelim. Sachwalter; plan due 3 months from service (c. mid-Jan 2027)",
+        "url": "https://uebernahmeradar.de/unternehmen/windmoeller-gmbh-hrb-6249-detmold?lang=en"
+      },
+      {
+        "date": "2026-10-15",
+        "signal": "GÖRG release: FY2025 revenue c. EUR 83M, 280 staff, PL/US subsidiaries; trade-channel demand collapse after >2 years restructuring; CEO Matthias Windmöller, CRO Wittop; no investor process mentioned",
+        "url": "https://www.goerg.de/de/aktuelles/veroeffentlichungen/15-10-2026/windmoeller-gmbh-saniert-sich-ueber-ein-schutzschirmverfahren"
+      },
+      {
+        "date": "2026-10-16",
+        "signal": "FY2025 EBITDA EUR 3.7M on EUR 83.0M revenue",
+        "url": "https://www.mainsights.io/ma-news/german-flooring-manufacturer-windmoller-enters-restructuring-under-insolvency-protection"
+      },
+      {
+        "date": "2026-07-15",
+        "signal": "Restructuring CEO Abromeit exits, returns his 30% to the family; Philip Lehmann named CEO/CRO",
+        "url": "https://www.boden-wand-decke.de/fuehrungswechsel-bei-windmoeller-356117/"
+      },
+      {
+        "date": "2026-09-30",
+        "signal": "Register: Lehmann no longer MD; Frederik Wittop registered MD (before the filing); management service contract 8 Oct 2026",
+        "url": "https://www.northdata.com/Windm%C3%B6ller%20GmbH,%20Detmold/Amtsgericht%20Lemgo%20HRB%206249"
+      }
+    ],
+    "need_band_usd": "EUR 10-25M (≈ USD 11-27M)",
+    "need_type": "plan financing / minority recapitalisation (family keeps control), possible sale-and-leaseback of Detmold site",
+    "decision_maker": "Matthias Windmöller, CEO / managing partner; co-owner with Annika Windmöller via Windmöller Holding GmbH (100% after Abromeit's 30% returned Jul 2026)",
+    "intermediary": "Frederik Wittop (CFO/CRO, registered MD; Partner MONTAG & MONTAG, Cologne) — gatekeeper; Dr Raul Taras (GÖRG Cologne, counsel); Dr Yorck T. Streitbörger (prelim. Sachwalter, Bielefeld) — consent, not first contact",
+    "score": 71,
     "stage": "qualified",
-    "fee_proposed": "EUR 25k readiness + 7% success + 2% equity",
-    "potential_fee_usd": 1300000,
+    "fee_proposed": "EUR 30k readiness + EUR 25k engagement + 6% success + 2% warrants (Windmöller Holding)",
+    "potential_fee_usd": 1193000,
     "last_contact": "",
-    "next_action": "Strategist: entry via GÖRG / Wittop",
-    "next_action_date": "2026-11-04",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
+    "next_action": "Amogh approves draft; send to Frederik Wittop via MONTAG & MONTAG contact page; referral-fee letter ready; courtesy note to Sachwalter after reply",
+    "next_action_date": "2026-11-10",
+    "brief": "deals/windmoeller/brief.md",
+    "notes": "2026-11-06 re-verified. Score 76->71 (cyclical not regulatory distress; fee needs Sachwalter consent); no investor process announced as of 6 Nov; Montag & Montag may claim the financing track — position EGP as investor source with referral fee, not as process adviser.",
     "sources": [
+      "https://streitboerger.de/persoenlichkeiten/dr-yorck-t-streitboerger/",
+      "https://uebernahmeradar.de/unternehmen/windmoeller-gmbh-hrb-6249-detmold?lang=en",
+      "https://www.boden-wand-decke.de/fuehrungswechsel-bei-windmoeller-356117/",
+      "https://www.der-indat.de/windmoeller-gmbh-saniert-sich-ueber-ein-schutzschirmverfahren/",
+      "https://www.dhs-steuerberater.de/",
+      "https://www.euwid-holz.de/news/unternehmen/neuer-ceo-abromeit-beteiligt-sich-mit-30-an-windmoeller-130624/",
+      "https://www.goerg.de/de/aktuelles/veroeffentlichungen/15-10-2026/windmoeller-gmbh-saniert-sich-ueber-ein-schutzschirmverfahren",
+      "https://www.goerg.de/de/persoenlichkeiten/dr-raul-taras",
+      "https://www.goerg.de/de/persoenlichkeiten/holger-rhode",
+      "https://www.goerg.de/en/insights/publications/15-10-2026/windmoller-gmbh-is-undergoing-restructuring-via-protective-shield-proceedings",
+      "https://www.mainsights.io/ma-news/german-flooring-manufacturer-windmoller-enters-restructuring-under-insolvency-protection",
+      "https://www.moebelmarkt.de/beitrag/windm%C3%B6ller-sanierung-%C3%BCber-schutzschirmverfahren",
+      "https://www.montag-montag.de/",
+      "https://www.northdata.com/Windm%C3%B6ller%20GmbH,%20Detmold/Amtsgericht%20Lemgo%20HRB%206249",
+      "https://www.nw.de/lokal/kreis_lippe/uebersicht/24439550_Detmolder-Unternehmen-Windmoeller-verzeichnet-drastische-Einbussen-und-zieht-die-Reissleine.html",
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "agrocapital-noroeste",
@@ -164,23 +318,65 @@
     "region": "LATAM",
     "sector": "agri non-bank lender",
     "size_note": "MXN 1.02bn book (~USD 55M)",
-    "signals": [],
-    "need_band_usd": "USD 10-20M",
-    "need_type": "equity/sub-debt + refi, or run-off",
-    "decision_maker": "Grupo Ceres (family agri group)",
-    "intermediary": "PCR Verum analyst; development-bank workout desk",
-    "score": 74,
+    "signals": [
+      {
+        "date": "2026-07-23",
+        "signal": "PCR Verum cuts Agrocapital to B/M and 4/M, Observación Negativa; NPL 13.2%, reserves 0.3x, cash MXN 1.5M, single funder MXN 880.6M covenant breached and line restricted",
+        "url": "https://pcrverum.mx/calificaciones/pcr-verum-baja-calificaciones-de-agrocapital-a-b-m-y-4-m-y-las-coloca-en-observacion-negativa/"
+      },
+      {
+        "date": "2026-11-06",
+        "signal": "No rating action, withdrawal or follow-up on PCR Verum's issuer page since 23 Jul 2026",
+        "url": "https://pcrverum.mx/emisor/agrocapital-del-noroeste/"
+      },
+      {
+        "date": "2025-07-31",
+        "signal": "PCR Verum affirms BBB/M Stable; NPL 5.6%, restructured loans 14.8% of book, 82.8% of MXN 1,690M lines from one unnamed development bank",
+        "url": "https://pcrverum.mx/calificaciones/pcr-verum-afirma-calificaciones-de-bbb-m-y-3-m-de-agrocapital/"
+      },
+      {
+        "date": "2026-09-23",
+        "signal": "Sinaloa government asks 20 parafinancieras for a 17.5% rate cap; Agrocapital not among the 18 named attendees",
+        "url": "https://extraoficial.mx/gobierno-y-parafinancieras-acuerdan-generar-condiciones-para-mejorar-la-agricultura/"
+      },
+      {
+        "date": "2024-09-18",
+        "signal": "Grupo Ceres president Guillermo Elizondo Collard cancels Expoceres 2025 citing agricultural crisis and very limited producer credit",
+        "url": "https://www.luznoticias.mx/2024-09-18/agro/se-cancela-expo-ceres-2025-guillermo-elizondo/218523"
+      }
+    ],
+    "need_band_usd": "USD 10-15M (up to 20M only if the MXN 1bn book is kept); plus refi/run-off of the MXN 880.6M (~USD 48M) single development-bank line",
+    "need_type": "sub-debt / preferred equity acceptable to the funder + refi, or run-off / portfolio sale",
+    "decision_maker": "Ing. Guillermo Elizondo Collard, founder and Presidente del Consejo de Administración, Grupo Ceres (born 1931); group operator / Agrocapital DG unverified",
+    "intermediary": "None warm. Direct to Grupo Ceres presidencia (grupoceres.com.mx/contacto.html); Sainz Abogados / Creel as cold restructuring-counsel route; PCR Verum analysts are a monitoring contact, not a referral route",
+    "score": 66,
     "stage": "qualified",
-    "fee_proposed": "EUR 25k readiness + 7% success",
-    "potential_fee_usd": 1100000,
+    "fee_proposed": "EUR 25k readiness + EUR 25k engagement + 7% success + 2% equity/warrants",
+    "potential_fee_usd": 1104000,
     "last_contact": "",
-    "next_action": "Strategist: Grupo Ceres principals; bundle with Agropecuaria Financiera / FINDECA",
-    "next_action_date": "2026-11-05",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/latam-2026-11-02.md",
+    "next_action": "Watch: re-check PCR Verum issuer page for Observación Negativa resolution / 2Q-3Q26 data; Amogh decides whether to send the drafted Spanish letter to the Grupo Ceres presidencia now for a Sinaloa toehold",
+    "next_action_date": "2026-12-04",
+    "brief": "deals/agrocapital-noroeste/brief.md",
+    "notes": "2026-11-06 re-verified. Score 74->66 (Watch): run-off is the base case; a minority equity cheque is not investable as-is (sub-debt/preferred or portfolio sale is); founder is 95 with no public operator; roll-up with Agropecuaria Financiera/FINDECA not realistic (FINDECA is the healthy one); Spanish direct letter drafted for optional toehold.",
     "sources": [
+      "https://agrocapital.com.mx/contacto.html",
+      "https://extraoficial.mx/gobierno-y-parafinancieras-acuerdan-generar-condiciones-para-mejorar-la-agricultura/",
+      "https://grupoceres.com.mx/contacto.html",
+      "https://grupoceres.com.mx/fundador.html",
+      "https://idconline.mx/fiscal-contable/2026/05/18/honorarios-a-extranjeros-cuando-causan-isr-en-mexico-y-sus-excepciones",
+      "https://pcrverum.mx/calificaciones/pcr-verum-afirma-calificaciones-de-bbb-m-y-3-m-de-agrocapital/",
+      "https://pcrverum.mx/calificaciones/pcr-verum-baja-a-bb-m-calificacion-de-agropecuaria-financiera-perspectiva-permanece-negativa/",
+      "https://pcrverum.mx/calificaciones/pcr-verum-baja-a-bbb-m-la-calificacion-de-findecaperspectiva-permanece-negativa/",
+      "https://pcrverum.mx/calificaciones/pcr-verum-baja-calificaciones-de-agrocapital-a-b-m-y-4-m-y-las-coloca-en-observacion-negativa/",
+      "https://pcrverum.mx/emisor/agrocapital-del-noroeste/",
+      "https://pcrverum.mx/emisor/findeca/",
+      "https://www.luznoticias.mx/2024-09-18/agro/se-cancela-expo-ceres-2025-guillermo-elizondo/218523",
+      "https://www.luznoticias.mx/2026-06-01/agro/el-gobierno-de-mexico-condonara-deudas-a-productores-de-sinaloa-/291404",
+      "https://www.luznoticias.mx/2026-10-12/agro/ciclo-agricola-2026-2026-inicia-descapitalizado-en-sinaloa/309424",
+      "https://www.tusbuenasnoticias.com/noticias/sinaloa/2023/02/16/18264-agricultores-ya-tienen-financiamiento-con-apoyo-de-fira-en-bolsa-por-mil-800-millones",
       "sweeps/latam-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "gulf-general",
@@ -205,7 +401,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "gilmar",
@@ -214,23 +411,53 @@
     "region": "EU",
     "sector": "fashion",
     "size_note": "EUR 37.2M debt; 256 staff",
-    "signals": [],
-    "need_band_usd": "EUR 10-25M",
-    "need_type": "equity partner + real-estate monetisation",
-    "decision_maker": "Gerani family (100%)",
-    "intermediary": "Court-appointed esperto; Tribunale di Rimini",
-    "score": 72,
+    "signals": [
+      {
+        "date": "2026-10-07",
+        "signal": "Art. 19 CCII petition Tribunale di Rimini (RG 1734/2026); esperto Mauro Morelli accepted 6 Oct; judge Meneghello; hearing 24 Nov 2026; advisor Aicardi & Partners",
+        "url": "https://www.chiamamicitta.it/gilmar-profondo-rosso-256-dipendenti-a-rischio-e-congelamento-creditori-lazienda-ha-debiti-per-37-milioni-di-euro/"
+      },
+      {
+        "date": "2026-10-23",
+        "signal": "Debt EUR 37.2M at 31 Jul 2026, >800 creditors, 256 staff; plan: sell conto-terzi branch, exit licences, sell 35,000 m2 plant",
+        "url": "https://www.milanofinanza.it/fashion/gilmar-al-via-la-composizione-negoziata-debiti-per-37-2-milioni-e-piano-di-risanamento-202610231457342725"
+      },
+      {
+        "date": "2026-10-27",
+        "signal": "All 256 staff on cassa integrazione; debt split: Gerani companies EUR 11.9M, suppliers EUR 8M, banks EUR 5.9M; industrial buyer sought",
+        "url": "https://www.ilrestodelcarlino.it/rimini/cronaca/la-gilmar-in-crisi-si-bda4aca7"
+      },
+      {
+        "date": "2026-11-04",
+        "signal": "2024 revenue EUR 42.16M, net loss EUR 5.03M; Iceberg trademark in separate Gilmar S.p.A.; 30% of N°21 sold to Style Capital; investor contacts started, no deal",
+        "url": "https://bebeez.it/crisi-rilanci/gilmar-famiglia-gerani-avvia-la-composizione-negoziata-della-crisi-il-24-novembre-ludienza-sulle-misure-protettive-in-vendita-fabbrica-e-ramo-produttivo/"
+      }
+    ],
+    "need_band_usd": "USD 11-22M (EUR 10-20M disposal proceeds: branch + plant; Iceberg partner separate, unannounced)",
+    "need_type": "asset sale inside composizione negoziata (branch + real estate); possible brand partner for Iceberg (Gilmar S.p.A.) later",
+    "decision_maker": "Paolo Gerani (Amministratore Delegato) / Silvano Gerani (Presidente), Gilmar Divisione Industria S.p.A. — Gerani Group 100%",
+    "intermediary": "Studio Aicardi & Partners (Achille Mazzanti, Piero Aicardi) — financial/industrial advisor to the plan; esperto Mauro Morelli (neutral, do not approach)",
+    "score": 62,
     "stage": "qualified",
-    "fee_proposed": "EUR 25k readiness + 7% success",
-    "potential_fee_usd": 1000000,
+    "fee_proposed": "EUR 25k readiness + EUR 25k engagement + 6% success (4-5% on real estate) + 1-2% warrants Gilmar S.p.A.",
+    "potential_fee_usd": 1026000,
     "last_contact": "",
-    "next_action": "Strategist: identify esperto; approach before 24 Nov hearing",
-    "next_action_date": "2026-11-05",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
+    "next_action": "Decide Watch vs approach; if approach, send intermediary draft to Aicardi & Partners before 24 Nov hearing; re-check outcome of hearing",
+    "next_action_date": "2026-11-25",
+    "brief": "deals/gilmar/brief.md",
+    "notes": "2026-11-06 re-verified: entity in CNC is Gilmar Divisione Industria (manufacturing); Iceberg brand sits in separate Gilmar S.p.A.; plan is asset sale/wind-down, not recap; score 72->62 Watch.",
     "sources": [
+      "https://bebeez.it/crisi-rilanci/gilmar-famiglia-gerani-avvia-la-composizione-negoziata-della-crisi-il-24-novembre-ludienza-sulle-misure-protettive-in-vendita-fabbrica-e-ramo-produttivo/",
+      "https://www.aicardiepartners.it/",
+      "https://www.chiamamicitta.it/gilmar-profondo-rosso-256-dipendenti-a-rischio-e-congelamento-creditori-lazienda-ha-debiti-per-37-milioni-di-euro/",
+      "https://www.gilmar.it/contacts",
+      "https://www.ilrestodelcarlino.it/rimini/cronaca/la-gilmar-in-crisi-si-bda4aca7",
+      "https://www.milanofinanza.it/fashion/gilmar-al-via-la-composizione-negoziata-debiti-per-37-2-milioni-e-piano-di-risanamento-202610231457342725",
+      "https://www.milanofinanza.it/news/gilmar-debiti-per-37-2-milioni-e-risanamento-2722099",
+      "https://www.pambianconews.com/2026/10/23/gilmar-avvia-la-composizione-negoziata-della-crisi-debiti-per-372-milioni-498415/",
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "acig",
@@ -255,7 +482,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "booster",
@@ -280,7 +508,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
     "sources": [
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "cruz-suiza",
@@ -289,23 +518,58 @@
     "region": "LATAM",
     "sector": "P&C insurer",
     "size_note": "Capital deficit ARS 48.6M; SSN regularisation plan",
-    "signals": [],
-    "need_band_usd": "USD 5-15M",
-    "need_type": "recap",
-    "decision_maker": "Marcelo Figueiras & José Urtubey (owners)",
-    "intermediary": "Abeledo Gottheil (Ponferrada)",
-    "score": 71,
+    "signals": [
+      {
+        "date": "2026-05-26",
+        "signal": "SSN RESOL-2026-230: capital deficit ARS 48,633,437 at 31 Mar 2026; inhibición general de bienes; regularisation plan in 15 days; extension request refused",
+        "url": "https://100seguro.com.ar/wp-content/uploads/2026/05/230-SUN-BO.pdf"
+      },
+      {
+        "date": "2026-05-28",
+        "signal": "Shareholders paid in irrevocable contributions of ARS 48,633,437 (≈USD 35k) and notified SSN",
+        "url": "https://www.iprofesional.com/negocios/455923-seguros-crisis-marcelo-figueiras-recolecto-mas-de-48-millones-pesos-para-salvar-cruz-suiza"
+      },
+      {
+        "date": "2026-06-08",
+        "signal": "SSN RESOL-2026-251: definitive lifting of the inhibition; contributions verified; insurer in normal operating condition",
+        "url": "https://elseguroenaccion.com.ar/wp-content/uploads/2026/06/251-SUN-BO.pdf"
+      },
+      {
+        "date": "2026-01-13",
+        "signal": "New flat minimum capital 750,000 UVA (≈USD 857k) for all insurers, fully applicable June 2026",
+        "url": "https://www.globalinsurancelaw.com/2026/01/15/regulator-moves-to-prevent-insolvencies-in-argentinas-insurance-market/"
+      }
+    ],
+    "need_band_usd": "USD 1-5M (growth, estimate; regulatory need nil — cured Jun 2026)",
+    "need_type": "growth equity / minority partner (not recap)",
+    "decision_maker": "Marcelo Figueiras (President, Cruz Suiza; 38.54% Laboratorios Richmond); José Urtubey (VP)",
+    "intermediary": "Abeledo Gottheil (Luis Matías Ponferrada) — cohort route, no sourced link to Cruz Suiza",
+    "score": 43,
     "stage": "qualified",
-    "fee_proposed": "EUR 25k readiness + 7% success",
-    "potential_fee_usd": 600000,
+    "fee_proposed": "EUR 25k readiness (payable offshore) + 7% success (USD 150k min) + 2% warrants; engagement waived",
+    "potential_fee_usd": 239000,
     "last_contact": "",
-    "next_action": "Strategist: direct approach to Figueiras via Richmond; small ticket, high probability",
-    "next_action_date": "2026-11-06",
-    "brief": "",
-    "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/latam-2026-11-02.md",
+    "next_action": "Park: re-sweep SSN resolutions on Cruz Suiza after 30 Sep 2026 balances; send direct Figueiras note only if Amogh wants the relationship play",
+    "next_action_date": "2026-12-15",
+    "brief": "deals/cruz-suiza/brief.md",
+    "notes": "2026-11-06 re-verified: signal cured Jun 2026 (ARS 48.6M ≈ USD 35k paid by owners in 48h; Res. 251 lifted inhibition); sweep mislabelled as P&C (it is personal lines with a new P&C licence) and over-inferred USD 5-15M need; Park, re-sweep after 30 Sep balances; Ponferrada worth cultivating for the SSN cohort.",
     "sources": [
+      "https://100seguro.com.ar/la-ssn-levanto-la-inhibicion-general-de-bienes-que-pesaba-sobre-aseguradora/",
+      "https://100seguro.com.ar/wp-content/uploads/2026/05/230-SUN-BO.pdf",
+      "https://abeledogottheil.com.ar/contacto/",
+      "https://allende.com/bancario/el-bcra-flexibiliza-el-cobro-de-exportaciones-de-servicios-y-ajusta-reglas-de-acceso-al-mercado-de-cambios-09-15-2026/",
+      "https://elseguroenaccion.com.ar/cruz-suiza-normalizo-su-situacion-patrimonial-y-la-ssn-levanto-la-inhibicion-de-bienes/",
+      "https://elseguroenaccion.com.ar/wp-content/uploads/2026/06/251-SUN-BO.pdf",
+      "https://www.cruzsuiza.com/nosotros.php",
+      "https://www.globalinsurancelaw.com/2026/01/15/regulator-moves-to-prevent-insolvencies-in-argentinas-insurance-market/",
+      "https://www.iprofesional.com/legales/458666-cual-es-primera-compania-seguros-que-logro-zafar-de-sancion-del-gobierno-javier-milei",
+      "https://www.iprofesional.com/negocios/455816-seguros-en-crisis-empresa-marcelo-figueiras-jose-urtubey-fue-sancionada-por-el-gobierno",
+      "https://www.iprofesional.com/negocios/455923-seguros-crisis-marcelo-figueiras-recolecto-mas-de-48-millones-pesos-para-salvar-cruz-suiza",
+      "https://www.richmondlab.com/contacto/",
+      "https://www.richmondlab.com/inversores/",
       "sweeps/latam-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "abo-energy",
@@ -330,7 +594,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
     "sources": [
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "aman-takaful",
@@ -355,7 +620,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "amana-insurance",
@@ -380,7 +646,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "enaya",
@@ -405,7 +672,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "chemanol",
@@ -430,7 +698,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rights_issue_backstop"
   },
   {
     "slug": "insurance-house",
@@ -455,7 +724,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/gcc-2026-11-02.md",
     "sources": [
       "sweeps/gcc-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "christof",
@@ -480,7 +750,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
     "sources": [
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "photon-energy",
@@ -505,7 +776,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/eu-2026-11-02.md",
     "sources": [
       "sweeps/eu-2026-11-02.md"
-    ]
+    ],
+    "archetype": "insolvency_process"
   },
   {
     "slug": "cruz-blanca-bupa",
@@ -530,7 +802,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/latam-2026-11-02.md",
     "sources": [
       "sweeps/latam-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "patria-isapres",
@@ -555,7 +828,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/latam-2026-11-02.md",
     "sources": [
       "sweeps/latam-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   },
   {
     "slug": "kubo",
@@ -580,7 +854,8 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/latam-2026-11-02.md",
     "sources": [
       "sweeps/latam-2026-11-02.md"
-    ]
+    ],
+    "archetype": "growth"
   },
   {
     "slug": "galeno",
@@ -605,6 +880,7 @@
     "notes": "Sourced 2026-11-02; full entry with URLs in sweeps/latam-2026-11-02.md",
     "sources": [
       "sweeps/latam-2026-11-02.md"
-    ]
+    ],
+    "archetype": "rescue_recap_succession"
   }
 ]

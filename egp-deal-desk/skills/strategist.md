@@ -33,6 +33,12 @@ What to ask in 20 minutes; what they'll object to; what we must not promise (no 
 What we'd learn on the first call that ends it.
 ```
 
+## Framing rule for regulated-financial recaps
+
+The story is a **primary raise forced by the regulator**, priced on restated book, owners taking no proceeds. It is never "the owners are getting old and selling 40–49%". Succession is the investor's control path in year 4–5, mentioned once, not the pitch. Write `deals/<slug>/snapshot.json` (amount, stake, look-through, primary/secondary, solvency figure, entity names, banned claims) before the first message and run `tools/consistency_check.py <slug>`.
+
+Investor pre-match for this archetype comes from `db/investor-candidates.json` (types in playbook §6.1, ranked by prior regulated-financial deals, geography, ticket, minority tolerance) and from `db/investors.json` once Amogh has filled it. Hand the shortlist to `skills/investor.md`.
+
 ## Principles
 - Specific beats clever: quote the public signal (filing, rating action) in the first line.
 - Receipts not poetry: one comparable deal, one number, one ask.

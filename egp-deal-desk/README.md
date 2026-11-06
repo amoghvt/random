@@ -21,7 +21,8 @@ Claude Code reads `CLAUDE.md` automatically and uses the skills as instructions.
 ## Layout
 ```
 CLAUDE.md             operating manual (ICP, products, rules, cadence)
-skills/               hunter · analyst · strategist · operator
+skills/               hunter · analyst · strategist · operator · investor
+playbooks/            deal archetypes (rescue-recap with succession = the reference pattern)
 db/                   deals.json · intermediaries.json · investors.json · SCHEMA.md
 sweeps/               raw hunter output per region/date
 deals/<slug>/         brief.md · entry.md · drafts
@@ -29,6 +30,8 @@ outbox/ sent/         outbound drafts awaiting approval · sent log
 reports/              weekly desk reports
 templates/            first message · readiness outline · mandate outline · call brief
 tools/pipeline.py     pipeline report / rank / due / add
+tools/consistency_check.py   one-story check before any outbound (snapshot vs drafts)
+tools/merge_station_output.py  merge a station worker's JSON into the databases
 ```
 
 ## First things Amogh fills in

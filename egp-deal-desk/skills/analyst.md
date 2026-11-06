@@ -32,6 +32,10 @@ As of: <date>
 **Sources.** URLs.
 ```
 
+## Archetype additions (rescue-recap with succession)
+
+When the Hunter tags a candidate as the archetype, the brief also carries: the **shock** (external, dated) and the **structural problem** (under-pricing / under-reserving) as two separate lines; the **ownership chain** to the UBO with look-through arithmetic; the **capital need on three bases** (management's; restated to 1.0x; restated to 1.3x with headroom) marked as estimates until the first-10-days pack arrives; the §7 red-flag tests with a pass/fail/unknown each; and a **sellability** line: can an independent actuarial / asset-quality review be commissioned, is solvency > 0.8x, will the owner cooperate. Score Bank-shyness 8–10 only for regulatory, tax, claims or reserving complications; cyclical distress inside an insolvency process scores 4–6.
+
 ## Method
 1. Read the Hunter entry. Re-verify the two strongest signals by fetching sources.
 2. Fill the brief. Be blunt in Risks. If the company is likely headed to liquidation or shows fraud indicators, score Need high but mark **Park — not a client** in the header.

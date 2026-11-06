@@ -1,0 +1,11 @@
+{
+  "frozen_on": "2026-11-06",
+  "story": "Primary recapitalisation of a Mexican specialised health insurer. New shares in the Dutch holdco for 49% (look-through about 27-30% of the opco). USD 22M, tranche 1 USD 10M as a convertible loan on signing, balance on SHCP/CNSF approval. Priced on restated book with a price adjustment to the independent actuarial review. Owners take no proceeds. Solvency 1.01-1.02x at the last reported month-end.",
+  "amount_usd_m": [22, 10],
+  "stake_pct": [49],
+  "look_through_pct": [27, 30],
+  "primary_or_secondary": "primary",
+  "solvency": ["1.01x", "1.02x"],
+  "entities": ["Plan Seguro S.A. de C.V., Compañía de Seguros", "Biltmore Capital Holding B.V."],
+  "banned_claims": ["regulator sign-off", "regulator has approved", "actuary commissioned", "revenue to usd 400"]
+}

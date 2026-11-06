@@ -32,6 +32,12 @@ Purpose: find companies that will need EGP's help before they know it, with proo
 **Human sources (the ones that actually produce mandates)**
 - Restructuring and insurance-regulatory law firms; mid-market auditors; insurance/actuarial consultants; ex-regulators turned advisers; turnaround managers (Sachwalter, CROs); family-office advisers. Map them by region into `db/intermediaries.json`.
 
+## Archetype hunt (run it first, every sweep)
+
+The playbook's §4.1 table is the primary search list for the rescue-recap archetype: regulator supervisory measures and regularisation plans; solvency / capital ratios below ~1.3x or falling sharply in public solvency reports (RSCF, SFCR, Pillar 3); retroactive tax or accounting changes that hit a whole sub-sector (these create **cohorts**, work the cohort through its intermediaries, not company by company); rating downgrades of family-owned financials; reinsurer or funder term changes; repeated shareholder injections in 12 months; pledged shares; founder 75+ with no visible successor; provider / supplier complaints about late payment; book growth > 25% on flat capital; unusual accounting basis (claims on paid basis, "advances" or "other debtors" growing faster than revenue). Apply §4.3 negative screens before writing a candidate up: administrator appointed, fraud indicators, owner refuses an independent review, need > 2x normalised earnings capacity.
+
+Output per candidate adds: `archetype fit 1–5`, `recap probability 0–100` with one line, the accounting-basis tell if visible, succession signal if visible.
+
 ## Method
 1. Run searches region by region, signal type by signal type. Use extended search for registers and rating actions. Fetch the actual source page for every candidate.
 2. Reject: companies in formal liquidation; companies too small (< USD 10M need) or too large (bulge-bracket territory, > USD 200M need unless family-owned and bank-shy); anything without a retrievable source.

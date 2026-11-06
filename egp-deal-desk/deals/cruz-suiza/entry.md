@@ -1,0 +1,34 @@
+# Entry plan — Cruz Suiza Compañía de Seguros S.A. (Figueiras / Urtubey group, Argentina)
+
+Status: Park (score 43). This plan exists because the desk lead asked for the small-fee, high-probability structure anyway. Nothing here should be sent unless Amogh decides he wants an Argentina relationship play with Figueiras for its own sake.
+
+## Path in (ranked)
+1. **Direct to Marcelo Figueiras via Laboratorios Richmond's corporate contact path.** He is president of Cruz Suiza since March 2024 (iProfesional, 27 May 2026, https://www.iprofesional.com/negocios/455816-seguros-en-crisis-empresa-marcelo-figueiras-jose-urtubey-fue-sancionada-por-el-gobierno) and Richmond's 38.54% majority shareholder (https://www.richmondlab.com/inversores/). Richmond publishes a corporate contact page — HQ Bouchard 680, CABA, switchboard +54 11 5555-1600, mailboxes info@richmondlab.com and inversores@richmondlab.com, LinkedIn company page (https://www.richmondlab.com/contacto/). Cruz Suiza shares the Bouchard 680 address (https://www.cruzsuiza.com/). Why direct ranks first: no intermediary with a sourced relationship to Cruz Suiza exists, and the decision-maker is one named person whose office is on a public page. A signed letter to Bouchard 680 marked for his attention, plus the inversores mailbox, is the cleanest path. Nothing is guessed.
+2. **Abeledo Gottheil — Luis Matías Ponferrada (senior partner, heads insurance).** Firm contact page https://abeledogottheil.com.ar/contacto/ (Av. Eduardo Madero 1020 piso 5; +54 11 4516-1500; estudio@abeledogottheil.com.ar); his extension is 277 per the GILC member page (https://www.globalinsurancelaw.com/members/abeledo-gottheil/). He wrote the January 2026 piece on the 750,000-UVA floor and insolvency prevention (https://www.globalinsurancelaw.com/2026/01/15/regulator-moves-to-prevent-insolvencies-in-argentinas-insurance-market/). Note honestly: no source says he acts for Cruz Suiza; he is a sector authority, not a known adviser to the target. What's in it for him: a referral fee of 10–20% of the engagement fee (standard; say so) and a foreign capital source for the SSN cohort of sub-scale insurers that will keep hitting the UVA floor — this route is worth cultivating for the cohort even if Cruz Suiza goes nowhere. Already in db/intermediaries.json (relationship: none).
+3. **José Urtubey (vice-president, co-owner).** Public path only through Cruz Suiza's switchboard (+54 11 5263 7200, https://www.cruzsuiza.com/). Second-best decision-maker; use only if Figueiras does not answer in 3 weeks.
+
+## Angle
+The SSN lifted the inhibition on 8 June after the owners wrote a ARS 48.6M cheque in 48 hours; the next step — funding a nationwide daños patrimoniales book under a UVA-indexed floor — is a growth-capital question no Argentine bank will lead for a company that sat under article 86 in May; we structured a USD 22M single-investor recap for a Mexican health insurer inside 60 days after its banks stepped back; 20 minutes on the mechanics. Lead with growth, not distress — the distress is closed and they know it.
+Front door: Readiness Programme (fixed fee, 30 days) — restated financials in USD, data room, investor memorandum for the Cruz Suiza + ACG platform; produces the material that a minority growth investor or a licence-platform partner needs. Low risk for them.
+Behind the door: Capital Advisory Mandate (success-only engagement, 7%, 2% warrants) and, as the realistic wedge, the UAE-foothold product for the Richmond group (a Dubai entity and bank onboarding for a listed Argentine pharma exporter is a plausible ask; unverified need).
+
+## Fee design
+Readiness: EUR 25k on signature, payable in USD/EUR to EGP Dubai from outside Argentina (condition precedent — see regulatory note in brief).  Engagement: EUR 0 (waived; success-only to lower the bar).  Success: 7% of capital raised, minimum USD 150k.  Equity/warrants: 2% of the insurance holdco (ask; accept losing it).
+Rationale: the cheque is small (USD 1–5M growth, estimate) and the owners can self-fund, so the only structure with any probability is a cheap, fast front door and a success fee with a floor; competition is nil (no banks, no bulge-bracket) but so is urgency. Arithmetic: EUR 25k ≈ USD 29k (assumed 1.16) + 7% × USD 3M mid-point = USD 210k → potential fee USD 239k. If they only take the readiness/UAE-foothold product, EGP earns EUR 25k and a relationship with a listed-pharma owner, which is the honest upside here.
+
+## First message
+Drafted in Amogh's voice, ≤ 120 words, direct to Figueiras via the Richmond contact path; English main with a Spanish rendering. File copy: outbox/cruz-suiza-first-2026-11-06.md (DRAFT — awaiting Amogh's approval; the desk sends nothing).
+
+## Call brief
+See deals/cruz-suiza/call-brief.md. In 20 minutes: is there an expansion budget at all, and is it funded by Richmond/owners or open to a partner; will the owners accept a minority investor in the insurance holdco or only at Cruz Suiza S.A.; is there a non-Argentine entity that can pay a USD fee; what did the SSN say about the 30 Jun 2026 balance; how big is the book (premiums, capital vs 750,000 UVA). Objections: "we just fixed it ourselves" → agree, and pivot to growth and to the next quarter's floor; fee up front → covers real work, payable offshore, not credited; "Argentina is uninvestable" from our own side → say it plainly: the investor will want a holdco outside Argentina. Never promise a raise, a timing, an investor name before NDA, or a view on SSN approval (that is counsel's).
+
+## Investor pre-match
+db/investors.json is empty — the network is not yet loaded, so no names. Investor TYPE that fits: (a) LatAm-focused family offices / HNWIs (Miami, Madrid, GCC-based Latin American families) with existing Argentine exposure and a tolerance for MLC exit risk, USD 1–5M tickets, insurance-literate; (b) a strategic — a regional insurer or surety specialist wanting an Argentine licence platform (Cruz Suiza personal lines + ACG caución), which would be a sale of a stake rather than a recap; (c) not a fit: EU/UK/Australian family offices without Argentina history. Investor match scored 5/10 (plausible).
+
+## Kill criteria
+- Figueiras or Urtubey say the expansion is funded internally and they want no partner (most likely answer).
+- Growth need confirmed below USD 2M, or no need at all.
+- Fee must be paid in ARS onshore only, or no group entity outside Argentina can pay.
+- Owners will not contemplate a holdco or any structure that gives a foreign investor a lawful USD exit.
+- A new SSN art. 86 measure on Cruz Suiza or ACG after the 30 Sep 2026 balance with the owners again self-funding (confirms the pattern: regulator-driven, owner-cured, no adviser needed).
+- Any sign of stress at Laboratorios Richmond itself (not assessed; would change the conversation to a different, larger deal, not this one).

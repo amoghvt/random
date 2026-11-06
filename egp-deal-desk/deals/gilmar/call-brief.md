@@ -1,0 +1,14 @@
+# Call brief — Gilmar Divisione Industria S.p.A. (Gerani family / Iceberg) — 2026-11-06 (for the first 20-minute call)
+
+**Who's on the call:** Route 1: Achille Mazzanti (Senior Partner) or Dott. Piero Aicardi (founder), Studio Aicardi & Partners, financial/industrial advisor to the plan (Chiamami Città, 22 Oct 2026; aicardiepartners.it). He decides whether EGP gets in front of the family and whether our buyers go into his process; he is afraid of a competing advisor taking credit and of anything that unsettles the esperto before 24 Nov. Route 2: Paolo Gerani, Amministratore Delegato and Direttore Artistico (gilmar.it; Il Foglio, 9 Nov 2024); decides operationally, father Silvano Gerani (Presidente) signs. Afraid of losing Iceberg, of the district narrative (Aeffe, Fuzzi), and of creditors reaching the family's brand company.
+**Our one line:** Your art. 19 filing of 7 Oct puts the branch and the factory on the market inside a 120-day window; we built a data room and closed a USD 22M single-investor recap in 60 days after the banks stepped back; 20 minutes on the mechanics.
+**What we must learn (in 20 min):**
+1. Real number: what the branch and the plant must fetch to pay third-party creditors (company says realisable assets EUR 25–33M vs debt EUR 37.2M); who is pressing — the court (24 Nov), suppliers (EUR 8.1M), the union table, or the esperto?
+2. Who decides and who must bless it: Paolo and Silvano Gerani; Gerani Group as EUR 11.9M subordinated creditor; the esperto (information duty) and the Tribunale (art. 22 CCII authorisation for the branch transfer).
+3. What's been tried: which industrial buyers are already in contact (BeBeez 4 Nov: contacts started, no deal); has anyone approached the family on Iceberg (Gilmar S.p.A.)?
+4. Can they fund a readiness fee this month — and from which entity (Gerani Group, not the crisis company)?
+5. Anything off-book: intra-group licence terms for Iceberg, guarantees given by the family to banks (EUR 5.3M MCC/SACE loans), inventory realisability (EUR 15M after 29.6% write-down). Ask directly.
+**What they'll object to:** fee up front → "covers real work, signals seriousness, not credited; paid by the holdco, not the procedure"; exclusivity → "limited to EGP's investor territory (GCC, UK, US, Australia), your Italian process stays yours"; "we have Aicardi" → "we add buyers and investors from outside Italy that your process does not reach; referral fee to the advisor".
+**What we never say:** guaranteed buyer or raise, timing promises, investor names before NDA, legal opinions on the CNC or the court hearing, any valuation of Iceberg.
+**Close:** propose the Readiness Programme (EUR 25k, 30 days: data room + memorandum for branch, plant and Iceberg), send outline the same day, offer a referral agreement to Aicardi & Partners.
+**After:** update db record (stage approached / in_conversation), next_action, next_action_date; log whether the 24 Nov hearing changes the plan.
