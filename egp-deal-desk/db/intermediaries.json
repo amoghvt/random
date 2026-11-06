@@ -586,5 +586,113 @@
     "relationship": "none",
     "last_contact": "",
     "referrals": []
+  },
+  {
+    "name": "Kaloust Sharoyan",
+    "firm": "Lux Actuaries (Dubai)",
+    "type": "actuarial",
+    "region": "GCC",
+    "country": "AE",
+    "why": "Author of the GCC H1-2026 capital and solvency note; appointed-actuary house to Saudi/UAE insurers; knows the six UAE insurers below solvency whose names are not public",
+    "url": "https://luxactuaries.com/gcc-insurer-capital-solvency-h1-2026",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "Carlo Montoya / Vicente Gómez / Ethan Devars",
+    "firm": "Moody's Local México",
+    "type": "rating",
+    "region": "LATAM",
+    "country": "MX",
+    "why": "FI rating analysts covering SOFOM/SOFIPO and insurers; see regularisation plans before the press",
+    "url": "https://www.bmv.com.mx/docs-pub/eventoca/eventoca_1448100_2.pdf",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "Alfonso Novelo / Frida García",
+    "firm": "AM Best Mexico",
+    "type": "rating",
+    "region": "LATAM",
+    "country": "MX",
+    "why": "Authors of the Sep 2026 VAT segment report (40% of sub-MXN 1bn insurers lost money in 2025); rate the family insurers in the cohort",
+    "url": "https://news.ambest.com/PR/PressContent.aspx?altsrc=2&refnum=37802",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "",
+    "firm": "Pérez Llorca (Madrid / LatAm desk)",
+    "type": "law",
+    "region": "LATAM",
+    "country": "ES",
+    "why": "Quarterly 'Actualidad Iberoamericana de Seguros' tracks SFC/CNSF/SSN supervisory measures across LatAm",
+    "url": "https://www.perezllorca.com/wp-content/uploads/2026/07/Q2-2026-Actualidad-Iberoamericana-de-Seguros.pdf",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "",
+    "firm": "Demarest",
+    "type": "law",
+    "region": "LATAM",
+    "country": "BR",
+    "why": "Insurance regulatory; explains CNSP 489/2026 special regimes (direção fiscal, intervenção); door to Brazilian operators under ANS/SUSEP regimes",
+    "url": "https://www.demarest.com.br/en/susep-atualiza-regras-para-regimes-especiais-de-direcao-fiscal-intervencao-e-liquidacao-aplicaveis-a-entidades-supervisionadas/",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "",
+    "firm": "Insurtech Indonesia (editorial)",
+    "type": "trade press",
+    "region": "ASIA",
+    "country": "ID",
+    "why": "Publishes the insurer equity league table against POJK 23/2023 minimums that OJK will not name",
+    "url": "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "",
+    "firm": "FAC Sekuritas Indonesia",
+    "type": "securities house",
+    "region": "ASIA",
+    "country": "ID",
+    "why": "Runs rights issues for under-capitalised Indonesian insurers (AHAP/ACA, Sep 2026)",
+    "url": "https://www.facsekuritas.co.id/berita/ahap-akan-gelar-rights-issue-35-miliar-saham",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "",
+    "firm": "Jawlah",
+    "type": "trade press",
+    "region": "GCC",
+    "country": "SA",
+    "why": "Publishes the quarterly loss / solvency table for Saudi listed insurers",
+    "url": "https://jawlah.co/en/67765",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
+  },
+  {
+    "name": "",
+    "firm": "100% Seguro / Todo Riesgo / El Seguro en Acción",
+    "type": "trade press",
+    "region": "LATAM",
+    "country": "AR",
+    "why": "Publish every SSN resolution PDF within days: the signal feed for the Argentine cohort",
+    "url": "https://100seguro.com.ar",
+    "relationship": "none",
+    "last_contact": "",
+    "referrals": []
   }
 ]

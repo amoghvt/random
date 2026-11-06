@@ -1,0 +1,864 @@
+[
+  {
+    "name": "BlueFive Capital (BlueFive Insurance platform)",
+    "type": "financials-specialist PE",
+    "hq": "Abu Dhabi (ADGM), UAE",
+    "geographies": ["GCC", "Saudi Arabia", "UAE"],
+    "sectors": ["insurance", "takaful"],
+    "ticket_usd": "~34M (SAR 126M subscription in GGI, sourced); USD 2bn buyout fund",
+    "evidence_deals": [
+      {"date": "2025-11", "target": "Gulf General Cooperative Insurance Co (GGI), Tadawul-listed", "country": "Saudi Arabia", "role": "non-binding offer: capital reduction to absorb losses + primary capital increase subscribed by BlueFive at SAR 10/share, pre-emption suspended", "url": "https://www.zawya.com/en/press-release/companies-news/bluefive-capital-makes-offer-for-strategic-investment-in-gulf-general-insurance-515091"},
+      {"date": "2025-12-02", "target": "BlueFive Insurance (GCC consolidation platform)", "country": "GCC", "role": "platform launch to buy licensed conventional and Sharia-compliant insurers", "url": "https://www.zawya.com/en/press-release/companies-news/bluefive-capital-launches-bluefive-insurance-to-lead-consolidation-of-gcc-insurance-market-uxa5on5r"},
+      {"date": "2026-05-17", "target": "Gulf General Cooperative Insurance Co (GGI)", "country": "Saudi Arabia", "role": "binding share subscription agreement: 12.6M new shares = 42% post-restructuring (accumulated losses SAR 272.8M = 91% of capital at 1Q26); EGM and regulatory approvals pending", "url": "https://www.zawya.com/business/investment/bluefive-capital-to-inject-34mln-into-struggling-saudi-insurer-ggi-b5tmvjbz"}
+    ],
+    "minority_tolerance": "yes (42% significant minority)",
+    "approval_experience": "in progress (Saudi Insurance Authority / CMA approvals pending as of last retrieved source)",
+    "fit": 5,
+    "fit_reason": "Closest live example of the archetype: primary money into a loss-making regulated insurer via capital reduction + subscription at par, significant minority, explicit GCC consolidation mandate.",
+    "contact_path": "https://www.bluefivecapital.com/en/contact",
+    "sources": [
+      "https://www.zawya.com/en/press-release/companies-news/bluefive-capital-makes-offer-for-strategic-investment-in-gulf-general-insurance-515091",
+      "https://www.zawya.com/business/investment/bluefive-capital-to-inject-34mln-into-struggling-saudi-insurer-ggi-b5tmvjbz",
+      "https://www.semafor.com/article/12/01/2025/abu-dhabi-private-equity-firm-bluefive-looks-to-consolidate-gulf-insurers",
+      "https://meinsurancereview.com/News/ViewNewsLetterArticle/id/94215/Type/MiddleEast/Saudi-Arabia-Shareholders-of-loss-hit-Gulf-General-vote-for-insurer-to-continue-operations",
+      "https://www.bluefivecapital.com/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Gulf Tamin Ltd (Lepercq, de Neuflize & Co / Callaway Capital Management consortium)",
+    "type": "special situations",
+    "hq": "New York, USA (Cayman vehicle)",
+    "geographies": ["GCC", "Bahrain"],
+    "sectors": ["reinsurance", "insurance"],
+    "ticket_usd": "~16M (30.47M Arig shares; offer price USD 0.53/share, sourced)",
+    "evidence_deals": [
+      {"date": "2023-10", "target": "Arab Insurance Group (Arig), Bahrain Bourse-listed", "country": "Bahrain", "role": "announced partial offer for 10% at USD 0.53/share", "url": "https://atlas-mag.net/en/articles/gulf-tamin-acquire-10-stake-arig-0"},
+      {"date": "2024-03-14", "target": "Arab Insurance Group (Arig)", "country": "Bahrain", "role": "acquired 13.85% minority (30,466,862 shares) from Emirates Investment Authority", "url": "https://www.zawya.com/en/press-release/companies-news/gulf-tamin-acquires-1385-stake-in-bahrain-listed-arab-insurance-group-wskprn17"}
+    ],
+    "minority_tolerance": "yes (13.85%)",
+    "approval_experience": "unknown (CBB process not described in retrieved sources)",
+    "fit": 3,
+    "fit_reason": "US special-situations money that will buy minority positions in GCC regulated (re)insurers at small tickets; no evidence of primary/recap deals yet.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.zawya.com/en/press-release/companies-news/gulf-tamin-acquires-1385-stake-in-bahrain-listed-arab-insurance-group-wskprn17",
+      "https://meinsurancereview.com/News/ViewNewsLetterArticle/id/87560/type/MiddleEast/Bahrain-Gulf-Tamin-buys-stake-of-13-85-in-ARIG",
+      "https://atlas-mag.net/en/articles/gulf-tamin-acquire-10-stake-arig-0"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Warburg Pincus / Oona Insurance",
+    "type": "financials-specialist PE",
+    "hq": "New York, USA (Oona platform in Southeast Asia)",
+    "geographies": ["SE Asia", "Indonesia", "Philippines", "Thailand", "Vietnam"],
+    "sectors": ["non-life insurance"],
+    "ticket_usd": "USD 350M platform equity commitment (sourced); per-deal undisclosed",
+    "evidence_deals": [
+      {"date": "2022-03", "target": "PT Asuransi Bina Dana Arta Tbk (ABDA)", "country": "Indonesia", "role": "control acquisition from MAPFRE (platform seed)", "url": "https://philstar.com/business/2022/10/30/2220185/warburg-pincus-sets-oona-insurance-350-million"},
+      {"date": "2022-10", "target": "Mapfre Insular Insurance Corp", "country": "Philippines", "role": "control acquisition from MAPFRE (platform seed)", "url": "https://www.privsource.com/acquisitions/deal/warburg-pincus-backed-oona-insurance-acquires-abda-and-mapfre-insular-4dSOnB"},
+      {"date": "2026", "target": "Oona Insurance (platform)", "country": "SE Asia", "role": "Warburg reviewing strategic options incl. sale; Oona says it is evaluating acquisitions in Indonesia/Philippines, then Thailand/Vietnam", "url": "https://www.insurancebusinessmag.com/asia/news/mergers-acquisitions/oona-plays-buyer-in-sea-acquisitions--but-was-it-recently-for-sale-586903.aspx"}
+    ],
+    "minority_tolerance": "no evidence (control deals)",
+    "approval_experience": "yes (OJK Indonesia, Insurance Commission Philippines)",
+    "fit": 3,
+    "fit_reason": "Proven buyer of mid-sized SE Asian insurers carved out of a multinational; control-only and platform may itself be for sale.",
+    "contact_path": "https://warburgpincus.com/",
+    "sources": [
+      "https://philstar.com/business/2022/10/30/2220185/warburg-pincus-sets-oona-insurance-350-million",
+      "https://www.privsource.com/acquisitions/deal/warburg-pincus-backed-oona-insurance-acquires-abda-and-mapfre-insular-4dSOnB",
+      "https://www.insurancebusinessmag.com/asia/news/mergers-acquisitions/oona-plays-buyer-in-sea-acquisitions--but-was-it-recently-for-sale-586903.aspx"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Apis Partners",
+    "type": "financials-specialist PE",
+    "hq": "London, UK (offices Dubai, Singapore)",
+    "geographies": ["SE Asia", "GCC", "Europe", "growth markets"],
+    "sectors": ["insurance", "financial infrastructure", "fintech lenders"],
+    "ticket_usd": "co-led USD 60M round (sourced; one database splits it USD 32M primary / USD 10M secondary)",
+    "evidence_deals": [
+      {"date": "2025-11-26", "target": "Roojai (licensed D2C insurer)", "country": "Thailand", "role": "co-lead of USD 60M Series C (minority, primary + secondary) alongside Asia Partners; IFC and HDI International existing backers", "url": "https://www.roojai.com/en/article/press-release/apis-partners-funds-lead-series-c-in-roojai/"}
+    ],
+    "minority_tolerance": "yes (firm states it takes minority positions with strong governance rights)",
+    "approval_experience": "unknown",
+    "fit": 3,
+    "fit_reason": "Minority-with-governance financials specialist with a Dubai office; prefers tech-enabled growth stories over solvency repair.",
+    "contact_path": "https://www.apis.pe/contact-us/",
+    "sources": [
+      "https://www.roojai.com/en/article/press-release/apis-partners-funds-lead-series-c-in-roojai/",
+      "https://cdn.dealstreetasia.com/stories/apis-asia-partners-roojai-funding-464602",
+      "https://fintechnews.sg/122686/thailand/roojai-us60-million-funding/",
+      "https://www.apis.pe/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Advent International",
+    "type": "financials-specialist PE",
+    "hq": "Boston, USA / London, UK",
+    "geographies": ["Southern/Eastern Europe", "Bulgaria", "Romania", "Greece", "LatAm"],
+    "sectors": ["consumer finance", "banks"],
+    "ticket_usd": "~USD 330M (EUR 300M committed price, sourced via Chambers)",
+    "evidence_deals": [
+      {"date": "2025-04-22", "target": "TBI Bank EAD (consumer lender, Bulgaria/Romania/Greece)", "country": "Bulgaria", "role": "agreed 100% acquisition from 4finance", "url": "https://sofiaglobe.com/2025/04/22/private-equity-firm-advent-to-buy-bulgarias-tbi-bamk/"},
+      {"date": "2026", "target": "TBI Bank EAD", "country": "Bulgaria", "role": "completed after ECB approval", "url": "https://www.intellinews.com/advent-completes-acquisition-of-bulgaria-based-tbi-bank-after-ecb-approval-429199/"}
+    ],
+    "minority_tolerance": "no evidence",
+    "approval_experience": "yes (ECB qualifying holding)",
+    "fit": 2,
+    "fit_reason": "Will own a regulated SEE lender and run an ECB approval, but ticket and control model are an order of magnitude above the archetype.",
+    "contact_path": "https://www.adventinternational.com/contact-us/",
+    "sources": [
+      "https://sofiaglobe.com/2025/04/22/private-equity-firm-advent-to-buy-bulgarias-tbi-bamk/",
+      "https://www.intellinews.com/advent-completes-acquisition-of-bulgaria-based-tbi-bank-after-ecb-approval-429199/",
+      "https://practiceguides.chambers.com/practice-guides/private-equity-2026/bulgaria/trends-and-developments/O27073"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Patria Investments + Linzor Capital Partners",
+    "type": "financials-specialist PE",
+    "hq": "Patria: São Paulo/Cayman; Linzor: Santiago (offices Mexico City, Madrid)",
+    "geographies": ["LatAm", "Chile", "Colombia", "Mexico"],
+    "sectors": ["health insurance (Isapres/EPS)", "hospitals"],
+    "ticket_usd": "~1bn (Banmédica, sourced)",
+    "evidence_deals": [
+      {"date": "2025-12-01", "target": "Banmédica (Bordeaux Holding SpA) from UnitedHealth", "country": "Chile/Colombia", "role": "control acquisition of health insurer + hospital group; subject to FNE and CMF approvals", "url": "https://www.emol.com/noticias/Economia/2025/12/01/1184674/patria-fondo-brasileno-compra-banmedica.html"},
+      {"date": "2025-12-01", "target": "Banmédica", "country": "Chile/Colombia", "role": "USD ~1bn; Linzor (former Cruz Blanca owner) as partner", "url": "https://www.benefitspro.com/amp/2025/12/01/unitedhealth-finalizes-1b-deal-to-exit-south-america/"}
+    ],
+    "minority_tolerance": "unknown",
+    "approval_experience": "in progress (CMF Chile, Colombia)",
+    "fit": 3,
+    "fit_reason": "Only LatAm sponsors now building a regulated health-insurance platform; Linzor has a Mexico office; scale is far above the archetype but add-on logic for a Mexican ISES is real.",
+    "contact_path": "https://linzorcapital.com/contact-2/",
+    "sources": [
+      "https://www.emol.com/noticias/Economia/2025/12/01/1184674/patria-fondo-brasileno-compra-banmedica.html",
+      "https://www.benefitspro.com/amp/2025/12/01/unitedhealth-finalizes-1b-deal-to-exit-south-america/",
+      "https://pe-insights.com/patria-to-acquire-unitedhealths-banmedica-unit-in-1bn-south-america-exit/",
+      "https://www.linzorcapital.com/",
+      "https://www.patria.com/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Kandeo Asset Management / Kandeo Fund",
+    "type": "financials-specialist PE",
+    "hq": "Mexico City / Bogotá (offices Lima, Miami)",
+    "geographies": ["Mexico", "Colombia", "Peru"],
+    "sectors": ["non-bank lenders", "consumer finance (payroll)", "microfinance", "supply-chain finance"],
+    "ticket_usd": "unverified for 2022-26; historic USD 51M for 50% of Edpyme Acceso Crediticio (2016)",
+    "evidence_deals": [
+      {"date": "2016-08", "target": "Edpyme Acceso Crediticio (auto lender)", "country": "Peru", "role": "50% indirect stake, USD 51M (outside 2022-26 window; shows SBS approval experience)", "url": "https://lexlatin.com/noticias/rebaza-alcazar-y-grimaldo-en-la-compra-de-50-de-edpyme"},
+      {"date": "2021", "target": "Kandeo 3D (private debt fund for mid-sized companies MX/CO/PE)", "country": "Mexico/Colombia/Peru", "role": "IFC USD 20M commitment; vehicle is debt, not equity", "url": "https://www.ifc.org/es/pressroom/2021/26384"}
+    ],
+    "minority_tolerance": "yes (50% stakes historically)",
+    "approval_experience": "yes (SBS Peru)",
+    "fit": 3,
+    "fit_reason": "The only Mexico-headquartered financials specialist found; recent vehicles are debt, no 2022-26 equity recap verified.",
+    "contact_path": "https://www.kandeofund.com/",
+    "sources": [
+      "https://www.kandeofund.com/",
+      "https://lexlatin.com/noticias/rebaza-alcazar-y-grimaldo-en-la-compra-de-50-de-edpyme",
+      "https://www.ifc.org/es/pressroom/2021/26384",
+      "https://www.idbinvest.org/en/projects/kandeo-debt-fund"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "AnaCap Financial Partners",
+    "type": "financials-specialist PE",
+    "hq": "London, UK",
+    "geographies": ["Italy", "Spain", "UK", "Europe"],
+    "sectors": ["insurance distribution", "financial services"],
+    "ticket_usd": "unverified",
+    "evidence_deals": [
+      {"date": "2024-04", "target": "Yard Reaas", "country": "Italy", "role": "platform investment", "url": "https://www.privateequitywire.co.uk/anacap-takes-majority-stake-in-italian-insurance-broking-platform-edge-group/"},
+      {"date": "2025", "target": "Edge Group (insurance broking platform)", "country": "Italy", "role": "majority stake", "url": "https://www.privateequitywire.co.uk/anacap-takes-majority-stake-in-italian-insurance-broking-platform-edge-group/"},
+      {"date": "2022", "target": "Further (insurance broking)", "country": "Spain", "role": "acquisition per portfolio page", "url": "https://www.anacap.com/portfolio/"}
+    ],
+    "minority_tolerance": "unknown",
+    "approval_experience": "unknown (recent deals are intermediaries, not risk carriers)",
+    "fit": 2,
+    "fit_reason": "Financials specialist in Iberia/Italy, but current appetite is brokers/servicers, not balance-sheet recaps.",
+    "contact_path": "https://www.anacap.com/",
+    "sources": [
+      "https://www.privateequitywire.co.uk/anacap-takes-majority-stake-in-italian-insurance-broking-platform-edge-group/",
+      "https://www.anacap.com/portfolio/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Pollen Street Capital",
+    "type": "financials-specialist PE",
+    "hq": "London, UK",
+    "geographies": ["Spain", "Portugal", "Italy", "Greece", "UK"],
+    "sectors": ["credit servicing", "insurance broking", "specialty lending"],
+    "ticket_usd": "unverified",
+    "evidence_deals": [
+      {"date": "2024-07-31", "target": "A.I.C. Broker S.r.l. (via Wide Group)", "country": "Italy", "role": "add-on acquisition", "url": "https://www.privsource.com/firms/pollen-street-capital-aorg_B5QKwpZ9yT"},
+      {"date": "2025-11", "target": "Hipoges (via Finsolutia)", "country": "Spain/Portugal/Italy/Greece", "role": "acquisition completed after regulatory approvals in four countries", "url": "https://www.iberian.property/news/market-updates/pollen-street-capital-completes-the-acquisition-of-hipoges/"}
+    ],
+    "minority_tolerance": "unknown",
+    "approval_experience": "yes (servicer licences in ES/PT/IT/GR)",
+    "fit": 2,
+    "fit_reason": "Southern-Europe financials specialist with regulatory reach, but no insurer/lender balance-sheet recap in window.",
+    "contact_path": "https://www.pollenstreetgroup.com/",
+    "sources": [
+      "https://www.iberian.property/news/market-updates/pollen-street-capital-completes-the-acquisition-of-hipoges/",
+      "https://www.pollenstreetgroup.com/finsolutia-backed-by-pollen-street-capital-to-acquire-hipoges/",
+      "https://www.privsource.com/firms/pollen-street-capital-aorg_B5QKwpZ9yT"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Marco Capital Holdings",
+    "type": "special situations",
+    "hq": "Malta / London (run-off acquirer)",
+    "geographies": ["EU", "UK", "Ireland"],
+    "sectors": ["non-life run-off", "legacy portfolios"],
+    "ticket_usd": "unverified",
+    "evidence_deals": [
+      {"date": "2024/2025", "target": "Inceptum Insurance Company Ltd (from R&Q)", "country": "UK", "role": "completed acquisition with all regulatory approvals", "url": "https://insurancebusinessmag.com/uk/news/breaking-news/marco-capital-completes-inceptum-insurance-acquisition-515995.aspx"},
+      {"date": "2025", "target": "R&Q Gamma (legacy UK insurer)", "country": "UK", "role": "acquisition", "url": "https://beinsure.com/news/marco-capital-acquires-rq-gamma/"},
+      {"date": "2025", "target": "Stewart Title Europe Ltd", "country": "UK/EU", "role": "agreed, subject to regulatory approval", "url": "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/marco-capital-to-acquire-stewart-title-europe-in-latest-runoff-deal-559110.aspx"}
+    ],
+    "minority_tolerance": "no (buys whole entities/portfolios)",
+    "approval_experience": "yes (UK/EU change of control)",
+    "fit": 2,
+    "fit_reason": "Relevant only as the exit/clean-up partner for a legacy book inside a recap, not as the equity investor.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://insurancebusinessmag.com/uk/news/breaking-news/marco-capital-completes-inceptum-insurance-acquisition-515995.aspx",
+      "https://beinsure.com/news/marco-capital-acquires-rq-gamma/",
+      "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/marco-capital-to-acquire-stewart-title-europe-in-latest-runoff-deal-559110.aspx"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "DARAG Group",
+    "type": "special situations",
+    "hq": "Malta (European legacy acquirer)",
+    "geographies": ["Germany", "Italy", "Switzerland", "Greece", "EU"],
+    "sectors": ["non-life run-off", "loss portfolio transfers"],
+    "ticket_usd": "unverified",
+    "evidence_deals": [
+      {"date": "2024-12", "target": "DARAG North America & Bermuda sold to RiverStone (Fairfax)", "country": "USA/Bermuda", "role": "divestment to refocus and fund European legacy pipeline", "url": "https://www.insurancejournal.com/news/international/2024/12/19/805520.htm"},
+      {"date": "2025", "target": "wefox Insurance AG run-off portfolio (motor, liability, property)", "country": "Germany/Italy/Switzerland", "role": "LPT then full EEA portfolio transfer, pending approvals", "url": "https://beinsure.com/news/darag-acquires-portfolio-wefox-insurance/"}
+    ],
+    "minority_tolerance": "no (portfolio/entity acquirer)",
+    "approval_experience": "yes (EU portfolio transfers)",
+    "fit": 2,
+    "fit_reason": "Capital-relief partner for a Southern-European insurer's legacy book alongside an equity recap; not an equity investor.",
+    "contact_path": "https://www.darag-group.com/contact-us/",
+    "sources": [
+      "https://www.insurancejournal.com/news/international/2024/12/19/805520.htm",
+      "https://beinsure.com/news/darag-acquires-portfolio-wefox-insurance/",
+      "https://www.darag-group.com/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "MAPFRE",
+    "type": "strategic insurer/bank",
+    "hq": "Madrid, Spain",
+    "geographies": ["Mexico", "LatAm", "Spain", "Portugal"],
+    "sectors": ["life", "health", "non-life", "digital distribution"],
+    "ticket_usd": "~90M (MXN 1.6bn initial payment for 94% of Insignia Life, sourced)",
+    "evidence_deals": [
+      {"date": "2023-07-27", "target": "Proyecto Insignia / Insignia Life (family-founded life insurer)", "country": "Mexico", "role": "agreed 94% for MXN 1,606M + earn-out; subject to CNSF and COFECE", "url": "https://Mapfre.com/media/acquisition-agreement-insignia-life-07-2023.pdf"},
+      {"date": "2024-10-17", "target": "Insignia Life", "country": "Mexico", "role": "closed after administrative authorisations; MXN 1,615.8M paid", "url": "https://mapfre.com/media/10-18-2024-close-acquisition-insignia-life.pdf"},
+      {"date": "2025", "target": "Tuio (digital insurance distributor)", "country": "Spain", "role": "38.9% minority stake to fund LatAm/Europe expansion", "url": "https://iireporter.com/mapfre-to-acquire-stake-in-tuio/"}
+    ],
+    "minority_tolerance": "yes (38.9% in Tuio); prefers control in carriers",
+    "approval_experience": "yes (CNSF/COFECE Mexico, 15-month signing-to-close)",
+    "fit": 4,
+    "fit_reason": "Proven closer of a family-owned Mexican insurer through CNSF; natural exit buyer and possible lead if it gets a control path.",
+    "contact_path": "https://www.mapfre.com/en/",
+    "sources": [
+      "https://Mapfre.com/media/acquisition-agreement-insignia-life-07-2023.pdf",
+      "https://mapfre.com/media/10-18-2024-close-acquisition-insignia-life.pdf",
+      "https://www.elobservador.com.uy/espana/empresas-y-negocios/la-aseguradora-espanola-mapfre-compra-el-94-la-mexicana-insignia-life-n5966032",
+      "https://iireporter.com/mapfre-to-acquire-stake-in-tuio/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Talanx / HDI International",
+    "type": "strategic insurer/bank",
+    "hq": "Hannover, Germany",
+    "geographies": ["Mexico", "Chile", "Colombia", "Brazil", "Ecuador", "Thailand"],
+    "sectors": ["P&C", "life", "bancassurance"],
+    "ticket_usd": "undisclosed (Afirme); minority ticket in Roojai undisclosed",
+    "evidence_deals": [
+      {"date": "2023-11-15", "target": "Liberty Compañía de Seguros Generales", "country": "Chile", "role": "change of controller accredited; CMF approved merger into HDI Seguros Oct 2024", "url": "https://www.cmfchile.cl/portal/principal/623/w4-article-86938.html"},
+      {"date": "2024-02", "target": "Liberty Seguros S.A.", "country": "Colombia", "role": "acquisition; SFC no-objection to merger (Res. 2290, 15 Nov 2024)", "url": "https://www.hdiseguros.com.co/sites/default/files/2026-03/HDI%20Seguros%20Colombia%20S.A.%20EEFF%20y%20Notas%20al%2031deDic2025.pdf"},
+      {"date": "2026-05-08", "target": "Afirme Seguros", "country": "Mexico", "role": "agreed 100% + 20-year exclusive bancassurance; regulatory approvals pending", "url": "https://www.cronista.com/mexico/finanzas-economia/talanx-sacude-el-mercado-asegurador-hdi-compra-seguros-afirme-y-amarra-exclusividad-por-20-anos/"},
+      {"date": "2025-11-26", "target": "Roojai", "country": "Thailand", "role": "existing minority backer participating in Series C", "url": "https://fintechnews.sg/122686/thailand/roojai-us60-million-funding/"}
+    ],
+    "minority_tolerance": "yes (Roojai minority); control in LatAm carriers",
+    "approval_experience": "yes (CMF Chile, SFC Colombia; CNSF pending)",
+    "fit": 3,
+    "fit_reason": "Most active foreign consolidator of mid-sized LatAm P&C; control-oriented, so best as exit buyer or co-investor with a path to 100%.",
+    "contact_path": "https://www.talanx.com/en/newsroom/press_contact",
+    "sources": [
+      "https://www.cmfchile.cl/portal/principal/623/w4-article-86938.html",
+      "https://www.cronista.com/mexico/finanzas-economia/talanx-sacude-el-mercado-asegurador-hdi-compra-seguros-afirme-y-amarra-exclusividad-por-20-anos/",
+      "https://www.hdiseguros.com.co/sites/default/files/2026-03/HDI%20Seguros%20Colombia%20S.A.%20EEFF%20y%20Notas%20al%2031deDic2025.pdf",
+      "https://www.talanx.com/en"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Fairfax Financial Holdings (incl. Gulf Insurance Group)",
+    "type": "strategic insurer/bank",
+    "hq": "Toronto, Canada",
+    "geographies": ["GCC", "Kuwait", "Cyprus", "Greece", "LatAm", "CEE"],
+    "sectors": ["P&C", "non-life", "run-off (RiverStone)"],
+    "ticket_usd": "~65M (EUR 59M for 45% of ERB Asfalistiki, sourced); GIG deals ~USD 860M",
+    "evidence_deals": [
+      {"date": "2023-12-26", "target": "Gulf Insurance Group (GIG)", "country": "Kuwait", "role": "acquired additional 46.32% from KIPCO (KWD ~270M), to 90.01%", "url": "https://www.fairfax.ca/press-releases/fairfax-successfully-completes-acquisition-of-additional-46-32-interest-in-gulf-insurance-group-from-kipco-2023-12-26/"},
+      {"date": "2024-04-25", "target": "Gulf Insurance Group", "country": "Kuwait", "role": "further 7.05% for ~KWD 40M (to 97.06%)", "url": "https://www.marketscreener.com/quote/stock/GULF-INSURANCE-GROUP-K-S--136648393/news/Fairfax-International-Corp-completed-the-acquisition-of-7-05-stake-in-Gulf-Insurance-Group-K-S-C-P-46715092/"},
+      {"date": "2025-10-13", "target": "ERB Asfalistiki (Eurobank non-life)", "country": "Cyprus", "role": "agreed 45% for EUR 59M (~1.45x P/BV) with right to buy remaining 55%; completion expected end-2026", "url": "https://www.fairfax.ca/wp-content/uploads/2025/10/FFH-Press-Release-Project-Shell.pdf"}
+    ],
+    "minority_tolerance": "yes (45% with option to control)",
+    "approval_experience": "yes (Kuwait, Cyprus/EU, multiple jurisdictions)",
+    "fit": 4,
+    "fit_reason": "Only global strategic found doing a significant-minority-with-option structure in a regulated insurer in our regions; GIG gives it a GCC acquisition vehicle.",
+    "contact_path": "https://www.fairfax.ca/",
+    "sources": [
+      "https://www.fairfax.ca/press-releases/fairfax-successfully-completes-acquisition-of-additional-46-32-interest-in-gulf-insurance-group-from-kipco-2023-12-26/",
+      "https://www.fairfax.ca/wp-content/uploads/2025/10/FFH-Press-Release-Project-Shell.pdf",
+      "https://www.cna.org.cy/en/article/9228173/eurobank-fairfax-deal-for-acquiring-45-of-erb-asfalistiki-s-shares-at-59-mln",
+      "https://cyprus-mail.com/2026/10/29/eurobank-completes-e813-million-acquisition-of-insurance-provider-eurolife"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Vienna Insurance Group (VIG)",
+    "type": "strategic insurer/bank",
+    "hq": "Vienna, Austria",
+    "geographies": ["CEE", "SEE", "Moldova", "Poland", "Ukraine", "Balkans"],
+    "sectors": ["P&C", "life", "distribution"],
+    "ticket_usd": "unverified (Moldasig undisclosed; Nürnberger EUR 1.38bn)",
+    "evidence_deals": [
+      {"date": "2025-08", "target": "Moldasig S.A.", "country": "Moldova", "role": "won public auction for 80%, then acquired further ~15.2%", "url": "https://www.insurancebusinessmag.com/uk/news/breaking-news/vienna-insurance-group-to-acquire-80-stake-in-moldovan-insurer-547339.aspx"},
+      {"date": "2025", "target": "Phinance (broker)", "country": "Poland", "role": "48.82% stake, UOKiK cleared", "url": "https://www.lifeinsuranceinternational.com/news/vienna-insurance-group-stake-phinance/"},
+      {"date": "2026-05-18", "target": "Nürnberger Beteiligungs AG", "country": "Germany", "role": "99.2% control, EUR 1.38bn", "url": "https://group.vig/en/investor-relations/ir-news/ir-meldungen/vienna-insurance-group-completes-acquisition-of-nuernberger/"}
+    ],
+    "minority_tolerance": "yes (48.82% Phinance); control in carriers",
+    "approval_experience": "yes (multiple CEE/SEE NCAs)",
+    "fit": 3,
+    "fit_reason": "Default control buyer / exit route for family insurers in SEE; unlikely to take a minority in a rescue.",
+    "contact_path": "https://group.vig/en/",
+    "sources": [
+      "https://www.insurancebusinessmag.com/uk/news/breaking-news/vienna-insurance-group-to-acquire-80-stake-in-moldovan-insurer-547339.aspx",
+      "https://www.marketscreener.com/news/vienna-insurance-2025-vig-sfcr-ce7f5bdcda8bf727",
+      "https://group.vig/en/investor-relations/ir-news/ir-meldungen/vienna-insurance-group-completes-acquisition-of-nuernberger/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Kapital Grupo Financiero (Kapital Bank)",
+    "type": "strategic insurer/bank",
+    "hq": "Mexico City, Mexico",
+    "geographies": ["Mexico"],
+    "sectors": ["banks", "broker-dealer", "fund manager", "SME lending"],
+    "ticket_usd": "50–100M (Banco Autofin ~USD 50M; USD 100M injection into ex-Intercam business, sourced)",
+    "evidence_deals": [
+      {"date": "2023", "target": "Banco Autofin México", "country": "Mexico", "role": "control acquisition (~USD 50M) to obtain banking licence", "url": "https://www.bloomberglinea.com/latinoamerica/mexico/kapital-bank-subira-a-la-posicion-25-entre-bancos-de-mexico-tras-compra-a-intercam-moodys/"},
+      {"date": "2025-08-19", "target": "Intercam Banco, Casa de Bolsa and Fondos (post US sanctions, SHCP intervention)", "country": "Mexico", "role": "acquired assets/liabilities/branches; CNBV oficios 26-27 Aug 2025 authorising spin-off and merger into KPTL México Bank", "url": "https://gf.kapital.com/wp-content/uploads/2026/04/Actos-corporativos.pdf"},
+      {"date": "2025-08", "target": "ex-Intercam business", "country": "Mexico", "role": "USD 100M capital injection announced", "url": "https://elceo.com/negocios/kapital-bank-inyectara-100-mdd-a-negocio-adquirido-de-intercam/"}
+    ],
+    "minority_tolerance": "no (control acquirer)",
+    "approval_experience": "yes (SHCP/CNBV/Banxico, in an intervention context, approvals within ~1 week)",
+    "fit": 4,
+    "fit_reason": "Fastest proven acquirer of distressed regulated Mexican financial entities; fits lender/broker-dealer recaps, untested in insurance.",
+    "contact_path": "https://gf.kapital.com/",
+    "sources": [
+      "https://gf.kapital.com/wp-content/uploads/2026/04/Actos-corporativos.pdf",
+      "https://elceo.com/negocios/kapital-bank-compra-negocios-de-intercam-multiva-fideicomisos-de-cibanco-shcp/",
+      "https://elceo.com/negocios/kapital-bank-inyectara-100-mdd-a-negocio-adquirido-de-intercam/",
+      "https://expansion.mx/economia/2025/08/25/kapital-se-convierte-en-grupo-financiero-intercam"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Grupo Financiero Inbursa",
+    "type": "strategic insurer/bank",
+    "hq": "Mexico City, Mexico",
+    "geographies": ["Mexico"],
+    "sectors": ["SOFOM / auto finance", "banks", "insurance"],
+    "ticket_usd": "undisclosed",
+    "evidence_deals": [
+      {"date": "2022-12-14", "target": "BPF Finance México SOFOM (Stellantis-linked auto lender)", "country": "Mexico", "role": "100% acquisition, merged into STM Financial", "url": "https://elceo.com/negocios/inbursa-cierra-compra-de-sofom-bpf-finance-mexico/"},
+      {"date": "2023-02-01", "target": "BPF Finance México", "country": "Mexico", "role": "SHCP-authorised merger effective", "url": "https://www.milenio.com/negocios/hacienda-autoriza-fusion-bfp-finance-mexico-inbursa"}
+    ],
+    "minority_tolerance": "no evidence",
+    "approval_experience": "yes (SHCP)",
+    "fit": 2,
+    "fit_reason": "Opportunistic buyer of Mexican non-bank lenders with a strategic angle; group also owns an insurer, but no sign of rescue-recap appetite.",
+    "contact_path": "https://www.inbursa.com/",
+    "sources": [
+      "https://elceo.com/negocios/inbursa-cierra-compra-de-sofom-bpf-finance-mexico/",
+      "https://www.milenio.com/negocios/hacienda-autoriza-fusion-bfp-finance-mexico-inbursa",
+      "https://www.bmv.com.mx/en/issuers/profile/BINBUR-7375"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Piraeus Bank",
+    "type": "strategic insurer/bank",
+    "hq": "Athens, Greece",
+    "geographies": ["Greece"],
+    "sectors": ["life", "non-life", "bancassurance"],
+    "ticket_usd": "~650M (EUR 600M, sourced)",
+    "evidence_deals": [
+      {"date": "2025-03-13", "target": "Ethniki Insurance (from CVC Fund VII and NBG)", "country": "Greece", "role": "agreed 90.01% for EUR 600M (100% basis)", "url": "https://www.businesswire.com/news/home/20250313408851/en/Piraeus-Bank-to-Acquire-Ethniki-Insurance-From-CVC"},
+      {"date": "2025-11-27", "target": "Ethniki Insurance", "country": "Greece", "role": "completed, 100% of Ethniki Holdings", "url": "https://www.reinsurancene.ws/piraeus-completes-acquisition-of-ethniki-insurance/"}
+    ],
+    "minority_tolerance": "no evidence",
+    "approval_experience": "yes (Greek competition authority Aug 2025; supervisory approvals)",
+    "fit": 2,
+    "fit_reason": "Greek banks are re-entering insurance ownership (Piraeus/Ethniki, Eurobank/Eurolife) - exit buyers for a Greek or Cypriot insurer, not minority rescue money.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.businesswire.com/news/home/20250313408851/en/Piraeus-Bank-to-Acquire-Ethniki-Insurance-From-CVC",
+      "https://www.reinsurancene.ws/piraeus-completes-acquisition-of-ethniki-insurance/",
+      "https://en.protothema.gr/2025/08/12/piraeus-bank-green-light-from-the-competition-commission-on-the-sale-of-ethniki-insurance"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Sukoon Insurance PJSC (formerly Oman Insurance Co)",
+    "type": "strategic insurer/bank",
+    "hq": "Dubai, UAE",
+    "geographies": ["UAE", "GCC"],
+    "sectors": ["takaful", "non-life", "life"],
+    "ticket_usd": "undisclosed",
+    "evidence_deals": [
+      {"date": "2022", "target": "Generali UAE life portfolio", "country": "UAE", "role": "portfolio acquisition", "url": "https://www.sukoon.com/about-us/news/news/sukoon-completes-ascana-acquisition"},
+      {"date": "2023", "target": "Arabian Scandinavian Insurance Co (ASCANA, takaful)", "country": "UAE", "role": "93.04% control acquisition (signed Dec 2022)", "url": "https://www.sukoon.com/about-us/news/news/sukoon-completes-ascana-acquisition"}
+    ],
+    "minority_tolerance": "no evidence (control)",
+    "approval_experience": "yes (CBUAE)",
+    "fit": 3,
+    "fit_reason": "Active UAE consolidator of sub-scale takaful/insurers; the natural exit buyer for a UAE family insurer after clean-up.",
+    "contact_path": "https://www.sukoon.com/branches",
+    "sources": [
+      "https://www.sukoon.com/about-us/news/news/sukoon-completes-ascana-acquisition",
+      "https://www.lifeinsuranceinternational.com/news/sukoon-93-stake-ascana/",
+      "https://www.sukoon.com/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Sumitomo Life Insurance",
+    "type": "strategic insurer/bank",
+    "hq": "Tokyo, Japan",
+    "geographies": ["SE Asia", "Singapore", "Indonesia", "Vietnam", "Thailand", "Malaysia", "Philippines"],
+    "sectors": ["life", "health"],
+    "ticket_usd": "unverified per deal; JPY 1tn investment budget to Mar 2029 (sourced)",
+    "evidence_deals": [
+      {"date": "2024", "target": "Singapore Life Holdings (Singlife), 35.5% from TPG", "country": "Singapore", "role": "minority then control path; MAS/Japan approvals", "url": "https://beinsure.com/news/sumitomo-life-acquired-singlife/"},
+      {"date": "2026-10-16", "target": "SE Asia pipeline", "country": "Indonesia/Vietnam/Thailand/Malaysia/Philippines", "role": "president states intent to acquire; holds minority interests in Indonesia (BNI Life 40%) and Vietnam (Bao Viet 22.09%)", "url": "https://www.japantimes.co.jp/business/2026/10/16/companies/sumitomo-life-target-acquisitions-southeast-asia/"}
+    ],
+    "minority_tolerance": "yes (22-40% stakes held for a decade)",
+    "approval_experience": "yes (OJK, Vietnam MoF, MAS)",
+    "fit": 3,
+    "fit_reason": "Patient Japanese minority capital with explicit SE Asia mandate; wants growth franchises, not solvency repair, and moves slowly.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.japantimes.co.jp/business/2026/10/16/companies/sumitomo-life-target-acquisitions-southeast-asia/",
+      "https://beinsure.com/news/sumitomo-life-acquired-singlife/",
+      "https://keuangan.kontan.co.id/news/sumitomo-life-caplok-40-saham-bni-life",
+      "https://vnbusiness.vn/tap-doan-bao-viet-chinh-thuc-cong-bo-phat-hanh-thanh-cong-hon-41-trieu-co-phan-cho-sumitomo-life.html"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Asahi Mutual Life Insurance",
+    "type": "strategic insurer/bank",
+    "hq": "Tokyo, Japan",
+    "geographies": ["Vietnam", "SE Asia"],
+    "sectors": ["life"],
+    "ticket_usd": "~170-192M (sourced; sources differ)",
+    "evidence_deals": [
+      {"date": "2025-11-30", "target": "MVI Life (from Manulife)", "country": "Vietnam", "role": "agreed control acquisition, ~JPY 30bn", "url": "https://asia.nikkei.com/business/business-deals/japan-insurer-asahi-life-to-buy-vietnam-counterpart-in-190m-deal"}
+    ],
+    "minority_tolerance": "unknown",
+    "approval_experience": "in progress (Vietnam MoF)",
+    "fit": 2,
+    "fit_reason": "New Japanese entrant buying a whole SE Asian life insurer; control-only, ticket above band.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://asia.nikkei.com/business/business-deals/japan-insurer-asahi-life-to-buy-vietnam-counterpart-in-190m-deal",
+      "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Insular Life Assurance Co",
+    "type": "strategic insurer/bank",
+    "hq": "Manila, Philippines",
+    "geographies": ["Philippines"],
+    "sectors": ["life"],
+    "ticket_usd": "undisclosed",
+    "evidence_deals": [
+      {"date": "2025-05-23", "target": "Generali Life Assurance Philippines (100%)", "country": "Philippines", "role": "control acquisition completed", "url": "https://www.generali.com/asia/media/press-releases/2025/Generali-completes-the-sale-of-its-Philippines-business"}
+    ],
+    "minority_tolerance": "no evidence",
+    "approval_experience": "yes (Insurance Commission)",
+    "fit": 2,
+    "fit_reason": "Local mutual consolidator in the Philippines; exit buyer for a family life insurer, not rescue capital.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.generali.com/asia/media/press-releases/2025/Generali-completes-the-sale-of-its-Philippines-business",
+      "https://www.theinsurer.com/ti/news/generali-completes-sale-of-philippines-business-2025-05-23/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Keralty (Grupo Keralty / Sanitas)",
+    "type": "strategic insurer/bank",
+    "hq": "Bogotá, Colombia",
+    "geographies": ["Colombia", "Peru", "Mexico", "Spain", "USA", "Brazil", "UAE", "Saudi Arabia"],
+    "sectors": ["health insurance", "prepaid medicine", "hospitals"],
+    "ticket_usd": "unverified",
+    "evidence_deals": [
+      {"date": "2025-09-08", "target": "EPS Sanitas", "country": "Colombia", "role": "regained administration after Constitutional Court annulled 2024 state intervention", "url": "https://forbes.co/2025/09/08/negocios/grupo-keralty-retoma-oficialmente-la-administracion-de-eps-sanitas-tras-ser-intervenida-por-el-gobierno"},
+      {"date": "2026", "target": "Sanitas Seguros (new life/health insurer, Inversiones en Salud 99.99%)", "country": "Peru", "role": "SBS Resolución 1650-2026 authorised organisation", "url": "https://gestion.pe/tu-dinero/sbs-autoriza-la-organizacion-de-sanitas-seguros-para-ingresar-a-peru-que-agilizo-el-proceso-noticia/"}
+    ],
+    "minority_tolerance": "unknown",
+    "approval_experience": "yes (SBS Peru licence; Supersalud Colombia)",
+    "fit": 3,
+    "fit_reason": "Only health-insurance strategic with Mexico presence that is expanding licences in LatAm now; would value a Mexican ISES licence + hospital network.",
+    "contact_path": "https://www.keralty.com/cont%C3%A1ctanos",
+    "sources": [
+      "https://forbes.co/2025/09/08/negocios/grupo-keralty-retoma-oficialmente-la-administracion-de-eps-sanitas-tras-ser-intervenida-por-el-gobierno",
+      "https://gestion.pe/tu-dinero/sbs-autoriza-la-organizacion-de-sanitas-seguros-para-ingresar-a-peru-que-agilizo-el-proceso-noticia/",
+      "https://andina.pe/agencia/noticia-sbs-autoriza-ingreso-sanitas-seguros-al-mercado-seguros-vida-1080280.aspx",
+      "https://www.keralty.com/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Nortia Capital Partners (Manuel Lao family holding)",
+    "type": "family office",
+    "hq": "Spain",
+    "geographies": ["Spain", "Iberia"],
+    "sectors": ["insurance (decesos/life)", "financial services"],
+    "ticket_usd": "unverified (undisclosed; Mutualidad later paid ~EUR 5M for 9.9%)",
+    "evidence_deals": [
+      {"date": "2025-06-27", "target": "Expertia, Seguros de Decesos, S.A. (Preventiva group)", "country": "Spain", "role": "became significant-minority shareholder (reported 35%); CEO Juan Antonio Alcaraz joined board", "url": "https://eco.sapo.pt/2025/06/27/nortia-torna-se-acionista-da-expertia-seguros/"},
+      {"date": "2026-06-02", "target": "Expertia Seguros", "country": "Spain", "role": "diluted to ~34% after Mutualidad's 9.9% entry", "url": "https://www.elespanol.com/observatorio-seguros/20260602/mutualidad-compra-expertia-seguros-millones-euros/1003744270065_0.html"}
+    ],
+    "minority_tolerance": "yes (35%)",
+    "approval_experience": "unknown (DGSFP qualifying-holding process not described in sources)",
+    "fit": 4,
+    "fit_reason": "The only Iberian family office found taking a significant minority in a regulated insurer in 2025, with a board seat - exact archetype behaviour at small scale.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://eco.sapo.pt/2025/06/27/nortia-torna-se-acionista-da-expertia-seguros/",
+      "https://www.elespanol.com/observatorio-seguros/20260602/mutualidad-compra-expertia-seguros-millones-euros/1003744270065_0.html",
+      "https://www.merca2.es/2026/06/03/mutualidad-compra-expertia-porcentaje-2388658/",
+      "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Thrivest Holding (Dimitris Bakos, Giannis Kaimenakis, Alexandros Exarchos)",
+    "type": "family office",
+    "hq": "Athens, Greece",
+    "geographies": ["Greece"],
+    "sectors": ["banks"],
+    "ticket_usd": "~33M (EUR 30M, 2023) to ~215M (up to EUR 200M, 2024), sourced",
+    "evidence_deals": [
+      {"date": "2022-10", "target": "Pancreta Bank", "country": "Greece", "role": "private placement, became largest shareholder with 32.38%", "url": "https://www.ot.gr/2022/10/27/english-edition/pancreta-bank-completes-successful-share-capital-increase"},
+      {"date": "2023-04", "target": "Attica Bank (EUR 473M share capital increase)", "country": "Greece", "role": "EUR 30M of unsold shares taken alongside Pancreta (EUR 34M) and HFSF", "url": "https://www.ot.gr/2023/04/26/english-edition/attica-bank-completes-closely-watched-473-mlne-share-cap-increase/"},
+      {"date": "2024", "target": "Attica Bank / Pancreta merger, EUR 735M capital increase", "country": "Greece", "role": "up to EUR 200M commitment, targeting 50%+1 to 58.5%", "url": "https://naftemporiki.gr/english/1777007/attica-bank-the-735-million-euro-share-capital-increase-approved/"}
+    ],
+    "minority_tolerance": "yes (32% then control)",
+    "approval_experience": "yes/in review (Bank of Greece / ECB qualifying holding assessment reported as ongoing in retrieved sources)",
+    "fit": 3,
+    "fit_reason": "Private Greek capital that led a multi-round recap of two undercapitalised regulated banks with the state as co-investor; bank-focused and Greece-only.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.ot.gr/2023/04/26/english-edition/attica-bank-completes-closely-watched-473-mlne-share-cap-increase/",
+      "https://www.ot.gr/2022/10/27/english-edition/pancreta-bank-completes-successful-share-capital-increase",
+      "https://naftemporiki.gr/english/1777007/attica-bank-the-735-million-euro-share-capital-increase-approved/",
+      "https://chambers.com/articles/zepos-yannopoulos-advises-thrivest-on-its-equity-investment-in-attica-bank"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Fernando Chico Pardo family vehicle (Promecap / Banamex chairman)",
+    "type": "family office",
+    "hq": "Mexico City, Mexico",
+    "geographies": ["Mexico"],
+    "sectors": ["banks", "regulated financials"],
+    "ticket_usd": "~2.3bn (sourced; 25% of Banamex at 0.80x book)",
+    "evidence_deals": [
+      {"date": "2025-09-24", "target": "Grupo Financiero Banamex (25%, ~520M shares)", "country": "Mexico", "role": "agreed purchase from Citi at 0.80x book value", "url": "https://www.americanbanker.com/articles/citi-sells-banamex-stake-to-mexican-businessman-for-2-3b"},
+      {"date": "2025-12-15", "target": "Banamex", "country": "Mexico", "role": "closed after financial-regulator and competition approvals; assumed board chairmanship", "url": "https://elceo.com/negocios/fernando-chico-pardo-concreta-la-compra-del-25-de-banamex-a-citi/"}
+    ],
+    "minority_tolerance": "yes (25% with board chair)",
+    "approval_experience": "yes (CNBV/SHCP, ~3 months)",
+    "fit": 3,
+    "fit_reason": "Mexican family capital pricing a regulated financial at book, taking a minority with governance and clearing CNBV fast; scale and bank focus mean co-invest at most.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.americanbanker.com/articles/citi-sells-banamex-stake-to-mexican-businessman-for-2-3b",
+      "https://elceo.com/negocios/fernando-chico-pardo-concreta-la-compra-del-25-de-banamex-a-citi/",
+      "https://www.fundssociety.com/en/news/business/the-chico-pardo-era-at-banamex-formally-begins/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Consorcio Financiero controllers (Banvida, P&S / Grupo Hurtado Vicuña, BP S.A.)",
+    "type": "family office",
+    "hq": "Santiago, Chile",
+    "geographies": ["Chile"],
+    "sectors": ["life insurance", "banking", "asset management"],
+    "ticket_usd": "96M for 4.12% (sourced)",
+    "evidence_deals": [
+      {"date": "2025-07-29", "target": "Consorcio Financiero S.A.", "country": "Chile", "role": "bought out IFC and Calverton Spain (4.12%) to reach full ownership", "url": "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"}
+    ],
+    "minority_tolerance": "unknown (consolidating own group)",
+    "approval_experience": "yes (CMF Chile)",
+    "fit": 2,
+    "fit_reason": "Chilean family groups with an insurance platform and capital, but 2025 activity was buying out partners, not investing outward.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Saudi Reinsurance Company (Saudi Re)",
+    "type": "reinsurer strategic arm",
+    "hq": "Riyadh, Saudi Arabia",
+    "geographies": ["GCC", "Saudi Arabia", "UK/Lloyd's"],
+    "sectors": ["reinsurance", "specialty insurance"],
+    "ticket_usd": "~12M (GBP 8.95M for AdA stake, sourced)",
+    "evidence_deals": [
+      {"date": "2025-01-13", "target": "Saudi Re itself", "country": "Saudi Arabia", "role": "recipient: PIF entered with 23.08% via capital increase (shows a GCC reinsurer recapitalised by primary minority money)", "url": "https://www.pif.gov.sa/en/news-and-insights/press-releases/2025/pif-announces-completion-of-investment-in-saudi-reinsurance-company/"},
+      {"date": "2026-07", "target": "AdA Risk Holding Co Ltd (UK specialty/Lloyd's)", "country": "UK", "role": "22.5% strategic minority, Saudi Insurance Authority approved; completed for GBP 8.95M", "url": "https://www.agbi.com/finance/2026/07/saudi-re-to-buy-stake-in-uk-specialty-insurer-ada/"}
+    ],
+    "minority_tolerance": "yes (22.5%)",
+    "approval_experience": "yes (Saudi Insurance Authority, CMA)",
+    "fit": 3,
+    "fit_reason": "The one reinsurer in our regions found taking strategic equity in a primary carrier; PIF-backed balance sheet, small tickets, Saudi-first.",
+    "contact_path": "https://saudire.net/",
+    "sources": [
+      "https://www.agbi.com/finance/2026/07/saudi-re-to-buy-stake-in-uk-specialty-insurer-ada/",
+      "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/saudi-re-completes-8-95-million-lloyds-foothold-583462.aspx",
+      "https://www.pif.gov.sa/en/news-and-insights/press-releases/2025/pif-announces-completion-of-investment-in-saudi-reinsurance-company/",
+      "https://saudire.net/press-release/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "International Finance Corporation (IFC)",
+    "type": "DFI",
+    "hq": "Washington DC, USA",
+    "geographies": ["Mexico", "LatAm", "Ukraine/CEE", "MENA", "Asia"],
+    "sectors": ["insurance", "health insurance", "non-bank lenders", "financial groups"],
+    "ticket_usd": "typically up to 20% stakes; USD 135M (Holmarcom), USD 113.9M with ADB (Fosun United Health); USG/Kniazha undisclosed",
+    "evidence_deals": [
+      {"date": "2025-12-10", "target": "USG and Kniazha (VIG Ukrainian non-life insurers)", "country": "Ukraine", "role": "~20% in each via capital increase, subject to regulatory approvals", "url": "https://group.vig/en/investor-relations/ir-news/ir-meldungen/world-bank-group-member-ifc-invests-in-ukrainian-vig-companies-usg-and-kniazha/"},
+      {"date": "2025-04-30", "target": "Holmarcom Finance Company (insurance + credit arm of Holmarcom)", "country": "Morocco", "role": "minority equity MAD 1.35bn (~USD 135M) completed after regulatory approvals (signed 2024-12-13)", "url": "https://meinsurancereview.com/News/ViewNewsLetterArticle/id/91465/Type/MiddleEast/Morocco-IFC-completes-investment-in-Holmarcom-Finance-Co"},
+      {"date": "2025-04-01", "target": "Fosun United Health Insurance", "country": "China", "role": "USD 113.9M capital with ADB and Fosun Pharma (health insurer recap)", "url": "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"},
+      {"date": "2025-07-29", "target": "Consorcio Financiero", "country": "Chile", "role": "exit of ~decade-old minority stake (USD 96M for 4.12% with Calverton)", "url": "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"}
+    ],
+    "minority_tolerance": "yes (up to ~20%)",
+    "approval_experience": "yes (multiple insurance regulators incl. Ukraine, Morocco, Chile)",
+    "fit": 4,
+    "fit_reason": "Only investor found doing primary minority capital increases into insurers and health insurers in 2025; credible with regulators; slow and needs a lead.",
+    "contact_path": "https://www.ifc.org/",
+    "sources": [
+      "https://group.vig/en/investor-relations/ir-news/ir-meldungen/world-bank-group-member-ifc-invests-in-ukrainian-vig-companies-usg-and-kniazha/",
+      "https://www.reinsurancene.ws/tag/vig/",
+      "https://www.ifc.org/en/pressroom/2024/ifc-and-holmarcom-expand-partnership-to-strengthen-access-to-finance-and-insurance-in-africa",
+      "https://meinsurancereview.com/News/ViewNewsLetterArticle/id/91465/Type/MiddleEast/Morocco-IFC-completes-investment-in-Holmarcom-Finance-Co",
+      "https://www.ifc.org/content/dam/ifc/doc/2025/insurance-factsheet-ifc-financial-institutions-group.pdf",
+      "https://media.milliman.com/v1/media/edge/images/millimaninc5660-milliman6442-prod27d5-0001/media/Milliman/PDFs/2026-Articles/4-7-26_2026-Milliman-MA-Report.pdf"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "BlueOrchard (InsuResilience Investment Fund Private Equity II, Schroders Capital)",
+    "type": "DFI",
+    "hq": "Zurich, Switzerland (fund in Luxembourg)",
+    "geographies": ["Brazil", "LatAm", "Africa", "Asia"],
+    "sectors": ["insurance (climate/agri)", "insurtech"],
+    "ticket_usd": "~5-10M (BRL 27M reported; deal value listed as BRL 48.6M, sourced, sources differ)",
+    "evidence_deals": [
+      {"date": "2023-01", "target": "Newe Seguros (management-owned agri insurer)", "country": "Brazil", "role": "primary + secondary for ~35% stake with board nominee at holdco", "url": "https://www.schroderscapital.com/en/global/professional/media-centre/blueorchard-promotes-climate-resilience-with-brazilian-insurance-investment"},
+      {"date": "2023", "target": "Newe Seguros", "country": "Brazil", "role": "BMA advised Newe and founders on the investment agreement", "url": "https://thelatinamericanlawyer.com/?p=185731"}
+    ],
+    "minority_tolerance": "yes (~35%)",
+    "approval_experience": "yes (SUSEP - inferred from completed shareholding; not directly retrieved)",
+    "fit": 3,
+    "fit_reason": "Does exactly the small-minority-recap-with-board-seat in LatAm insurers, but tickets are USD 5-10M and the mandate is climate/agri; BII is an LP.",
+    "contact_path": "https://www.blueorchard.com/",
+    "sources": [
+      "https://www.schroderscapital.com/en/global/professional/media-centre/blueorchard-promotes-climate-resilience-with-brazilian-insurance-investment",
+      "https://thelatinamericanlawyer.com/?p=185731",
+      "https://www.bii.co.uk/en/our-impact/fund-header/blue-orchard-insuresilience-fund-ii/",
+      "https://www.schroderscapital.com/en/global/professional/media-centre/blueorchard-managed-insuresilience-private-equity-strategy-reaches-target-size"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "European Bank for Reconstruction and Development (EBRD)",
+    "type": "DFI",
+    "hq": "London, UK",
+    "geographies": ["Bulgaria", "Romania", "SEE", "CEE", "Türkiye", "Greece"],
+    "sectors": ["insurance", "banks"],
+    "ticket_usd": "~33M (EUR 30M in Euroins Insurance Group, sourced)",
+    "evidence_deals": [
+      {"date": "2021-10", "target": "Euroins Insurance Group (Eurohold)", "country": "Bulgaria/Romania", "role": "minority equity EUR 30M (just outside window; parent of Euroins Romania)", "url": "https://www.euroins.ro/ebrd-invests-eur-30-million-in-euroins/"},
+      {"date": "2023-03", "target": "Euroins Romania (licence withdrawn by ASF)", "country": "Romania", "role": "as shareholder, proposed a resolution and disputed the regulator's EUR 400M shortfall with an independent actuarial review", "url": "https://www.ebrd.com/home/news-and-events/news/2023/ebrd-proposes-resolution-to-romanian-insurance-crisis.html"}
+    ],
+    "minority_tolerance": "yes",
+    "approval_experience": "yes (Bulgarian FSC / Romanian ASF exposure, including a failed case)",
+    "fit": 3,
+    "fit_reason": "Will take minority stakes in SEE family insurers and has lived through a solvency fight with a regulator - scarred, but exactly the experience the archetype needs.",
+    "contact_path": "https://www.ebrd.com/",
+    "sources": [
+      "https://www.euroins.ro/ebrd-invests-eur-30-million-in-euroins/",
+      "https://www.ebrd.com/home/news-and-events/news/2023/ebrd-proposes-resolution-to-romanian-insurance-crisis.html",
+      "https://www.romania-insider.com/ebrd-indirect-shareholder-euroins-romania"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "LeapFrog Investments",
+    "type": "DFI",
+    "hq": "London, UK (impact PE; Africa & Asia)",
+    "geographies": ["SE Asia", "South Asia", "Africa"],
+    "sectors": ["insurance", "health", "financial services"],
+    "ticket_usd": "fund-level USD 1.02bn (Fund IV, 2024); per-deal unverified in window",
+    "evidence_deals": [
+      {"date": "2024", "target": "LeapFrog Fund IV close (Temasek cornerstone; AIA, Prudential Financial LPs)", "country": "Asia/Africa", "role": "fundraise for insurance/health/financial services investments", "url": "https://www.asiaasset.com/private-markets/private-equity-firm-leapfrog-raises-us1-02-billion-for-new-fund-singapores-temasek-a-cornerstone-investor/"},
+      {"date": "pre-2024", "target": "bolttech (insurtech)", "country": "Singapore", "role": "USD 50M in Series B extension (older)", "url": "https://financialit.net/news/fundraising-news/leapfrog-investment-extends-bolttechs-series-b-record-breaking-us246m"}
+    ],
+    "minority_tolerance": "yes (growth minority model)",
+    "approval_experience": "unknown in window",
+    "fit": 3,
+    "fit_reason": "Insurance/health specialist with fresh Asia capital, but no 2022-26 stake in a SE Asian risk carrier was verified; growth not rescue.",
+    "contact_path": "https://leapfroginvest.com/contact/",
+    "sources": [
+      "https://www.asiaasset.com/private-markets/private-equity-firm-leapfrog-raises-us1-02-billion-for-new-fund-singapores-temasek-a-cornerstone-investor/",
+      "https://impact2025.leapfroginvest.com/",
+      "https://www.leapfroginvest.com/"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "IDB Invest",
+    "type": "DFI",
+    "hq": "Washington DC, USA",
+    "geographies": ["Mexico", "LatAm"],
+    "sectors": ["financial institutions", "non-bank lenders (via funds)"],
+    "ticket_usd": "fund LP commitments up to USD 50M (sourced); total equity book USD 409M at YE2025",
+    "evidence_deals": [
+      {"date": "2019", "target": "Victory Park Capital Investor Fund W (NBFI/fintech lenders in LatAm)", "country": "LatAm", "role": "LP up to USD 50M", "url": "https://idbinvest.org/en/projects/victory-park-capital"},
+      {"date": "2021", "target": "Kandeo 3D debt fund", "country": "Mexico/Colombia/Peru", "role": "lead financing", "url": "https://www.idbinvest.org/en/projects/kandeo-debt-fund"},
+      {"date": "2025-11", "target": "MOUs with DEG, FMO, Proparco", "country": "LatAm", "role": "co-investment cooperation", "url": "https://idbinvest.org/en/news-media/idb-invest-sign-new-agreements-increase-private-investment-latin-america-and-caribbean"}
+    ],
+    "minority_tolerance": "yes",
+    "approval_experience": "unknown (no direct insurer equity found)",
+    "fit": 2,
+    "fit_reason": "No direct insurer equity found in 2022-26; relevant as co-lender/LP and as a co-investment channel to DEG/FMO/Proparco.",
+    "contact_path": "https://idbinvest.org/en",
+    "sources": [
+      "https://idbinvest.org/en/projects/victory-park-capital",
+      "https://www.idbinvest.org/en/projects/kandeo-debt-fund",
+      "https://idbinvest.org/en/news-media/idb-invest-sign-new-agreements-increase-private-investment-latin-america-and-caribbean",
+      "https://idbinvest.org/sites/default/files/2026-03/IDB%20Invest%20Investor%20Presentation%20YE2025%20(1).pdf"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Public Investment Fund (PIF)",
+    "type": "local institutional",
+    "hq": "Riyadh, Saudi Arabia",
+    "geographies": ["Saudi Arabia"],
+    "sectors": ["reinsurance", "insurance"],
+    "ticket_usd": "unverified (Saudi Re capital rose 90% to SAR 1.69bn after entry)",
+    "evidence_deals": [
+      {"date": "2025-01-13", "target": "Saudi Reinsurance Company", "country": "Saudi Arabia", "role": "23.08% via primary capital increase; CMA approved Nov 2024, EGM approved", "url": "https://www.pif.gov.sa/en/news-and-insights/press-releases/2025/pif-announces-completion-of-investment-in-saudi-reinsurance-company/"}
+    ],
+    "minority_tolerance": "yes (23%)",
+    "approval_experience": "yes (CMA / Insurance Authority)",
+    "fit": 2,
+    "fit_reason": "Will do primary minority recaps of Saudi insurers, but only national-champion scale and policy-driven.",
+    "contact_path": "https://www.pif.gov.sa/",
+    "sources": [
+      "https://www.pif.gov.sa/en/news-and-insights/press-releases/2025/pif-announces-completion-of-investment-in-saudi-reinsurance-company/",
+      "https://www.agbi.com/banking-finance/2025/01/pif-acquires-23-stake-in-saudi-reinsurance-company/",
+      "https://www.insurancebusinessmag.com/reinsurance/news/breaking-news/saudi-re-secures-cma-approval-for-capital-increase-515481.aspx"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  },
+  {
+    "name": "Mutualidad (Spain)",
+    "type": "local institutional",
+    "hq": "Madrid, Spain",
+    "geographies": ["Spain"],
+    "sectors": ["insurance"],
+    "ticket_usd": "~5.5M (EUR ~5M for 9.9%, sourced)",
+    "evidence_deals": [
+      {"date": "2026-06-02", "target": "Expertia Seguros (Preventiva group)", "country": "Spain", "role": "9.9% = 5% purchase from Preventiva + 4.9% capital increase (~EUR 5M)", "url": "https://www.merca2.es/2026/06/03/mutualidad-compra-expertia-porcentaje-2388658/"}
+    ],
+    "minority_tolerance": "yes (9.9%)",
+    "approval_experience": "unknown",
+    "fit": 2,
+    "fit_reason": "Spanish mutual taking small minority positions in insurers alongside a family lead - follower money once an independent review exists.",
+    "contact_path": "unverified",
+    "sources": [
+      "https://www.merca2.es/2026/06/03/mutualidad-compra-expertia-porcentaje-2388658/",
+      "https://www.elespanol.com/observatorio-seguros/20260602/mutualidad-compra-expertia-seguros-millones-euros/1003744270065_0.html"
+    ],
+    "status": "candidate",
+    "added": "2026-11-06"
+  }
+]

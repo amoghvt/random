@@ -1,0 +1,687 @@
+[
+  {
+    "slug": "la-latino-seguros",
+    "company": "La Latinoamericana Seguros, S.A. (La Latino Seguros)",
+    "country": "MX",
+    "region": "LATAM",
+    "sector": "insurance (life/accident/P&C, family-controlled, BMV-listed)",
+    "size_note": "Premiums MXN 1,452m 2025 (~USD 78m); equity MXN 217m; net loss MXN -7m 2025 (PCR Verum via BMV, 9 Mar 2026)",
+    "signals": [
+      {
+        "date": "2026-03-09",
+        "signal": "PCR Verum ratifies BBB/M: RCS coverage 1.75x, minimum paid-up capital coverage 1.07x (2024: 1.26x/1.01x), 2025 net loss, equity -5.7%; rating relies on shareholders' willingness to support",
+        "url": "https://www.bmv.com.mx/docs-pub/eventoca/eventoca_1540095_1.pdf"
+      },
+      {
+        "date": "2025-02-04",
+        "signal": "Change of Director General: family CEO Miguel Amerlinck Corsi replaced by Mario Vela Berrondo (non-family); chairman Rodrigo Amerlinck y Assereto",
+        "url": "https://www.bmv.com.mx/es/emisoras/perfil/LASEG-5530"
+      },
+      {
+        "date": "2025-05-01",
+        "signal": "CNSF fines MXN 44,350 and 22,628 (Art. 489 LISF, incorrect information filings), published 30 Sep 2026",
+        "url": "https://www.cnsf.gob.mx/Transparencia/DGJCS/Sanciones%20Aseguradoras_Datos%20Abiertos.csv"
+      }
+    ],
+    "need_band_usd": "5-15M",
+    "need_type": "recapitalisation (holdco shares or opco capital contribution)",
+    "decision_maker": "Ing. Rodrigo Amerlinck y Assereto (Chairman); family shareholding percentages unverified",
+    "intermediary": "PCR Verum (Monterrey) insurance team; AM Best Mexico (Alfonso Novelo)",
+    "score": 56,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Pull 2025 RSCF and annual report from BMV; confirm family shareholding; draft chairman letter citing 9 Mar 2026 rating note",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 5, Bank-shy 5, DM 8, Size 5, Investor 5, Entry 5. Watch. Ticket below sweet spot.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 4,
+    "sources": [
+      "https://www.bmv.com.mx/docs-pub/eventoca/eventoca_1540095_1.pdf",
+      "https://www.bmv.com.mx/es/emisoras/perfil/LASEG-5530",
+      "https://www.marketscreener.com/quote/stock/LA-LATINOAMERICANA-SEGURO-10697807/company-governance/",
+      "https://www.cnsf.gob.mx/Transparencia/DGJCS/Sanciones%20Aseguradoras_Datos%20Abiertos.csv"
+    ]
+  },
+  {
+    "slug": "al-etihad-insurance",
+    "company": "Al-Etihad Cooperative Insurance Co.",
+    "country": "SA",
+    "region": "GCC",
+    "sector": "insurance (multi-line, Tadawul 8170)",
+    "size_note": "9M-2026 insurance revenue SAR 890.5m (~USD 237m); GWP SAR 759.7m; capital SAR 500m; equity SAR 318.3m (Jawlah, 5 Nov 2026)",
+    "signals": [
+      {
+        "date": "2026-11-05",
+        "signal": "Accumulated losses SAR 251.97m = 50.4% of capital; auditor: solvency margin below Insurance Authority minimum; going-concern emphasis; board to recommend to EGM",
+        "url": "https://jawlah.co/en/67751"
+      },
+      {
+        "date": "2026-08-04",
+        "signal": "H1-2026 net loss SAR 92.2m (+21.9%); accumulated losses 42.6%; solvency below minimum; 'corrective plan' on pricing and claims",
+        "url": "https://www.decypha.com/en/news/details/Al-Etihad-Cooperative-Insurance-s-net-losses-deepen-in-H1-26/21566409?L=EN"
+      },
+      {
+        "date": "2026-04-01",
+        "signal": "CEO Hussam Al-Kannas resigns",
+        "url": "https://meinsurancereview.com/News/ViewNewsLetterArticle/id/95008/Type/MiddleEast/Al-Etihad-Cooperative-Insurance-CEO-resigns"
+      }
+    ],
+    "need_band_usd": "40-80M",
+    "need_type": "recapitalisation (capital reduction + rights issue / strategic placement; IA + CMA approval)",
+    "decision_maker": "Youssef Saad Al Saad (Chairman, rep. Trade Union Holding); Al Ahleia Insurance Co. S.A.K.P. 28.67% anchor — not family-owned",
+    "intermediary": "Lux Actuaries (Kaloust Sharoyan); Albilad Capital; A&O Shearman Riyadh",
+    "score": 67,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Watch Tadawul for EGM notice and capital plan; ask Lux Actuaries for solvency read; qualify GCC investors from GGI/BlueFive precedent",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 9, Bank-shy 7, DM 4, Size 8, Investor 6, Entry 5. Watch/near Priority. Archetype fit limited: no family, no succession.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 3,
+    "sources": [
+      "https://jawlah.co/en/67751",
+      "https://jawlah.co/en/67765",
+      "https://www.decypha.com/en/news/details/Al-Etihad-Cooperative-Insurance-s-net-losses-deepen-in-H1-26/21566409?L=EN",
+      "https://english.mubasher.info/markets/TDWL/stocks/8170/profile",
+      "https://luxactuaries.com/gcc-insurer-capital-solvency-h1-2026"
+    ]
+  },
+  {
+    "slug": "select-operadora",
+    "company": "Select Operadora de Plano de Saúde Ltda.",
+    "country": "BR",
+    "region": "LATAM",
+    "sector": "health-plan operator (ANS 35.805-3)",
+    "size_note": "Size, beneficiaries and ownership not in sources",
+    "signals": [
+      {
+        "date": "2026-09-18",
+        "signal": "Resolução Operacional ANS 3.172 instaura regime de direção fiscal (grave economic-financial/administrative abnormalities)",
+        "url": "https://okai.com.br/ans/documentos/2026-09-22/resolucao-operacional-ans-no-3-172-de-18-de-setembro-de-2026"
+      }
+    ],
+    "need_band_usd": "5-30M",
+    "need_type": "solvency recap or portfolio (carteira) sale",
+    "decision_maker": "unverified (private Ltda.)",
+    "intermediary": "Demarest / Mattos Filho; CQCS trade press",
+    "score": 51,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Identify owners via ANS cadastro and CNPJ registry; ask Demarest for direção fiscal status",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 8, Bank-shy 7, DM 3, Size 2, Investor 3, Entry 5. Watch.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://okai.com.br/ans/documentos/2026-09-22/resolucao-operacional-ans-no-3-172-de-18-de-setembro-de-2026",
+      "https://drfinancas.com/blog/operadora-regime-especial-ans-recebimento-medico/"
+    ]
+  },
+  {
+    "slug": "victoria-insurance-id",
+    "company": "PT Victoria Insurance Tbk (VINS)",
+    "country": "ID",
+    "region": "ASIA",
+    "sector": "general insurance (Victoria group)",
+    "size_note": "Equity Rp205.1bn Jun 2025 (~USD 12m) vs Rp250bn required 31 Dec 2026",
+    "signals": [
+      {
+        "date": "2025-10-17",
+        "signal": "Private placement of up to 146.06m shares to meet POJK 23/2023 Rp250bn minimum; management says retained earnings insufficient",
+        "url": "https://finansial.bisnis.com/read/20251017/215/1921239/victoria-insurance-vins-bakal-private-placement-rp1957-miliar-untuk-penuhi-modal-minimum"
+      },
+      {
+        "date": "2026-08-27",
+        "signal": "Listed by Insurtech Indonesia in the Rp200-249bn 'near-reach' group vs 31 Dec 2026 deadline",
+        "url": "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/"
+      }
+    ],
+    "need_band_usd": "2-5M",
+    "need_type": "capital injection (private placement / rights issue)",
+    "decision_maker": "PT Victoria Investama (VICO) group; family control unverified",
+    "intermediary": "Insurtech Indonesia; FAC Sekuritas (sector precedent)",
+    "score": 43,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Confirm Jun-2026 equity and remaining gap; map Victoria group UBO; park until Stage II (Rp1tn, 2028)",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 8, Bank-shy 3, DM 5, Size 1, Investor 3, Entry 2. Park (below band).",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://finansial.bisnis.com/read/20251017/215/1921239/victoria-insurance-vins-bakal-private-placement-rp1957-miliar-untuk-penuhi-modal-minimum",
+      "https://keuangan.kontan.co.id/news/victoria-insurance-vins-akan-private-placement-146-juta-saham-baru",
+      "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/"
+    ]
+  },
+  {
+    "slug": "libra-seguros",
+    "company": "Libra Compañía Argentina de Seguros S.A.",
+    "country": "AR",
+    "region": "LATAM",
+    "sector": "motor insurance (taxis/remises)",
+    "size_note": "Premiums not in sources; minimum-capital deficit ARS 1,032m and litigated-claims reserve deficit ARS 1,994m (SSN, Mar 2026)",
+    "signals": [
+      {
+        "date": "2026-02-13",
+        "signal": "SSN inhibición general de bienes; rectified statements and regularisation plan demanded; deficit ARS 1,994m on litigated-claims reserves",
+        "url": "https://www.iprofesional.com/economia/448154-empresa-libra-seguros-bajo-la-lupa-tiene-15-dias-para-demostrar-que-puede-pagar-deudas"
+      },
+      {
+        "date": "2026-03-20",
+        "signal": "Res. SSN 97/2026 rejects regularisation plans; 30 days to recompose capital",
+        "url": "https://www.iprofesional.com/economia/450703-empresa-libra-seguros-presento-nuevo-plan-para-salir-del-deficit-lo-rechazaron"
+      },
+      {
+        "date": "2026-10-01",
+        "signal": "Res. 442/2026 lifts ban on new contracts (imposed by Res. 393/2026 after auditor disclaimer of opinion); inhibición remains",
+        "url": "https://elseguroenaccion.com.ar/la-ssn-levanto-la-prohibicion-y-libra-seguros-vuelve-a-emitir-polizas-pero-sigue-con-sus-bienes-inhibidos/"
+      }
+    ],
+    "need_band_usd": "2-4M",
+    "need_type": "recapitalisation / roll-up anchor",
+    "decision_maker": "Gabriel Bussola (founder, 83%)",
+    "intermediary": "Abeledo Gottheil; 100% Seguro",
+    "score": 56,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Flagged: auditor disclaimer. Only as part of an Argentine roll-up thesis; verify Res. 393 and 442 texts in Boletín Oficial",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 8, Bank-shy 5, DM 8, Size 2, Investor 3, Entry 4. Watch but §4.3-flagged (auditor disclaimer). Below band in USD.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://www.iprofesional.com/economia/448154-empresa-libra-seguros-bajo-la-lupa-tiene-15-dias-para-demostrar-que-puede-pagar-deudas",
+      "https://www.iprofesional.com/economia/450703-empresa-libra-seguros-presento-nuevo-plan-para-salir-del-deficit-lo-rechazaron",
+      "https://elseguroenaccion.com.ar/la-ssn-levanto-la-prohibicion-y-libra-seguros-vuelve-a-emitir-polizas-pero-sigue-con-sus-bienes-inhibidos/"
+    ]
+  },
+  {
+    "slug": "comarseg",
+    "company": "Comarseg Compañía Argentina de Seguros S.A.",
+    "country": "AR",
+    "region": "LATAM",
+    "sector": "P&C insurance",
+    "size_note": "Computable capital ARS 892m vs minimum ARS 696m at 31 Mar 2026; minimum rises to ARS 1,512.6m (750,000 UVA) at 30 Jun 2026",
+    "signals": [
+      {
+        "date": "2026-10-16",
+        "signal": "Res. SSN 447/2026: minimum-capital deficit ARS 620.7m; Jun-2026 statements unfiled; inhibición (Res. 367/2026) and policy ban (Res. 394/2026) ratified; plan due in 15 days",
+        "url": "https://100seguro.com.ar/la-ssn-detecto-un-deficit-de-capital-de-620-millones-en-una-aseguradora-y-le-exigio-un-plan-de-saneamiento/"
+      }
+    ],
+    "need_band_usd": "0.5-1M",
+    "need_type": "recapitalisation / licence sale",
+    "decision_maker": "unverified (2020 board: Alejandro Marcelo Sultani, president)",
+    "intermediary": "100% Seguro; Abeledo Gottheil",
+    "score": 48,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Roll-up list only; check Boletín Oficial for plan filing and current board",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 8, Bank-shy 6, DM 4, Size 1, Investor 3, Entry 4. Park (below band).",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://100seguro.com.ar/la-ssn-detecto-un-deficit-de-capital-de-620-millones-en-una-aseguradora-y-le-exigio-un-plan-de-saneamiento/",
+      "https://www.boletinoficial.gob.ar/detalleAviso/segunda/A916508/20200305"
+    ]
+  },
+  {
+    "slug": "sofia-salud",
+    "company": "Sofía Salud (ISES, CNSF H0717)",
+    "country": "MX",
+    "region": "LATAM",
+    "sector": "health insurance (ISES, VC-backed insurtech)",
+    "size_note": "Q1-2026 net loss ~MXN 21.6m; equity ~MXN 125.8m; ~MXN 70m shareholder contribution Q1-2026 (secondary source)",
+    "signals": [
+      {
+        "date": "2026-05-01",
+        "signal": "Blog citing financial statements: Q1-2026 loss MXN 21.6m, equity MXN 125.8m, dependence on new capital contributions (unaudited secondary source)",
+        "url": "https://donna.mx/gastos-medicos/sofia-salud-vale-la-pena-un-seguro-de-salud-en-lugar-de-uno-de-gastos-medicos-mayores/"
+      },
+      {
+        "date": "2024-01-01",
+        "signal": "USD 21m round led by Kfund with Index, Kaszek, BID Lab, Kayyak; RGA reinsurance backing (date of round not in snippet)",
+        "url": "https://dplnews.com/sofia-levanta-21-mdd/"
+      }
+    ],
+    "need_band_usd": "5-15M",
+    "need_type": "growth/solvency round (VC-led)",
+    "decision_maker": "VC syndicate board (Kfund, Index Ventures, Kaszek) — not family",
+    "intermediary": "none",
+    "score": 45,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "ISES cohort evidence only; pull CNSF quarterly statements to verify figures",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 6, Bank-shy 6, DM 3, Size 3, Investor 4, Entry 3. Park (not family; VC will fund).",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://donna.mx/gastos-medicos/sofia-salud-vale-la-pena-un-seguro-de-salud-en-lugar-de-uno-de-gastos-medicos-mayores/",
+      "https://dplnews.com/sofia-levanta-21-mdd/"
+    ]
+  },
+  {
+    "slug": "credito-unico",
+    "company": "Crédito Único, S.A. de C.V., SOFOM E.N.R. (Grupo Unicco)",
+    "country": "MX",
+    "region": "LATAM",
+    "sector": "non-bank lender (consumer/mortgage)",
+    "size_note": "Loan book size not in sources (small); 32.9% mortgage / 67.1% consumer at Dec 2024",
+    "signals": [
+      {
+        "date": "2026-07-17",
+        "signal": "Moody's Local México downgrades to BBB-.mx, outlook Negative: NPL 4.0% (Mar 2026) vs 2.0%; ICOR 37.1%; needs sustained profits or shareholder capitalisation (figures from search summary; rating page returned 403 — unverified)",
+        "url": "https://revistafortuna.com.mx/2026/07/17/recorta-moodys-calificacion-nacional-de-sofom-credito-unico-a-bbb-mx/"
+      },
+      {
+        "date": "2025-03-11",
+        "signal": "Initial BBB.mx: ICOR historically <100%, losses 2022-23, funding via UniCCo credit-union line and portfolio sales",
+        "url": "https://www.bmv.com.mx/docs-pub/eventoca/eventoca_1448100_2.pdf"
+      }
+    ],
+    "need_band_usd": "3-8M",
+    "need_type": "capital injection / sub-debt",
+    "decision_maker": "Unión de Crédito para la Contaduría Pública (indirect parent) — credit union, not family",
+    "intermediary": "Moody's Local México (Carlo Montoya, Vicente Gómez)",
+    "score": 43,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Read the 17 Jul 2026 Moody's Local PDF; park unless book > MXN 1bn",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 6, Bank-shy 4, DM 4, Size 2, Investor 4, Entry 5. Park.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://revistafortuna.com.mx/2026/07/17/recorta-moodys-calificacion-nacional-de-sofom-credito-unico-a-bbb-mx/",
+      "https://www.bmv.com.mx/docs-pub/eventoca/eventoca_1448100_2.pdf",
+      "https://moodyslocal.com.mx/sectores/entidades-financieras/companias-financieras/credito-unico-s-a-de-c-v-sofom-enr/"
+    ]
+  },
+  {
+    "slug": "aseguradores-de-cauciones",
+    "company": "Aseguradores de Cauciones S.A.",
+    "country": "AR",
+    "region": "LATAM",
+    "sector": "surety insurance",
+    "size_note": "Net worth ~ARS 2.76bn per indexed resolution text (inconsistent; verify)",
+    "signals": [
+      {
+        "date": "2026-07-24",
+        "signal": "Res. SSN 322/2026: retained risk accumulations exceed retention capacity, reinsurance cover and net worth; plan de regularización y saneamiento demanded in 15 days; prior ban on new contracts in force",
+        "url": "https://www.prensaaseguradora.com/post/ssn-plan-de-regularizaci%C3%B3n-y-saneamiento-para-aseguradores-de-cauciones"
+      }
+    ],
+    "need_band_usd": "1-3M",
+    "need_type": "reinsurance / capital",
+    "decision_maker": "unverified",
+    "intermediary": "Abeledo Gottheil; Todo Riesgo",
+    "score": 42,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Roll-up list only; read Res. 322/2026 in Boletín Oficial",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Score: Need 7, Bank-shy 5, DM 3, Size 1, Investor 3, Entry 4. Park (below band).",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://www.prensaaseguradora.com/post/ssn-plan-de-regularizaci%C3%B3n-y-saneamiento-para-aseguradores-de-cauciones",
+      "https://todoriesgo.com.ar/wp-content/uploads/2026/07/322-BO.pdf",
+      "https://100seguro.com.ar/wp-content/uploads/2019/11/RES_SSN_1003_2019.pdf"
+    ]
+  },
+  {
+    "slug": "pan-pacific-insurance-id",
+    "company": "PT Pan Pacific Insurance",
+    "country": "ID",
+    "region": "ASIA",
+    "sector": "insurance (Indonesia POJK 23/2023 cohort)",
+    "size_note": "Equity below Rp180bn per Insurtech Indonesia league table (Jun 2026 unaudited); exact figure in image table, not retrievable",
+    "signals": [
+      {
+        "date": "2026-08-27",
+        "signal": "Named in 'Kelompok Tantangan Tinggi' (equity < Rp180bn) vs Rp250bn required by 31 Dec 2026; options: PSP cash injection, rights issue/strategic investor, or merger",
+        "url": "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/"
+      },
+      {
+        "date": "2026-11-05",
+        "signal": "OJK: 30 of 151 insurers/reinsurers still short of Stage I minimum equity (Sept 2026 data); 9 under special supervision at 26 Oct 2026",
+        "url": "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026"
+      }
+    ],
+    "need_band_usd": "4-10M",
+    "need_type": "capital injection / strategic investor / merger",
+    "decision_maker": "unverified (conglomerate-linked names; group control to be verified)",
+    "intermediary": "Insurtech Indonesia; Indonesian actuarial consultancies",
+    "score": 35,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Verify controlling shareholder and audited equity before any approach; Stage II (Rp1tn, 2028) is the real ticket",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 7, Bank-shy 3, DM 2, Size 2, Investor 3, Entry 2. Park.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/",
+      "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026",
+      "https://mediaasuransinews.co.id/asuransi/jelang-deadline-2026-masih-ada-21-perusahaan-asuransi-belum-penuhi-modal-minimum/"
+    ]
+  },
+  {
+    "slug": "asuransi-rama-id",
+    "company": "Asuransi Rama (as named by Insurtech Indonesia; identity vs Asuransi Ramayana unverified)",
+    "country": "ID",
+    "region": "ASIA",
+    "sector": "insurance (Indonesia POJK 23/2023 cohort)",
+    "size_note": "Equity below Rp180bn per Insurtech Indonesia league table (Jun 2026 unaudited); exact figure in image table, not retrievable",
+    "signals": [
+      {
+        "date": "2026-08-27",
+        "signal": "Named in 'Kelompok Tantangan Tinggi' (equity < Rp180bn) vs Rp250bn required by 31 Dec 2026; options: PSP cash injection, rights issue/strategic investor, or merger",
+        "url": "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/"
+      },
+      {
+        "date": "2026-11-05",
+        "signal": "OJK: 30 of 151 insurers/reinsurers still short of Stage I minimum equity (Sept 2026 data); 9 under special supervision at 26 Oct 2026",
+        "url": "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026"
+      }
+    ],
+    "need_band_usd": "4-10M",
+    "need_type": "capital injection / strategic investor / merger",
+    "decision_maker": "unverified (conglomerate-linked names; group control to be verified)",
+    "intermediary": "Insurtech Indonesia; Indonesian actuarial consultancies",
+    "score": 35,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Verify controlling shareholder and audited equity before any approach; Stage II (Rp1tn, 2028) is the real ticket",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 7, Bank-shy 3, DM 2, Size 2, Investor 3, Entry 2. Park.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/",
+      "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026",
+      "https://mediaasuransinews.co.id/asuransi/jelang-deadline-2026-masih-ada-21-perusahaan-asuransi-belum-penuhi-modal-minimum/"
+    ]
+  },
+  {
+    "slug": "central-asia-financial-id",
+    "company": "PT Central Asia Financial (life)",
+    "country": "ID",
+    "region": "ASIA",
+    "sector": "insurance (Indonesia POJK 23/2023 cohort)",
+    "size_note": "Equity below Rp180bn per Insurtech Indonesia league table (Jun 2026 unaudited); exact figure in image table, not retrievable",
+    "signals": [
+      {
+        "date": "2026-08-27",
+        "signal": "Named in 'Kelompok Tantangan Tinggi' (equity < Rp180bn) vs Rp250bn required by 31 Dec 2026; options: PSP cash injection, rights issue/strategic investor, or merger",
+        "url": "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/"
+      },
+      {
+        "date": "2026-11-05",
+        "signal": "OJK: 30 of 151 insurers/reinsurers still short of Stage I minimum equity (Sept 2026 data); 9 under special supervision at 26 Oct 2026",
+        "url": "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026"
+      }
+    ],
+    "need_band_usd": "4-10M",
+    "need_type": "capital injection / strategic investor / merger",
+    "decision_maker": "unverified (conglomerate-linked names; group control to be verified)",
+    "intermediary": "Insurtech Indonesia; Indonesian actuarial consultancies",
+    "score": 35,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Verify controlling shareholder and audited equity before any approach; Stage II (Rp1tn, 2028) is the real ticket",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 7, Bank-shy 3, DM 2, Size 2, Investor 3, Entry 2. Park.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/",
+      "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026",
+      "https://mediaasuransinews.co.id/asuransi/jelang-deadline-2026-masih-ada-21-perusahaan-asuransi-belum-penuhi-modal-minimum/"
+    ]
+  },
+  {
+    "slug": "lippo-life-id",
+    "company": "Lippo Life Assurance",
+    "country": "ID",
+    "region": "ASIA",
+    "sector": "insurance (Indonesia POJK 23/2023 cohort)",
+    "size_note": "Equity below Rp180bn per Insurtech Indonesia league table (Jun 2026 unaudited); exact figure in image table, not retrievable",
+    "signals": [
+      {
+        "date": "2026-08-27",
+        "signal": "Named in 'Kelompok Tantangan Tinggi' (equity < Rp180bn) vs Rp250bn required by 31 Dec 2026; options: PSP cash injection, rights issue/strategic investor, or merger",
+        "url": "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/"
+      },
+      {
+        "date": "2026-11-05",
+        "signal": "OJK: 30 of 151 insurers/reinsurers still short of Stage I minimum equity (Sept 2026 data); 9 under special supervision at 26 Oct 2026",
+        "url": "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026"
+      }
+    ],
+    "need_band_usd": "4-10M",
+    "need_type": "capital injection / strategic investor / merger",
+    "decision_maker": "unverified (conglomerate-linked names; group control to be verified)",
+    "intermediary": "Insurtech Indonesia; Indonesian actuarial consultancies",
+    "score": 35,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Verify controlling shareholder and audited equity before any approach; Stage II (Rp1tn, 2028) is the real ticket",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 7, Bank-shy 3, DM 2, Size 2, Investor 3, Entry 2. Park.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 2,
+    "sources": [
+      "https://insurtechindonesia.com/akselerasi-permodalan-asuransi-q2-2026-berlomba-memenuhi-ambang-batas-minimum-ojk/",
+      "https://keuangan.kontan.co.id/news/ojk-117-perusahaan-asuransi-dan-reasuransi-sudah-penuhi-ekuitas-minimum-2026",
+      "https://mediaasuransinews.co.id/asuransi/jelang-deadline-2026-masih-ada-21-perusahaan-asuransi-belum-penuhi-modal-minimum/"
+    ]
+  },
+  {
+    "slug": "amesc-br",
+    "company": "AMESC - Associação Médica Espírita Cristã",
+    "country": "BR",
+    "region": "LATAM",
+    "sector": "health-plan operator (ANS 40.108-1)",
+    "size_note": "Beneficiaries/revenue not in sources",
+    "signals": [
+      {
+        "date": "2026-08-26",
+        "signal": "ANS Resolução Operacional (DOU 27 Aug 2026) instaura regime de direção fiscal",
+        "url": "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+      }
+    ],
+    "need_band_usd": "5-50M",
+    "need_type": "sub-debt / provider partnership / carteira sale (cooperative or association governance)",
+    "decision_maker": "cooperative/association board — no family owner",
+    "intermediary": "Demarest / Mattos Filho; CQCS",
+    "score": 38,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Cohort only; equity not possible under cooperative governance",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 8, Bank-shy 7, DM 1, Size 3, Investor 2, Entry 4. Park as equity; structured-capital flow only.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 1,
+    "sources": [
+      "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+    ]
+  },
+  {
+    "slug": "unimed-rio-br",
+    "company": "Unimed-Rio Cooperativa de Trabalho Médico do Rio de Janeiro",
+    "country": "BR",
+    "region": "LATAM",
+    "sector": "health-plan operator (ANS 39.332-1)",
+    "size_note": "Beneficiaries/revenue not in sources",
+    "signals": [
+      {
+        "date": "2026-08-26",
+        "signal": "ANS Resolução Operacional (DOU 27 Aug 2026) instaura regime de direção fiscal",
+        "url": "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+      }
+    ],
+    "need_band_usd": "5-50M",
+    "need_type": "sub-debt / provider partnership / carteira sale (cooperative or association governance)",
+    "decision_maker": "cooperative/association board — no family owner",
+    "intermediary": "Demarest / Mattos Filho; CQCS",
+    "score": 38,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Cohort only; equity not possible under cooperative governance",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 8, Bank-shy 7, DM 1, Size 3, Investor 2, Entry 4. Park as equity; structured-capital flow only.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 1,
+    "sources": [
+      "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+    ]
+  },
+  {
+    "slug": "unimed-taubate-br",
+    "company": "Unimed de Taubaté Cooperativa de Trabalho Médico",
+    "country": "BR",
+    "region": "LATAM",
+    "sector": "health-plan operator (ANS 36.328-6)",
+    "size_note": "Beneficiaries/revenue not in sources",
+    "signals": [
+      {
+        "date": "2026-08-26",
+        "signal": "ANS Resolução Operacional (DOU 27 Aug 2026) instaura regime de direção fiscal",
+        "url": "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+      }
+    ],
+    "need_band_usd": "5-50M",
+    "need_type": "sub-debt / provider partnership / carteira sale (cooperative or association governance)",
+    "decision_maker": "cooperative/association board — no family owner",
+    "intermediary": "Demarest / Mattos Filho; CQCS",
+    "score": 38,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Cohort only; equity not possible under cooperative governance",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 8, Bank-shy 7, DM 1, Size 3, Investor 2, Entry 4. Park as equity; structured-capital flow only.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 1,
+    "sources": [
+      "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+    ]
+  },
+  {
+    "slug": "unimed-sao-goncalo-br",
+    "company": "Unimed-São Gonçalo - Niterói Sociedade Cooperativa",
+    "country": "BR",
+    "region": "LATAM",
+    "sector": "health-plan operator (ANS 34.373-1)",
+    "size_note": "Beneficiaries/revenue not in sources",
+    "signals": [
+      {
+        "date": "2026-08-26",
+        "signal": "ANS Resolução Operacional (DOU 27 Aug 2026) instaura regime de direção fiscal",
+        "url": "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+      }
+    ],
+    "need_band_usd": "5-50M",
+    "need_type": "sub-debt / provider partnership / carteira sale (cooperative or association governance)",
+    "decision_maker": "cooperative/association board — no family owner",
+    "intermediary": "Demarest / Mattos Filho; CQCS",
+    "score": 38,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Cohort only; equity not possible under cooperative governance",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 8, Bank-shy 7, DM 1, Size 3, Investor 2, Entry 4. Park as equity; structured-capital flow only.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 1,
+    "sources": [
+      "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+    ]
+  },
+  {
+    "slug": "federacao-unimed-norte-br",
+    "company": "Federação das Sociedades Cooperativas de Trabalho Médico do Acre, Amapá, Amazonas, Pará, Rondônia e Roraima",
+    "country": "BR",
+    "region": "LATAM",
+    "sector": "health-plan operator (ANS 31.397-1)",
+    "size_note": "Beneficiaries/revenue not in sources",
+    "signals": [
+      {
+        "date": "2026-08-26",
+        "signal": "ANS Resolução Operacional (DOU 27 Aug 2026) instaura regime de direção fiscal",
+        "url": "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+      }
+    ],
+    "need_band_usd": "5-50M",
+    "need_type": "sub-debt / provider partnership / carteira sale (cooperative or association governance)",
+    "decision_maker": "cooperative/association board — no family owner",
+    "intermediary": "Demarest / Mattos Filho; CQCS",
+    "score": 38,
+    "stage": "sourced",
+    "fee_proposed": "",
+    "potential_fee_usd": 0,
+    "last_contact": "",
+    "next_action": "Cohort only; equity not possible under cooperative governance",
+    "next_action_date": "2026-11-13",
+    "brief": "",
+    "notes": "Sourced 2026-11-06 archetype hunt; Cohort record. Score: Need 8, Bank-shy 7, DM 1, Size 3, Investor 2, Entry 4. Park as equity; structured-capital flow only.",
+    "archetype": "rescue_recap_succession",
+    "archetype_fit": 1,
+    "sources": [
+      "https://legismap.com.br/leis-e-normas/resolucoes-operacionais-ans-dou-de-27-08-2026"
+    ]
+  }
+]
