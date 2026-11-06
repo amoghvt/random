@@ -69,7 +69,22 @@ Nine candidates survive the playbook's negative screens; none is Priority yet. L
 
 ## Investor graph v1 (new Investor station)
 
-INVESTOR_SECTION_PENDING
+35 investors with at least one retrieved evidence deal each, in `db/investor-candidates.json` (status `candidate`) and `sweeps/investors-rescue-recap-2026-11-06.md`. By type: 8 financials-specialist PE · 3 special situations / run-off · 12 strategic insurers and banks · 4 family offices · 1 reinsurer strategic arm · 5 DFIs · 2 local institutional. Contact paths are verified website pages or marked unverified (11 of 35); nothing guessed.
+
+**The finding that matters.** There is no Mexican or LatAm fund with a 2022–26 primary recapitalisation of a family-owned insurer; Milliman/S&P show one LatAm life/health deal in all of 2025. The realistic lead for a Plan Seguro-type raise is a **strategic with a control path, a DFI, or a family office**, not a PE fund. That changes the first-call list and the deck: the exit buyer and the lead are often the same party.
+
+Top 5 for a Mexican health-insurer recap at USD 20–40M:
+1. **IFC** — the only investor found doing primary ~20% capital increases into insurers and health insurers in 2025 (Ukraine, Fosun United Health with ADB, Holmarcom Morocco); slow, needs a lead, regulator-friendly.
+2. **MAPFRE** — closed the family-owned Insignia Life (94%, MXN 1.6bn) through CNSF/COFECE in Oct 2024; wants a control path; the natural exit as much as the lead.
+3. **Keralty** — health-insurance strategic already in Mexico, taking new licences (SBS Peru 2026).
+4. **Patria + Linzor** — building a regulated LatAm health-insurance platform (Banmédica, USD 1bn, Dec 2025); Linzor sits in Mexico City.
+5. **Fairfax** — proved a 45%-with-call structure in a regulated insurer (ERB Asfalistiki, EUR 59M at 1.45x book).
+
+Top 3 for a GCC insurer recap: **BlueFive Capital** (GGI: capital reduction + 42% primary subscription at par, binding May 2026; USD 2bn consolidation fund; its GGI structure is almost a template for the archetype) · **Fairfax / GIG** (regional vehicle) · **Sukoon** (UAE consolidator and exit).
+
+Gaps: regulator approval registers (CNSF/SHCP, SBS, SFC, CMF, SUSEP, Saudi IA, CBUAE, OJK) were not reachable through search, so approvals were evidenced from filings and press; the §11 scrapers should hit the registers directly. Reinsurer strategic arms produced almost nothing (Saudi Re's 22.5% in AdA; Munich Re Ventures is being wound down).
+
+Next for the Investor station: the five qualification questions, by phone, to the top 8 for Mexico and top 3 for GCC, once Amogh confirms which of them are already in his network (`db/investors.json`).
 
 ---
 
