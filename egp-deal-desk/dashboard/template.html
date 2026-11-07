@@ -220,6 +220,7 @@ details .md{padding:0 16px 14px}
     <section class="view" id="v-outbox">
       <div class="toolbar"><span class="note">Nothing here has been sent. A decision below is recorded for the Operator; sending still happens from Amogh's own account.</span></div>
       <div class="list" id="outbox-list"></div>
+      <h3 style="margin:18px 0 8px">Sent</h3><div class="list" id="sent-list"></div>
     </section>
 
     <section class="view" id="v-investors">
@@ -466,7 +467,7 @@ function openDeal(slug){
   $$("#d-body .tabs button").forEach(b => b.addEventListener("click", () => { $$("#d-body .tabs button").forEach(x => x.classList.toggle("on", x === b)); $$("#d-body .pane").forEach(p => p.hidden = p.dataset.pane !== b.dataset.pane); }));
 }
 function openOutbox(id){
-  const o = DESK.outbox.find(x => x.id === id); if (!o) return;
+  const o = DESK.outbox.find(x => x.id === id) || (DESK.sent||[]).find(x => x.id === id); if (!o) return;
   const st = decisions[id];
   openDrawer(`${esc(o.channel||"draft")} · ${esc(o.date)}`, o.subject || o.file, `
     <dl class="kv"><dt>To</dt><dd>${esc(o.to||"—")}</dd><dt>Why now</dt><dd>${esc(o.why||"—")}</dd><dt>Status</dt><dd><span class="pill st-${esc(st?.status||"draft")}">${esc(st?.status||"draft")}</span>${st?.at ? ` <span class="note">${esc(st.at.slice(0,16).replace("T"," "))}</span>` : ""}${st?.note ? `<div class="note">${esc(st.note)}</div>` : ""}</dd></dl>

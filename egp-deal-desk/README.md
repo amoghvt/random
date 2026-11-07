@@ -16,7 +16,9 @@ Claude Code reads `CLAUDE.md` automatically and uses the skills as instructions.
 
 **Scheduled (in Claude):** a weekly scheduled task that runs the Hunter + Analyst and writes `reports/desk-report-<date>.md`, plus a daily Operator run that lists actions due and drafts to `outbox/`.
 
-**Email and documents:** connect Gmail/Outlook and Google Drive. The Operator then reads inbound, drafts replies into `outbox/`, and sends only on Amogh's approval. Approval is per message; nothing goes out unreviewed.
+**Control center:** `python3 tools/build_dashboard.py` builds `dashboard/index.html` from the live databases; publish it as the desk artifact. Approve, hold or reject each draft there; the decision lands in the artifact's `decisions` store.
+
+**Email:** connect Gmail at https://claude.ai/customize/connectors, then start a new session (connectors load at session start). The Operator's execution loop (`skills/operator.md`) reads the approvals, sends each approved draft from Amogh's own account, records it (`tools/record_sent.py`), watches for replies and drafts the next step. Approval is per message; nothing goes out unreviewed. Without the connector the desk drafts and stops.
 
 ## Layout
 ```

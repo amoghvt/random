@@ -64,6 +64,7 @@ def main():
     investors = json.loads(read(inv_p)) if inv_p.exists() else []
     slugs = [d["slug"] for d in deals]
     outbox = [parse_outbox(p, slugs) for p in sorted((ROOT / "outbox").glob("*.md"))]
+    sent = [parse_outbox(p, slugs) for p in sorted((ROOT / "sent").glob("*.md"), reverse=True)]
     deal_docs = {}
     for d in sorted((ROOT / "deals").glob("*/")):
         docs = {p.stem: read(p) for p in d.glob("*.md")}
@@ -77,7 +78,7 @@ def main():
     latest = report_texts[0]["text"] if report_texts else ""
     data = {
         "built_on": date, "built_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "deals": deals, "intermediaries": inter, "investors": investors, "outbox": outbox, "deal_docs": deal_docs,
+        "deals": deals, "intermediaries": inter, "investors": investors, "outbox": outbox, "sent": sent, "deal_docs": deal_docs,
         "reports": report_texts, "sweeps": sweeps, "playbooks": playbooks, "skills": skills,
         "report_date": re.search(r"(\d{4}-\d{2}-\d{2})", reports[0].name).group(1) if reports else date,
         "report_decisions": report_decisions(latest), "report_lead": report_lead(latest),
@@ -85,7 +86,7 @@ def main():
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     html = read(TEMPLATE).replace("/*__DESK_DATA__*/null", payload, 1)
     OUT.write_text(html, encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)}: {len(html)/1024:.0f} KB · {len(deals)} deals · {len(outbox)} drafts · {len(investors)} investors · {len(inter)} intermediaries · {len(data['report_decisions'])} decisions")
+    print(f"wrote {OUT.relative_to(ROOT)}: {len(html)/1024:.0f} KB · {len(deals)} deals · {len(outbox)} drafts · {len(sent)} sent · {len(investors)} investors · {len(inter)} intermediaries · {len(data['report_decisions'])} decisions")
 
 if __name__ == "__main__":
     main()
