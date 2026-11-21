@@ -45,6 +45,7 @@ export function ageLabel(asOf: string, now: number): string {
 
 export const Quote = z.object({
   symbol: z.string(), price: z.number(), prevClose: z.number().nullable(),
+  /** Percent, not a fraction: -5.54 means down 5.54%. */
   changePct: z.number().nullable(), asOf: Iso, source: z.string(), cadenceSec: z.number(),
 });
 export type Quote = z.infer<typeof Quote>;
@@ -147,6 +148,8 @@ export const HistoricalReaction = z.object({
   date: z.string(), actual: z.number().nullable(), consensus: z.number().nullable(), surprise: z.number().nullable(),
   m5Pct: z.number().nullable(), h1Pct: z.number().nullable(), closePct: z.number().nullable(),
   firstMoveReversed: z.boolean().nullable(),
+  /** Release instant, and the candle timeframe the row was measured on (a 1h or 1d row has no 5m or 15m move). */
+  time: Iso.optional(), m15Pct: z.number().nullable().optional(), resolution: z.enum(['5m', '1h', '1d']).nullable().optional(),
 });
 export type HistoricalReaction = z.infer<typeof HistoricalReaction>;
 
@@ -155,13 +158,15 @@ export const ScenarioBranch = z.object({
   /** Match rule on the headline metric: lo <= actual < hi (null = open). For earnings/ad-hoc, `key` names the branch. */
   match: z.object({ metric: z.string(), lo: z.number().nullable(), hi: z.number().nullable(), key: z.string().optional() }),
   probability: z.number().min(0).max(1),
-  probabilitySource: z.enum(['prediction_market', 'historical', 'prior']),
+  probabilitySource: z.enum(['prediction_market', 'historical', 'prior', 'fed_pricing']),
   ratesRead: z.object({ y2Bp: z.number(), y10Bp: z.number(), text: z.string() }),
   indexRead: z.object({ m15Pct: z.number(), h1Pct: z.number(), closePct: z.number(), text: z.string() }),
   secondOrder: z.string(),
   /** null = "No edge, stand aside"; then `noTradeReason` is set. */
   trade: TradePlan.nullable(),
   noTradeReason: z.string().optional(),
+  /** Probability the branch trade works given the branch occurred, 0.50 to 0.85. Absent on a no-trade branch. */
+  conviction: z.number().min(0.5).max(0.85).nullable().optional(),
 });
 export type ScenarioBranch = z.infer<typeof ScenarioBranch>;
 
@@ -191,6 +196,14 @@ export const Catalyst = z.object({
   /** Reaction clock readings after resolution. */
   reaction: z.object({ m5Pct: z.number().nullable(), m15Pct: z.number().nullable(), verdict: z.enum(['normal', 'muted', 'extreme']).nullable(), text: z.string() }).nullable().optional(),
   adhoc: z.object({ headlineId: z.string(), analog: z.string() }).optional(),
+  /** Calendar code the consensus and actual are keyed on (CORE_CPI for a CPI catalyst). */
+  keyedOn: EventCode.optional(),
+  /** The second number published with the keyed metric (headline CPI beside core, unemployment beside payrolls). */
+  secondary: z.object({ code: EventCode, name: z.string(), consensus: z.number().nullable(), prior: z.number().nullable(), actual: z.number().nullable(), unit: z.string().optional() }).optional(),
+  /** Calendar rows this catalyst was built from. */
+  eventIds: z.array(z.string()).optional(),
+  tierReason: z.string().optional(),
+  earnings: EarningsInfo.optional(),
   source: z.string(), asOf: Iso,
 });
 export type Catalyst = z.infer<typeof Catalyst>;
@@ -331,6 +344,8 @@ export const AccountState = z.object({
   dayStartBalance: z.number(), dayPnl: z.number(),
   cyclePnl: z.number(), bestDayPnlInCycle: z.number(), qualifyingDaysInCycle: z.number(),
   cycleStartedAt: Iso.nullable(), payoutsTaken: z.number(), lastTradeAt: Iso.nullable(),
+  /** Real account size where the rules file has none (Vest); sizing reads it in place of the rules' starting balance. */
+  startingBalance: z.number().optional(),
 });
 export type AccountState = z.infer<typeof AccountState>;
 
@@ -435,6 +450,10 @@ export type TicketDraft = z.infer<typeof TicketDraft>;
 export const JournalNote = z.object({ id: z.string(), ts: Iso, text: z.string(), tags: z.array(z.string()), source: z.enum(['trader', 'system', 'seed']) });
 export type JournalNote = z.infer<typeof JournalNote>;
 
+/** A journal or chat record returned by the memory index. */
+export const MemoryHit = z.object({ id: z.string(), kind: z.enum(['trade', 'call', 'event', 'note', 'chat']), ts: Iso, text: z.string(), score: z.number().optional(), source: z.string().optional() });
+export type MemoryHit = z.infer<typeof MemoryHit>;
+
 export const ChatMessage = z.object({ id: z.string(), ts: Iso, role: z.enum(['trader', 'desk']), text: z.string(), asOf: Iso.optional(), citations: z.array(z.object({ label: z.string(), source: z.string(), asOf: Iso })).optional() });
 export type ChatMessage = z.infer<typeof ChatMessage>;
 
@@ -464,7 +483,11 @@ export const GuardrailFiring = z.object({
 });
 export type GuardrailFiring = z.infer<typeof GuardrailFiring>;
 
-export const OverrideLedger = z.object({ monthToDateUsd: z.number(), instances: z.number(), lastPaidAt: Iso.nullable(), planCapturePct: z.number().nullable(), overrideCapturePct: z.number().nullable() });
+export const OverrideLedger = z.object({
+  monthToDateUsd: z.number(), instances: z.number(), lastPaidAt: Iso.nullable(), planCapturePct: z.number().nullable(), overrideCapturePct: z.number().nullable(),
+  /** Overrides this month whose cost is not computed yet. */
+  pendingInstances: z.number().optional(),
+});
 export type OverrideLedger = z.infer<typeof OverrideLedger>;
 
 /* ───────────────────────── Notifications (section 10) ───────────────────────── */

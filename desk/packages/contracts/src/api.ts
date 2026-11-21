@@ -31,7 +31,7 @@ export interface NowView {
   nextCatalyst: Pick<Catalyst, 'id' | 'name' | 'tier' | 'scheduledAt' | 'consensus' | 'prior' | 'unit'> | null;
   headlines: Headline[];
   session: { killSwitch: boolean; readOnly: boolean; readOnlyReason: string | null; quietHours: boolean };
-  feedHealth: Array<{ feed: string; ok: boolean; lastOk: string | null; error: string | null; live: boolean }>;
+  feedHealth: Array<{ feed: string; ok: boolean; lastOk: string | null; error: string | null; live: boolean; lastPoll?: string }>;
 }
 
 export interface PositionRow { position: Position; status: PositionStatus | null; ticket: Ticket | null; nextTarget: { price: number; fraction: number } | null }
@@ -41,6 +41,12 @@ export interface AccountRow {
   payoutLine: string; consistencyLine: string | null;
   nextDeadline: { what: string; at: string } | null;
   claimableUsd: number | null;
+  /** Set after a single-session gain above the firm's claim threshold. */
+  claimPrompt?: string | null;
+  /** Nearer-limit room after the cushion: what a ticket may risk. */
+  usableUsd?: number;
+  /** Why the account cannot be sized (unverified rule, no room); null when it can. */
+  blockReason?: string | null;
 }
 export interface PositionsView { asOf: string; positions: PositionRow[]; accounts: AccountRow[]; hedgeViolations: HedgeViolation[] }
 
@@ -85,7 +91,7 @@ export interface AskReply { message: ChatMessage; guardrails: GuardrailFiring[];
 export interface PushSubscribeBody { endpoint: string; keys: { p256dh: string; auth: string } }
 
 export interface ManualPositionBody { accountId: string; instrument: string; direction: 'long' | 'short'; units: number; entryPrice: number; liquidationPrice?: number | null; leverage?: number | null; ticketId?: string | null }
-export interface AccountStateBody { balance: number; equity?: number; active?: boolean; dayStartBalance?: number; cyclePnl?: number; bestDayPnlInCycle?: number; qualifyingDaysInCycle?: number; payoutsTaken?: number }
+export interface AccountStateBody { balance: number; equity?: number; active?: boolean; dayStartBalance?: number; cyclePnl?: number; bestDayPnlInCycle?: number; qualifyingDaysInCycle?: number; payoutsTaken?: number; startingBalance?: number }
 
 export interface TradingViewWebhook { secret: string; symbol: string; tf?: Timeframe; price?: number; time?: string; o?: number; h?: number; l?: number; c?: number; v?: number; message?: string }
 

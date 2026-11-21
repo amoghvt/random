@@ -1,5 +1,5 @@
 /** Local types for the catalyst engine. Anything not yet in @desk/contracts is defined here and listed in the report. */
-import type { AccountRules, Candle, CalendarEvent, Catalyst, Datum, EarningsInfo, EventCode, HistoricalReaction, PredictionMarket, Profile, Timeframe } from '@desk/contracts';
+import type { AccountRules, Candle, CalendarEvent, Catalyst, Datum, EventCode, HistoricalReaction, PredictionMarket, Profile, Timeframe } from '@desk/contracts';
 
 export type FedStance = 'hiking' | 'cutting' | 'hold';
 export type Trend = 'uptrend' | 'correction' | 'downtrend';
@@ -17,7 +17,7 @@ export interface Regime {
 export type CandlesByTf = Partial<Record<Timeframe, Candle[]>>;
 
 /** The second number published with the keyed metric (headline CPI beside core, unemployment beside payrolls). */
-export interface SecondaryMetric { code: EventCode; name: string; consensus: number | null; prior: number | null; actual: number | null; unit?: string }
+export type SecondaryMetric = NonNullable<Catalyst['secondary']>;
 
 /** History row plus the fields the contract row lacks. `resolution` is the candle timeframe the row was measured on. */
 export type HistoricalReactionEx = HistoricalReaction & {
@@ -29,14 +29,8 @@ export type HistoricalReactionEx = HistoricalReaction & {
 /** 10Y reaction to a past release, basis points. */
 export interface RateReaction { date: string; surprise: number | null; h1Bp: number | null; closeBp: number | null }
 
-export type CatalystEx = Catalyst & {
-  /** Calendar code the consensus/actual are keyed on (CORE_CPI for a CPI catalyst). */
-  keyedOn?: EventCode;
-  secondary?: SecondaryMetric;
-  eventIds?: string[];
-  tierReason?: string;
-  earnings?: EarningsInfo;
-};
+/** The contract Catalyst now carries keyedOn, secondary, eventIds, tierReason and earnings; the name is kept for the engine's callers. */
+export type CatalystEx = Catalyst;
 
 export interface TierCtx {
   /** Percent of NDX by ticker. Merged over DEFAULT_INDEX_WEIGHTS. */

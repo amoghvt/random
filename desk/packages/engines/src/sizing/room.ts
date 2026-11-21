@@ -7,8 +7,8 @@ export const CUSHION_PCT = 20;
 export const UNVERIFIED_TEXT = 'unverified, confirm in the firm dashboard';
 export const isUnverifiedText = (text: string): boolean => /unverified/i.test(text);
 
-/** The trader may carry the real account size on the state when the YAML has none (requested contract field). */
-export type AccountStateInput = AccountState & { startingBalance?: number };
+/** The state carries the real account size (`startingBalance`) when the YAML has none. */
+export type AccountStateInput = AccountState;
 const startOf = (rules: AccountRules, state?: AccountStateInput): number => state?.startingBalance ?? rules.startingBalance;
 
 /** Rules that must be confirmed before this account can be sized. Empty = usable. */

@@ -1,7 +1,7 @@
 /** Inputs to the brief and Ask builders. Everything is precomputed by other engines and passed in. */
 import type {
   AccountRow, BiasCall, CalibrationBucket, Catalyst, Datum, GuardrailFiring, Headline, Notification, OverrideLedger,
-  Position, PositionStatus, Profile, Quote, RatesStrip, RuleDiff, StructureEvent, Ticket,
+  MemoryHit, Position, PositionStatus, Profile, Quote, RatesStrip, RuleDiff, StructureEvent, Ticket,
 } from '@desk/contracts';
 
 export interface PositionLine { position: Position; status: PositionStatus | null; ticket: Ticket | null }
@@ -68,8 +68,7 @@ export interface WeeklyCtx {
   tier1Window?: { beforeMin: number; afterMin: number };
 }
 
-/** A journal or chat memory hit, as returned by the memory index. */
-export interface MemoryHit { id: string; kind: 'trade' | 'call' | 'event' | 'note' | 'chat'; ts: string; text: string; score?: number; source?: string }
+export type { MemoryHit } from '@desk/contracts';
 
 export interface AskCtx {
   now: number;

@@ -1,11 +1,28 @@
 import { fileURLToPath } from 'node:url';
 import { createStore } from '@desk/db';
+import type { Feeds, FetchLike, IngestOpts, LlmClient } from '@desk/feeds';
 import type { AppDeps } from './app';
 import { createBus } from './bus';
 import type { Env } from './env';
 import { consoleLog, type Log } from './log';
 import { DeskPusher } from './push';
 import { createScheduler } from './scheduler';
+
+/**
+ * What the services and the worker take. Every extra is optional, so plain AppDeps is a valid DeskDeps:
+ * the defaults are the live feed registry, global fetch, the accounts/ directory and the console.
+ */
+export interface DeskDeps extends AppDeps {
+  /** Feed registry for `ingestOnce`. Tests and the replay pass prepared feeds instead of the network. */
+  feeds?: Feeds;
+  ingest?: Pick<IngestOpts, 'symbols' | 'kinds' | 'force'>;
+  /** HTTP for the feeds and the firm-rule scraper. */
+  fetch?: FetchLike;
+  llm?: LlmClient;
+  log?: Log;
+  /** Directory of the account rule files; accounts/ at the repo root when omitted. */
+  accountsDir?: string;
+}
 
 export const WEB_DIR = fileURLToPath(new URL('../../web/out', import.meta.url));
 

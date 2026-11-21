@@ -46,7 +46,7 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const shortDate = (t: string, tz: string): string => { const z = zoned(t, tz); return `${MONTHS[z.month - 1]} ${z.day}`; };
 
 /** The ledger sentence on its own; also what replaces a repeated guardrail flag. */
-export function ledgerSentence(ledger: OverrideLedger & { pendingInstances?: number }, tz: string = ET): string {
+export function ledgerSentence(ledger: OverrideLedger, tz: string = ET): string {
   if (ledger.instances === 0) return 'No overrides on the books this month. This would be the first.';
   const n = `${ledger.instances} ${ledger.instances === 1 ? 'instance' : 'instances'}`;
   const paid = ledger.lastPaidAt ? `the last one that paid was ${shortDate(ledger.lastPaidAt, tz)}` : 'none has paid yet';
@@ -58,7 +58,7 @@ export function ledgerSentence(ledger: OverrideLedger & { pendingInstances?: num
  * The text shown before an override: the plan, the live P&L, the running cost. Built only from the ticket and the ledger;
  * then the trader decides.
  */
-export function overridePrompt(ticket: Ticket, livePnlUsd: number | null, ledger: OverrideLedger & { pendingInstances?: number }, tz: string = ET): string {
+export function overridePrompt(ticket: Ticket, livePnlUsd: number | null, ledger: OverrideLedger, tz: string = ET): string {
   const [t1, t2, t3] = ticket.targets;
   const pct = (f: number): string => `${Math.round(f * 100)}%`;
   const plan = `Plan: ${ticket.instrument} ${ticket.direction}, ${pct(t1.fraction)} off at ${px(t1.price)}, ${pct(t2.fraction)} at ${px(t2.price)}, rest at ${px(t3.price)}; out at ${px(ticket.invalidation.price)}; flat by ${etClock(ticket.timeStop)}.`;

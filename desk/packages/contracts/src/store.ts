@@ -101,7 +101,7 @@ export interface Store {
 /**
  * Datum keys written by the feed layer (value units in brackets):
  *  rate.US2Y / rate.US10Y / rate.US30Y / rate.US3M [percent]   rate.2s10s [bp]
- *  fed.hike_prob.next / fed.cut_prob.next / fed.hold_prob.next [0-1]   fed.implied_rate.next [percent]
+ *  fed.hike_prob.next / fed.cut_prob.next / fed.hold_prob.next [probability 0-1, not percent]   fed.implied_rate.next [percent]
  *  vol.VIX / vol.VIX3M [index]   vol.term [VIX3M/VIX]
  *  opt.implied_move.<SYMBOL> [percent, 1-day unless meta.days]   opt.put_call.<SYMBOL>   opt.skew.<SYMBOL>
  *  flow.etf.<SYMBOL> [USD mm, daily]   pos.cftc.NQ [net spec contracts]
@@ -125,4 +125,11 @@ export const KV = {
   pushSubs: 'push.subscriptions', feedHealth: 'feeds.health', ruleSnapshot: (accountId: string) => `rules.snapshot.${accountId}`,
   accountRules: 'accounts.rules', notifyState: 'notify.state', watcherState: (symbol: string) => `watcher.state.${symbol}`,
   calibration: 'bias.calibration', lastLoop: 'worker.last_loop',
+  /** Worker step failures, same row shape as feeds.health (`step:<name>`). */
+  workerHealth: 'worker.health', workerJobs: 'worker.jobs',
+  baseRatesAt: 'watcher.base_rates_at', memoryIndex: 'memory.index',
+  proposedWeights: 'bias.weights.proposed', refitReport: 'bias.refit_report', calibrationTable: 'bias.calibration_table',
+  readOnlyReason: 'session.read_only_reason', guardrailThresholds: 'guardrails.thresholds',
+  /** Latest PositionStatus per position id; previous-loop price per open ticket; closed tickets whose post-exit window is complete. */
+  positionStatus: 'positions.status', ticketPrices: 'tickets.last_price', ticketsSettled: 'tickets.settled',
 } as const;
