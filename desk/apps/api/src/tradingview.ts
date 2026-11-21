@@ -40,7 +40,7 @@ export class CsvError extends Error {}
  * Strict: a row with an unreadable time or price fails the whole import instead of being dropped or guessed.
  */
 export function parseTradingViewCsv(csv: string, symbol: string, tf: Timeframe, source = 'tradingview:csv'): Candle[] {
-  const lines = csv.replace(/^﻿/, '').split(/\r?\n/).filter((l) => l.trim() !== '');
+  const lines = (csv.charCodeAt(0) === 0xfeff ? csv.slice(1) : csv).split(/\r?\n/).filter((l) => l.trim() !== '');
   if (lines.length === 0) throw new CsvError('The CSV is empty');
   const header = splitCsvLine(lines[0]!).map((h) => h.toLowerCase());
   const at = (name: string): number => header.indexOf(name);

@@ -8,7 +8,7 @@ import type { CalendarEvent, EventCode, PredictionMarket, ScenarioBranch } from 
 import type { FedStance, Regime, Trend } from './types';
 
 export type Family = 'inflation' | 'growth' | 'policy' | 'tone' | 'auction' | 'earnings' | 'adhoc';
-/** Macro slots: + = hawkish (hot inflation, strong growth, hawkish Fed, auction tail). Earnings: + = good for the stock. */
+/** Slot score: + = a higher print (hot, beat, hawkish tone, auction tail). Multiply by `hawkSign` for the hawk score. Earnings: + = good for the stock. */
 export type Score = -2 | -1 | 0 | 1 | 2;
 
 export interface Slot { slug: string; lo: number | null; hi: number | null; score: Score; prior: number; name: string }
@@ -32,6 +32,7 @@ const FOUR: Slot[] = [s('cool', null, -0.5, -1, 0.25, 'Cool'), s('inline', -0.5,
 const PPI4: Slot[] = [s('cool', null, -1.5, -1, 0.2, 'Cool'), s('inline', -1.5, 1.5, 0, 0.45, 'In line'), s('hot', 1.5, 3.5, 1, 0.25, 'Hot'), s('very_hot', 3.5, null, 2, 0.1, 'Very hot')];
 const FIVE: Slot[] = [s('far_miss', null, -1.5, -2, 0.1, 'Far miss'), s('miss', -1.5, -0.5, -1, 0.2, 'Miss'), s('inline', -0.5, 0.5, 0, 0.4, 'In line'), s('beat', 0.5, 1.5, 1, 0.2, 'Beat'), s('big_beat', 1.5, null, 2, 0.1, 'Big beat')];
 const THREE: Slot[] = [s('miss', null, -0.5, -1, 0.3, 'Miss'), s('inline', -0.5, 0.5, 0, 0.4, 'In line'), s('beat', 0.5, null, 1, 0.3, 'Beat')];
+const LOWHIGH: Slot[] = [s('lower', null, -0.5, -1, 0.3, 'Lower'), s('inline', -0.5, 0.5, 0, 0.4, 'In line'), s('higher', 0.5, null, 1, 0.3, 'Higher')];
 const FOMC4: Slot[] = [s('cut', null, -0.5, -2, 0.1, 'Cut'), s('hold_dovish', -0.5, 0.5, -1, 0.4, 'Hold, dovish'), s('hold_hawkish', -0.5, 0.5, 1, 0.4, 'Hold, hawkish'), s('hike', 0.5, null, 2, 0.1, 'Hike')];
 const tone = (a: string, b: string, c: string): Slot[] => [s('dovish', null, -0.5, -1, 0.3, a), s('neutral', -0.5, 0.5, 0, 0.4, b), s('hawkish', 0.5, null, 1, 0.3, c)];
 const EARN: Slot[] = [
@@ -60,12 +61,12 @@ export const SPECS: Partial<Record<EventCode, Spec>> = {
   PPI: macro('inflation', 'ppi_mom', 0.1, PPI4, { secondary: { code: 'CORE_PPI', step: 0.2, hawkSign: 1, label: 'core' } }),
   CORE_PPI: macro('inflation', 'core_ppi_mom', 0.1, PPI4),
   NFP: macro('growth', 'nfp_k', 50, FIVE, { dp: 0, unit: 'K', labels: 'range', secondary: { code: 'UNEMPLOYMENT', step: 0.1, hawkSign: -1, label: 'unemployment' } }),
-  UNEMPLOYMENT: macro('growth', 'unemployment_rate', 0.1, THREE, { hawkSign: -1 }),
+  UNEMPLOYMENT: macro('growth', 'unemployment_rate', 0.1, LOWHIGH, { hawkSign: -1 }),
   ISM_MFG: macro('growth', 'ism_mfg', 1, THREE, { unit: '', labels: 'range' }),
   ISM_SVC: macro('growth', 'ism_svc', 1, THREE, { unit: '', labels: 'range' }),
   JOLTS: macro('growth', 'jolts_m', 0.2, THREE, { unit: 'M', labels: 'range', dp: 2 }),
   RETAIL_SALES: macro('growth', 'retail_sales_mom', 0.2, THREE, { labels: 'range' }),
-  CLAIMS: macro('growth', 'claims_k', 10, THREE, { dp: 0, unit: 'K', labels: 'range', hawkSign: -1 }),
+  CLAIMS: macro('growth', 'claims_k', 10, LOWHIGH, { dp: 0, unit: 'K', labels: 'range', hawkSign: -1 }),
   GDP: macro('growth', 'gdp_qoq', 0.4, THREE, { labels: 'range' }),
   REGIONAL_FED: macro('growth', 'regional_fed', 5, THREE, { unit: '', labels: 'range' }),
   FOMC: macro('policy', 'fed_funds_upper', 0.25, FOMC4, { dp: 2, labels: 'name', entryOffsetMin: 45, centre: 'prior' }),

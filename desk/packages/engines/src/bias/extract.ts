@@ -202,13 +202,13 @@ function relReturns(c: Ctx, symbols: string[], n: number): { rets: Record<string
 function breadthIn(c: Ctx): BreadthIn {
   const n = LOOKBACK_BARS[c.s.horizon];
   const indexSymbol = c.s.peers.QQQ ? 'QQQ' : c.s.instrument;
-  const { rets, asOf, stale } = relReturns(c, ['SOX', indexSymbol, 'RSP', 'XLP', 'XLU'], n);
+  const { rets, asOf, stale } = relReturns(c, ['SOX', indexSymbol, 'RSP', 'ES', 'XLP', 'XLU'], n);
   const ad = usable(c, 'breadth.ad_line');
   const adPrev = ad ? datumAt(hist(c, 'breadth.ad_line'), Date.parse(ad.asOf) - 12 * HOUR, 4 * DAY) : null;
   const have = Object.values(rets).some((x) => x != null) || !!ad;
   return {
     asOf: asOf != null ? iso(asOf) : ad?.asOf ?? null, stale: !have && stale.length > 0, lookbackBars: n,
-    sox: rets.SOX ?? null, index: rets[indexSymbol] ?? null, indexSymbol, rsp: rets.RSP ?? null, xlp: rets.XLP ?? null, xlu: rets.XLU ?? null,
+    sox: rets.SOX ?? null, index: rets[indexSymbol] ?? null, indexSymbol, rsp: rets.RSP ?? null, es: rets.ES ?? null, xlp: rets.XLP ?? null, xlu: rets.XLU ?? null,
     adLine: ad ? { value: ad.value, chg: adPrev == null ? null : ad.value - adPrev } : null, staleSymbols: stale,
   };
 }
@@ -305,8 +305,7 @@ export function extractInputs(s: BiasSnapshot, now: number = s.now): BiasInputs 
     regime: regimeIn(c, inst), breadth: breadthIn(c), positioning: positioningIn(c, priceSymbol, cats), news: newsIn(c, priceSymbol),
     structure: structureIn(c, priceSymbol), calendar: calendarIn(c, inst), cross: crossIn(c, inst, y10v, rates),
     levels: {
-      price: s.price, lastClose15: isFresh(m15.at(-1), now) ? m15.filter((b) => b.t + 15 * MIN <= now).at(-1)?.c ?? null : null,
-      tick: spec?.tickSize ?? 0.01, atrM15: r(atr(m15)), atrH1: r(atr(h1)), atrD1: r(atr(d1)),
+      price: s.price, tick: spec?.tickSize ?? 0.01, atrM15: r(atr(m15)), atrH1: r(atr(h1)), atrD1: r(atr(d1)),
     },
   };
 }

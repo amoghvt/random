@@ -89,7 +89,7 @@ export interface RegimeIn {
 }
 export interface BreadthIn {
   asOf: string | null; stale: boolean; lookbackBars: number;
-  sox: number | null; index: number | null; indexSymbol: string; rsp: number | null; xlp: number | null; xlu: number | null;
+  sox: number | null; index: number | null; indexSymbol: string; rsp: number | null; es: number | null; xlp: number | null; xlu: number | null;
   adLine: { value: number; chg: number | null } | null;
   staleSymbols: string[];
 }
@@ -127,7 +127,7 @@ export interface CrossIn {
   staleSymbols: string[];
 }
 export interface LevelsIn {
-  price: number; lastClose15: number | null; tick: number;
+  price: number; tick: number;
   atrM15: number | null; atrH1: number | null; atrD1: number | null;
 }
 
