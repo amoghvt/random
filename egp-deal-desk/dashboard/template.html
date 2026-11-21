@@ -172,6 +172,33 @@ details .md{padding:0 16px 14px}
   .topbar .search{margin-left:0;width:100%} .topbar .search input{flex:1}
 }
 @media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+
+/* assistant */
+.pill.st-sent{border-color:var(--good);color:var(--good)}
+.fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:22;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:12px 18px;font-weight:600;font-size:14px;box-shadow:0 6px 24px #0006;cursor:pointer;display:flex;gap:8px;align-items:center}
+.fab:hover{background:var(--accent-2)}
+@media (max-width:860px){.fab{bottom:calc(66px + env(safe-area-inset-bottom,0px))}}
+.chat{position:fixed;top:env(safe-area-inset-top,0px);right:0;bottom:0;width:min(520px,100%);background:var(--bg-2);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .22s ease;z-index:31;display:flex;flex-direction:column;padding-right:env(safe-area-inset-right,0px)}
+.chat.open{transform:none}
+.chat-h{padding:14px 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.chat-h h2{font-size:18px;flex:1}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px 0}
+.chips button{background:var(--bg-3);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;cursor:pointer;color:var(--fg-2)}
+.chips button:hover{border-color:var(--accent);color:var(--fg)}
+.msgs{flex:1;overflow:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px;min-height:0}
+.msg{max-width:92%;padding:9px 12px;border-radius:12px;font-size:13.5px;line-height:1.5;overflow-wrap:anywhere}
+.msg.u{align-self:flex-end;background:var(--accent);color:var(--accent-ink);border-bottom-right-radius:4px}
+.msg.a{align-self:flex-start;background:var(--bg-3);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.a .md{max-width:none} .msg.a .md p:last-child{margin-bottom:0}
+.msg.sys{align-self:center;font-size:12px;color:var(--fg-3);background:transparent;text-align:center}
+.msg.think{color:var(--fg-3);font-style:italic}
+.confirm{align-self:stretch;border:1px solid var(--accent);border-radius:10px;padding:12px;background:var(--bg-3)}
+.confirm .eyebrow{color:var(--accent-2)}
+.confirm .body{white-space:pre-wrap;font-size:12.5px;border-top:1px solid var(--line);margin-top:8px;padding-top:8px;max-height:220px;overflow:auto}
+.chat-in{display:flex;gap:8px;padding:10px 16px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.chat-in textarea{flex:1;min-height:40px;max-height:140px;resize:none;background:var(--bg-3);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:9px 11px;font:inherit;font-size:14px}
+.chat-foot{font-size:11px;color:var(--fg-3);padding:0 16px 8px}
+@media (prefers-reduced-motion:reduce){.chat{transition:none}}
 </style>
 
 <div class="app">
@@ -257,6 +284,21 @@ details .md{padding:0 16px 14px}
 <aside class="drawer" id="drawer" aria-label="Record">
   <div class="drawer-h"><div style="flex:1;min-width:0"><div class="eyebrow" id="d-eyebrow"></div><h2 id="d-title"></h2></div><button class="btn sm" id="d-close">Close</button></div>
   <div class="drawer-b" id="d-body"></div>
+</aside>
+
+<button class="fab" id="fab" aria-label="Ask the desk">Ask the desk</button>
+<aside class="chat" id="chat" aria-label="Desk assistant">
+  <div class="chat-h"><div style="flex:1"><div class="eyebrow">Desk assistant</div><h2>Talk to the desk</h2></div><button class="btn sm" id="chat-clear">Clear</button><button class="btn sm" id="chat-close">Close</button></div>
+  <div class="chips" id="chips">
+    <button data-q="Debrief me.">Debrief me</button>
+    <button data-q="What needs me today, in order of urgency?">What needs me today?</button>
+    <button data-q="Which drafts are waiting on me, and which do you recommend sending?">Drafts waiting</button>
+    <button data-q="What is the state of Plan Seguro and what should I do about it?">Plan Seguro</button>
+    <button data-q="Any replies to what we have sent?">Check replies</button>
+  </div>
+  <div class="msgs" id="msgs"></div>
+  <div class="chat-in"><textarea id="chat-text" placeholder="Ask anything about the desk, or say: approve the Windmöller draft" rows="1" aria-label="Message the desk"></textarea><button class="btn primary" id="chat-send">Send</button><button class="btn" id="chat-stop" hidden>Stop</button></div>
+  <div class="chat-foot" id="chat-foot">Answers come from the desk's own records. Nothing is sent without a confirmation card.</div>
 </aside>
 <div class="tip" id="tip"></div>
 <div class="toast" id="toast"></div>
@@ -539,4 +581,116 @@ function init(){
   route(); bootStore();
 }
 init();
+</script>
+
+<script>
+// ---------- desk assistant (sample + db + Gmail via mcp) ----------
+(function(){
+  const chatEl = $("#chat"), msgs = $("#msgs"), input = $("#chat-text"), sendBtn = $("#chat-send"), stopBtn = $("#chat-stop");
+  let sampleFn = null, mcp = null, turns = [], ctl = null, busy = false;
+  try { turns = JSON.parse(sessionStorage.getItem("desk-chat") || "[]"); } catch {}
+  const clip = (s, n) => { s = String(s || ""); return s.length > n ? s.slice(0, n) + "…" : s; };
+  function digest(){
+    const live = DESK.deals.filter(d => !["closed","dead"].includes(d.stage));
+    const deals = live.map(d => ({slug: d.slug, company: d.company, country: d.country, region: d.region, sector: d.sector, stage: d.stage, score: d.score, tier: tierOf(d), archetype: d.archetype || "", need: d.need_band_usd, need_type: clip(d.need_type, 90), decides: clip(d.decision_maker, 140), door: clip(d.intermediary, 140), fee: clip(d.fee_proposed, 90), potential_fee_usd: d.potential_fee_usd || 0, next_action: clip(d.next_action, 200), next_action_date: d.next_action_date, last_contact: d.last_contact || "", notes: clip(d.notes, 240)}));
+    const drafts = DESK.outbox.map(o => ({id: o.id, slug: o.slug, subject: o.subject, to: clip((o.to||"").split(/[(—·;]/)[0], 90), why: clip(o.why, 220), decision: decisions[o.id]?.status || "draft", note: decisions[o.id]?.note || ""}));
+    const sent = (DESK.sent||[]).map(o => ({id: o.id, subject: o.subject, to: clip(o.to, 80), date: o.date}));
+    const decs = DESK.report_decisions.map((t, i) => { const id = "decision-" + DESK.report_date + "-" + (i+1); return {id, title: t.title, body: clip(t.body, 300), status: decisions[id]?.status || "open", note: decisions[id]?.note || ""}; });
+    const plan = (DESK.reports.find(r => /action-plan/i.test(r.file)) || {}).text || "";
+    const investors = DESK.investors.slice().sort((a,b) => (b.fit||0) - (a.fit||0)).slice(0, 15).map(i => ({name: i.name, type: i.type, geos: (i.geographies||[]).slice(0,4), fit: i.fit, why: clip(i.fit_reason, 120)}));
+    return JSON.stringify({today: TODAY, desk_built: DESK.built_at, report_date: DESK.report_date, one_thing_to_read: DESK.report_lead, decisions_for_amogh: decs, drafts_in_outbox: drafts, sent, deals, top_investors: investors, intermediaries_count: DESK.intermediaries.length, action_plan_excerpt: clip(plan, 6000)});
+  }
+  const RULES = () => `You are the EGP Deal Desk assistant, speaking to Amogh Tiwari, who runs Enterprise Growth Partners (Dubai capital advisory: readiness programmes and capital advisory mandates for family-owned, regulated mid-market companies). You are his chief of staff for the desk: brief him, answer from the records, record his decisions, and execute sends only through the page's tools.
+
+Voice: direct, senior, short. Plain sentences. Lead with what needs him. No headers unless he asks for a long form. A debrief is at most 120 words: (1) what needs him today, in order, (2) what moved since the last report, (3) the one risk he should know. Numbers only when they change what he does.
+
+Rules you never break:
+- Every fact comes from the DESK DATA below or from a tool result. If something is not there, say so; never invent a company, person, figure or email address. Mark anything the data marks unverified.
+- You never say a message was sent unless send_approved_draft returned a message id in this conversation. You never say a decision was recorded unless record_decision returned ok.
+- record_decision only when he explicitly approves, holds or rejects a named draft or decision in this conversation. When he says "approve X", find the draft id in drafts_in_outbox, call record_decision with status approved, then offer to send it.
+- send_approved_draft only for a draft whose decision is approved, and only when he asks to send; the page shows him a confirmation card and he presses Send himself. If a draft has no email address in its "to" line, say so and ask him for the address instead of guessing. Dates in a draft older than a week may need a refresh: say so once.
+- If he asks what to do, give one recommendation, not a menu. If a question is ambiguous, ask one short question.
+- Today is ${TODAY}. Pipeline dates before today are overdue; say so plainly when relevant.
+
+DESK DATA (JSON):
+${digest()}`;
+  const tools = [
+    {name: "get_deal", description: "Full record for one target by slug: the brief, entry plan and call brief text (truncated), signals and sources. Use when he asks about a specific company in depth.", inputSchema: {type: "object", properties: {slug: {type: "string"}}, required: ["slug"]},
+      execute: ({slug}) => { const d = DESK.deals.find(x => x.slug === String(slug)); if (!d) throw new Error("no deal with slug " + slug); const docs = DESK.deal_docs[d.slug] || {}; return {record: d, brief: clip(docs.brief, 9000), entry: clip(docs.entry, 7000), call_brief: clip(docs["call-brief"], 3000)}; }},
+    {name: "get_draft", description: "Full text of one outbox or sent draft by id, with its current decision status and note. Use before approving or sending.", inputSchema: {type: "object", properties: {id: {type: "string"}}, required: ["id"]},
+      execute: ({id}) => { const o = DESK.outbox.find(x => x.id === String(id)) || (DESK.sent||[]).find(x => x.id === String(id)); if (!o) throw new Error("no draft " + id); return {id: o.id, slug: o.slug, to: o.to, subject: o.subject, channel: o.channel, why: o.why, body: o.body, decision: decisions[o.id] || null}; }},
+    {name: "search_desk", description: "Free-text search across deals, intermediaries and investors. Returns up to 20 short matches with ids. Use for names you cannot find in the data.", inputSchema: {type: "object", properties: {query: {type: "string"}}, required: ["query"]},
+      execute: ({query}) => { const q = String(query).toLowerCase(); const hit = s => JSON.stringify(s).toLowerCase().includes(q); return {deals: DESK.deals.filter(hit).slice(0,10).map(d => ({slug: d.slug, company: d.company, stage: d.stage, score: d.score})), intermediaries: DESK.intermediaries.filter(hit).slice(0,6).map(i => ({name: i.name, firm: i.firm, country: i.country, why: clip(i.why, 100)})), investors: DESK.investors.filter(hit).slice(0,6).map(i => ({name: i.name, type: i.type, fit: i.fit}))}; }},
+    {name: "record_decision", description: "Record Amogh's decision on a draft or a report decision: status approved | held | rejected, with an optional note. Only after he explicitly says so. Returns {ok, id, status}.", inputSchema: {type: "object", properties: {id: {type: "string"}, status: {type: "string", enum: ["approved","held","rejected"]}, note: {type: "string"}}, required: ["id","status"]},
+      execute: async ({id, status, note}) => { if (!db) throw new Error("the decision store is not reachable in this view"); if (!["approved","held","rejected"].includes(status)) throw new Error("bad status"); const by = user ? await user.id() : null; await db.doc("decisions/" + String(id)).set({status, note: String(note || ""), by, at: new Date().toISOString()}); return {ok: true, id, status}; }},
+    {name: "send_approved_draft", description: "Send an approved outbox draft from Amogh's Gmail. Shows him a confirmation card with recipient, subject and body; he presses Send. Requires the draft's decision to be approved and a plain email address. Returns {sent, messageId, threadId} or throws if he cancels.", inputSchema: {type: "object", properties: {id: {type: "string"}, to_email: {type: "string", description: "plain email address of the recipient"}, subject: {type: "string"}, body: {type: "string", description: "final plain-text body; defaults to the draft's message body up to the signature"}}, required: ["id","to_email"]},
+      execute: async ({id, to_email, subject, body}, ctx) => {
+        const o = DESK.outbox.find(x => x.id === String(id)); if (!o) throw new Error("no draft " + id);
+        if (decisions[o.id]?.status !== "approved") throw new Error("draft " + id + " is not approved; record the approval first");
+        const email = String(to_email || "").trim(); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("to_email is not a plain email address");
+        if (!mcp) throw new Error("Gmail is not reachable from this view (connector not granted). Ask Amogh to allow Gmail for this page or send from the session instead.");
+        const subj = String(subject || o.subject || "").trim(); const text = String(body || defaultBody(o.body)).trim();
+        const ok = await confirmCard({to: email, subject: subj, body: text, signal: ctx.signal}); if (!ok) throw new Error("Amogh cancelled the send");
+        const r = await mcp.callTool("Gmail", "send_message", {to: [email], subject: subj, body: text});
+        const p = r.payload && typeof r.payload === "object" ? r.payload : {}; const messageId = p.id || null, threadId = p.threadId || null;
+        try { await db?.doc("sent/" + o.id).set({to: email, subject: subj, messageId, threadId, at: new Date().toISOString(), slug: o.slug}); await db?.doc("decisions/" + o.id).set({...(decisions[o.id]||{}), status: "sent", at: new Date().toISOString()}); } catch {}
+        sys("Sent to " + email + (messageId ? " (id " + messageId + ")" : "") + ". The Operator records it on its next run.");
+        return {sent: true, messageId, threadId, to: email};
+      }},
+    {name: "check_replies", description: "Search Amogh's Gmail for threads matching a Gmail query (e.g. 'to:x@y.com newer_than:30d' or 'from:x@y.com'). Returns up to 10 threads with subject, sender, date and snippet. Use to see whether anyone replied to what was sent.", inputSchema: {type: "object", properties: {query: {type: "string"}}, required: ["query"]},
+      execute: async ({query}) => { if (!mcp) throw new Error("Gmail is not reachable from this view"); const r = await mcp.callTool("Gmail", "search_threads", {query: String(query), pageSize: 10, view: "THREAD_VIEW_SUMMARY"}); const p = r.payload && typeof r.payload === "object" ? r.payload : {}; const th = p.threads || []; return th.slice(0,10).map(x => ({threadId: x.id, count: x.messageCount, last: (x.messages||[]).slice(-1).map(m => ({from: m.sender, date: m.date, subject: m.subject, snippet: clip(m.snippet, 200)}))[0] || null})); }},
+  ];
+  function defaultBody(body){ const i = body.indexOf("\n---"); return (i > 0 ? body.slice(0, i) : body).trim(); }
+  function confirmCard({to, subject, body, signal}){
+    return new Promise(resolve => {
+      const card = document.createElement("div"); card.className = "confirm";
+      card.innerHTML = `<div class="eyebrow">Confirm send from your Gmail</div><div style="margin-top:6px"><strong>To:</strong> ${esc(to)}<br><strong>Subject:</strong> ${esc(subject)}</div><div class="body">${esc(body)}</div><div class="row" style="margin-top:10px"><button class="btn primary" data-c="yes">Send now</button><button class="btn" data-c="no">Cancel</button></div>`;
+      msgs.appendChild(card); msgs.scrollTop = msgs.scrollHeight;
+      const done = v => { card.querySelectorAll("button").forEach(b => b.disabled = true); card.querySelector(".row").insertAdjacentHTML("beforeend", `<span class="note">${v ? "Sending…" : "Cancelled"}</span>`); resolve(v); };
+      card.querySelector('[data-c="yes"]').onclick = () => done(true); card.querySelector('[data-c="no"]').onclick = () => done(false);
+      signal?.addEventListener("abort", () => done(false));
+    });
+  }
+  function bubble(role, html){ const el = document.createElement("div"); el.className = "msg " + role; el.innerHTML = html; msgs.appendChild(el); msgs.scrollTop = msgs.scrollHeight; return el; }
+  function sys(text){ bubble("sys", esc(text)); }
+  function renderHistory(){ msgs.innerHTML = ""; if (!turns.length) { bubble("a", `<div class="md">${md("Morning. I hold the whole desk: pipeline, drafts, decisions, investors. Ask for a debrief, or tell me what to approve.")}</div>`); } turns.forEach(t => bubble(t.role === "user" ? "u" : "a", t.role === "user" ? esc(t.content) : `<div class="md">${md(t.content)}</div>`)); }
+  function save(){ try { sessionStorage.setItem("desk-chat", JSON.stringify(turns.slice(-30))); } catch {} }
+  const COPY = {not_granted: "You have not allowed this page to use Claude. Allow it when asked, or use the Permissions menu.", sampling_disabled: "Claude is not available on this account.", rate_limited: "Too many requests at once. Try again in a moment.", session_expired: "Please sign in to claude.ai again.", prompt_too_large: "The desk context is too large for one call; ask about fewer things.", refused: "Claude declined that request.", empty_completion: "No answer came back. Try rephrasing.", upstream_error: "The connection dropped. Ask again.", tools_unavailable: "This view cannot run page tools; reading works, approving and sending do not.", not_declared: "The page no longer declares the assistant.", capability_disabled: "The assistant is not usable in this view."};
+  async function ask(text){
+    if (busy || !text.trim()) return;
+    if (!sampleFn) { sys("The assistant is not available in this view (open the page on claude.ai, signed in)."); return; }
+    busy = true; sendBtn.disabled = true; stopBtn.hidden = false; input.value = "";
+    turns.push({role: "user", content: text}); bubble("u", esc(text)); save();
+    const out = bubble("a think", "Thinking…");
+    ctl = new AbortController();
+    const hist = turns.slice(-14);
+    try {
+      const {text: answer, truncated} = await sampleFn([{role: "user", content: RULES()}, ...hist], {cache: false, signal: ctl.signal, tools, modelTier: "default",
+        onText: ({text: t}) => { out.classList.remove("think"); out.innerHTML = `<div class="md">${md(t)}</div>`; msgs.scrollTop = msgs.scrollHeight; }});
+      out.classList.remove("think"); out.innerHTML = `<div class="md">${md(answer)}</div>` + (truncated ? '<div class="note">Cut short; ask for less at a time.</div>' : "");
+      turns.push({role: "assistant", content: answer}); save();
+    } catch (e) {
+      out.classList.remove("think");
+      if (e?.text) { out.innerHTML = `<div class="md">${md(e.text)}</div>`; turns.push({role: "assistant", content: e.text}); save(); } else out.remove();
+      if (e?.code && e.code !== "cancelled") sys(COPY[e.code] || ("Something went wrong (" + e.code + ")."));
+      if (["not_granted","sampling_disabled","not_declared","capability_disabled"].includes(e?.code)) { sampleFn = null; }
+    } finally { busy = false; sendBtn.disabled = false; stopBtn.hidden = true; ctl = null; renderOutbox(); renderDecisions(); renderTiles(); }
+  }
+  function openChat(){ chatEl.classList.add("open"); setTimeout(() => input.focus(), 250); }
+  function closeChat(){ chatEl.classList.remove("open"); }
+  $("#fab").addEventListener("click", openChat); $("#chat-close").addEventListener("click", closeChat);
+  $("#chat-clear").addEventListener("click", () => { turns = []; save(); renderHistory(); });
+  sendBtn.addEventListener("click", () => ask(input.value)); stopBtn.addEventListener("click", () => ctl?.abort());
+  input.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(input.value); } });
+  $$("#chips button").forEach(b => b.addEventListener("click", () => ask(b.dataset.q)));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeChat(); });
+  renderHistory();
+  (async () => {
+    try { sampleFn = await claude.use("sample"); } catch { sampleFn = null; }
+    try { mcp = await claude.use("mcp"); } catch { mcp = null; }
+    const foot = $("#chat-foot");
+    if (!sampleFn) foot.textContent = "Assistant unavailable in this view. Open the page on claude.ai, signed in.";
+    else foot.textContent = mcp ? "Reads the desk's records. Can record approvals. Sends only after you press Send on a confirmation card, from your Gmail." : "Reads the desk's records and records approvals. Gmail is not reachable from this view, so sending happens from the session.";
+  })();
+})();
 </script>
