@@ -19,10 +19,12 @@ describe('historical reaction table', () => {
       expect(rows).toHaveLength(8);
       for (const r of rows) {
         expect(r.actual).not.toBeNull();
+        // 2026-04-03 payrolls printed on Good Friday: the recorded NQ candles stop at 03:00Z that day, so the row is null, not filled.
+        if (code === 'NFP' && r.date === '2026-04-03') { expect([r.h1Pct, r.closePct, r.resolution]).toEqual([null, null, null]); continue; }
         expect(Number.isFinite(r.h1Pct)).toBe(true);
         expect(Number.isFinite(r.closePct)).toBe(true);
         expect(Math.abs(r.closePct as number)).toBeLessThan(10);
-        expect(r.resolution === '5m' ? r.m5Pct : 0).not.toBeNull();
+        if (r.resolution === '5m') expect(r.m5Pct).not.toBeNull();
         if (r.resolution === '1h') { expect(r.m5Pct).toBeNull(); expect(r.firstMoveReversed).toBeNull(); }
       }
       expect(new Set(rows.map((r) => r.time)).size).toBe(8);

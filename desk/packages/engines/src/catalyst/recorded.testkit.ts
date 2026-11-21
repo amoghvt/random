@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { parse } from 'yaml';
 import { AccountRules, Profile, TF_MS, hashId } from '@desk/contracts';
 import type { CalendarEvent, Candle, EventCode, Timeframe } from '@desk/contracts';
-import { loadRecordedCalendar, loadRecordedCandles } from '@desk/feeds/recorded.ts';
+import { loadRecordedCalendar, loadRecordedCandles } from '@desk/feeds';
 import type { CandlesByTf, Regime } from './types';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../../../..');

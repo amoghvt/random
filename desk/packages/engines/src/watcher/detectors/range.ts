@@ -1,7 +1,7 @@
 /** Range and compression: inside bars, pennants, opening-range state, last-hour compression against the session midpoint. */
-import { dayKey, type StructureEvent } from '@desk/contracts';
+import type { StructureEvent } from '@desk/contracts';
 import { sessionBounds } from '../candles';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, etLabel, mkEvent, px, when, type TfContext } from '../core';
 
 const OR_MINUTES = 30;
 const INTRADAY = new Set(['1m', '5m', '15m']);
@@ -60,7 +60,7 @@ function pennant(ctx: TfContext): StructureEvent[] {
 function openingRange(ctx: TfContext): StructureEvent[] {
   const { c, n } = ctx;
   if (!n || !INTRADAY.has(ctx.tf)) return [];
-  const day = dayKey(c[n - 1]!.t);
+  const day = etLabel(c[n - 1]!.t).day;
   const { from, to } = sessionBounds(day, 'cash');
   const orEnd = from + OR_MINUTES * 60_000;
   let hi = -Infinity, lo = Infinity, first = -1;
@@ -101,7 +101,7 @@ function lastHour(ctx: TfContext): StructureEvent[] {
   const { c, n } = ctx;
   if (!n || !INTRADAY.has(ctx.tf)) return [];
   const lastClose = c[n - 1]!.t + ctx.tfMs;
-  const day = dayKey(c[n - 1]!.t);
+  const day = etLabel(c[n - 1]!.t).day;
   const { from, to } = sessionBounds(day, 'cash');
   const hourStart = to - 3_600_000;
   if (lastClose < hourStart + 1_800_000 || lastClose > to) return [];

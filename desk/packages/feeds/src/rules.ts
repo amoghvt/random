@@ -57,7 +57,7 @@ export function normalizeRuleText(html: string): string[] {
   const out: string[] = [];
   for (const block of text.split('\n')) {
     for (const raw of block.split(/(?<=[.!?])\s+(?=[A-Z0-9"“(])/)) {
-      const s = raw.replace(/[ ​﻿]/g, ' ').replace(/\s+/g, ' ').trim();
+      const s = raw.replace(/[\u00a0\u200b\ufeff]/g, ' ').replace(/\s+/g, ' ').trim();
       if (s.length < 8 || !/[a-z]/i.test(s) || DATE_NOISE.test(s) || BOILERPLATE.test(s)) continue;
       const key = ruleKey(s);
       if (seen.has(key)) continue;

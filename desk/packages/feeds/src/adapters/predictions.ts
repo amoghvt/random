@@ -161,7 +161,7 @@ export function polymarketEventCode(title: string): EventCode | null {
 export function parseBucket(label: string): { lo?: number | null; hi?: number | null } {
   const t = label.toLowerCase().replace(/,/g, '').replace(/[−–—]/g, '-');
   if (/^no change$|maintains? rate/.test(t)) return { lo: 0, hi: 0 };
-  const n = (s: string): number => Number(s) * (/k\b/.test(t.slice(t.indexOf(s) + s.length, t.indexOf(s) + s.length + 1)) ? 1000 : 1);
+  const n = Number;
   const sign = /decrease|cut|lower\b/.test(t) && /bps?/.test(t) ? -1 : 1;
   const range = /(-?\d+(?:\.\d+)?)\s*k?%?\s*(?:to|-)\s*(-?\d+(?:\.\d+)?)/.exec(t);
   if (range) return { lo: n(range[1]!), hi: n(range[2]!) };

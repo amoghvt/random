@@ -4,7 +4,7 @@
  * NONE of these has been exercised against the live service: `verified: false`. Their response mappers
  * are unit-tested on hand-written payloads in the documented shape.
  */
-import { DATUM_KEYS, DAY, INSTRUMENTS, TF_MS, hashId, iso, type CalendarEvent, type Candle, type Datum, type Quote, type Timeframe } from '@desk/contracts';
+import { DATUM_KEYS, DAY, INSTRUMENTS, TF_MS, iso, type CalendarEvent, type Candle, type Datum, type Quote, type Timeframe } from '@desk/contracts';
 import { titleToEventCode } from '../calendar-codes';
 import { classifyHeadlines, type RawHeadline } from '../headlines';
 import { httpJson, httpText, mapLimit, settle } from '../http';
@@ -284,5 +284,3 @@ export const etfFlows: Feed<ItemOf<'datum'>> = {
     return [item('datum', d, { source: 'farside', asOf: d.asOf, cadenceSec: 86_400, symbol: d.key })];
   },
 };
-
-export const ratingId = (r: { id: string }): string => hashId('bz', r.id);

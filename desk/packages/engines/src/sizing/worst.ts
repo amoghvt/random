@@ -1,5 +1,5 @@
 /** Worst plausible adverse move over a holding window (spec section 7, steps 1 and 5). Pure. */
-import { DAY, HOUR, MIN, TF_MS, dayKey, fmtNum, hhmm, instrument, ms, percentile, type AccountRules, type Candle, type Catalyst } from '@desk/contracts';
+import { DAY, HOUR, MIN, TF_MS, dayKey, fmtNum, hhmm, instrument, ms, percentile, zoned, type AccountRules, type Candle, type Catalyst } from '@desk/contracts';
 import { crossesWeekendLock, etLabel } from './session';
 
 /** 1-minute ATR: simple mean of the true range over the last 14 closed 1m candles. */
@@ -24,6 +24,17 @@ export function atr(candles: Candle[], lookback: number = ATR_LOOKBACK, asOf?: n
     sum += Math.max(c.h - c.l, Math.abs(c.h - prev), Math.abs(c.l - prev));
   }
   return { value: sum / lookback, asOf: cs[cs.length - 1]!.t };
+}
+
+/** Weekday ET dates a window touches: the number of daily bars it spans. */
+function sessionDays(from: number, to: number): number {
+  const seen = new Set<string>();
+  for (let t = from; ; t = Math.min(t + 6 * HOUR, to)) {
+    const wd = zoned(t).weekday;
+    if (wd >= 1 && wd <= 5) seen.add(dayKey(t));
+    if (t >= to) break;
+  }
+  return Math.max(1, seen.size);
 }
 
 /** Trade date of a candle: the 18:00 ET reopen belongs to the next session. */
@@ -100,7 +111,7 @@ export function worstPlausibleMove(input: WorstMoveInput): WorstMove {
   const frames: Array<{ tf: string; cs: Candle[]; bars: number; ok: boolean }> = [
     { tf: '15m', cs: upTo(candles.m15), bars: Math.ceil(windowMin / 15), ok: windowMin <= 240 },
     { tf: '1h', cs: upTo(candles.h1), bars: Math.ceil(windowMin / 60), ok: windowMin <= 2880 },
-    { tf: '1d', cs: upTo(candles.d1), bars: Math.ceil(windowMs / DAY), ok: true },
+    { tf: '1d', cs: upTo(candles.d1), bars: sessionDays(entryAt, entryAt + windowMs), ok: true },
   ];
   let p95Pct: number | null = null, p95Tf: string | null = null, p95Bars: number | null = null, p95Sessions = 0, p95Samples = 0;
   for (const f of frames) {
@@ -157,6 +168,7 @@ export function worstPlausibleMove(input: WorstMoveInput): WorstMove {
   } else {
     text = `${move} worst case: ${p95Note}.`;
   }
+  if (lock && top.basis !== 'weekend_gap') text += ` Window crosses the ${input.rules?.firm ?? 'account'} weekend lock; the ${(weekendGapPct ?? WEEKEND_GAP_MIN_PCT).toFixed(2)}% weekend-gap case (${WEEKEND_GAP_MIN_PCT}% minimum) is the smaller one.`;
   if (catalyst && tier1ImpliedPct === null) text += ` ${catalyst.name} is inside the window with no implied move on file.`;
   return { pct: top.pct, pts, basis: top.basis, text, windowMin, components, catalyst };
 }

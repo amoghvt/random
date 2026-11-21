@@ -1,5 +1,5 @@
 /** Test fixtures: real recorded candles and obviously synthetic catalysts and states. Not used by shipped paths. */
-import { loadRecordedCandles } from '@desk/feeds/recorded.ts';
+import { loadRecordedCandles } from '@desk/feeds';
 import { iso, type AccountRules, type AccountState, type Catalyst } from '@desk/contracts';
 import { loadAccounts } from './load';
 import { defaultAccountState } from './room';

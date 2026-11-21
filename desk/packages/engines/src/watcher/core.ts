@@ -1,5 +1,5 @@
 /** Shared context and event construction for the detectors. */
-import { TF_MS, dayKey, fmtNum, hashId, hhmm, iso, type Candle, type DetectorName, type StructureEvent, type Timeframe } from '@desk/contracts';
+import { TF_MS, dayKey, hashId, hhmm, iso, type Candle, type DetectorName, type StructureEvent, type Timeframe } from '@desk/contracts';
 import { atr, buildLegs, ema, fractals, type Leg, type Pivot } from './candles';
 
 /**
@@ -75,17 +75,33 @@ export function buildContext(instrument: string, tf: Timeframe, closed: Candle[]
 }
 
 /** 27062.4 -> "27,062"; 4.943 -> "4.94". */
-export const px = (x: number): string => fmtNum(x, Math.abs(x) >= 1000 ? 0 : 2);
+export function px(x: number): string {
+  // Hand-rolled: toLocaleString is slow enough to dominate a detector pass.
+  if (Math.abs(x) < 1000) return x.toFixed(2);
+  const r = Math.round(Math.abs(x)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return x < 0 ? `-${r}` : r;
+}
 export const pct = (x: number): string => `${Math.round(x * 100)}%`;
+/** ET wall-clock labels per candle time. Memoized: Intl formatting dominates a detector pass otherwise. Pure (a cache of a pure function). */
+const labelCache = new Map<number, { day: string; hm: string }>();
+export function etLabel(t: number): { day: string; hm: string } {
+  let v = labelCache.get(t);
+  if (!v) {
+    if (labelCache.size > 200_000) labelCache.clear();
+    v = { day: dayKey(t), hm: hhmm(t) };
+    labelCache.set(t, v);
+  }
+  return v;
+}
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const monthDay = (t: number): string => {
-  const [, m, d] = dayKey(t).split('-').map(Number) as [number, number, number];
+  const [, m, d] = etLabel(t).day.split('-').map(Number) as [number, number, number];
   return `${MONTHS[m - 1]} ${d}`;
 };
 /** ET label for a candle time: "11:30", "Nov 16 11:30" when it is another day than `ref`, "Nov 16" on daily. */
 export function when(tf: Timeframe, t: number, ref: number): string {
   if (tf === '1d') return monthDay(t);
-  return dayKey(t) === dayKey(ref) ? hhmm(t) : `${monthDay(t)} ${hhmm(t)}`;
+  return etLabel(t).day === etLabel(ref).day ? etLabel(t).hm : `${monthDay(t)} ${etLabel(t).hm}`;
 }
 
 export interface EventFields {

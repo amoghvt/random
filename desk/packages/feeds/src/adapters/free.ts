@@ -9,7 +9,7 @@ import { lagText } from '../freshness';
 import { classifyHeadlines, cleanTitle, dedupeHeadlines, type RawHeadline } from '../headlines';
 import { llmFromEnv } from '../llm';
 import { httpJson, httpText, mapLimit, settle } from '../http';
-import { item, pollSubscribe, type Feed, type FeedItem, type ItemOf } from '../types';
+import { item, pollSubscribe, type Feed, type ItemOf } from '../types';
 
 /* ───────────── FinancialJuice ───────────── */
 
@@ -149,5 +149,3 @@ export const cftc: Feed<ItemOf<'datum'> | ItemOf<'lagged'>> = {
     return [item('datum', m.datum, { ...base, symbol: m.datum.key }), item('lagged', m.fact, base)];
   },
 };
-
-export type FreeItem = FeedItem;

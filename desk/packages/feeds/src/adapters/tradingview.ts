@@ -2,7 +2,7 @@
  * TradingView public endpoints (free, no key): scanner for quotes/yields/vol, and the economic calendar.
  * CME/CBOT/CBOE symbols are delayed 10-15 minutes on this tier (`update_mode`), TVC yields and DXY stream.
  */
-import { DATUM_KEYS, DAY, INSTRUMENTS, TF_MS, hashId, iso, type CalendarEvent, type Candle, type Datum, type Quote, type Timeframe } from '@desk/contracts';
+import { DATUM_KEYS, DAY, INSTRUMENTS, TF_MS, iso, type CalendarEvent, type Candle, type Datum, type Quote, type Timeframe } from '@desk/contracts';
 import { titleToEventCode } from '../calendar-codes';
 import { httpJson } from '../http';
 import { item, pollSubscribe, type Feed, type FeedCtx, type FetchLike, type ItemOf } from '../types';
@@ -160,7 +160,7 @@ export const tradingViewCalendar: Feed<ItemOf<'calendar'>> = {
  * Extra indicator columns are ignored. Rows that do not parse are dropped; output is ascending and de-duplicated.
  */
 export function parseTradingViewCsv(csv: string, symbol: string, tf: Timeframe): Candle[] {
-  const lines = csv.replace(/^﻿/, '').split(/\r?\n/).filter((l) => l.trim());
+  const lines = csv.replace(/^\uFEFF/, '').split(/\r?\n/).filter((l) => l.trim());
   const header = (lines.shift() ?? '').split(',').map((h) => h.trim().toLowerCase());
   const col = (n: string): number => header.indexOf(n);
   const [ti, oi, hi, li, ci, vi] = [col('time'), col('open'), col('high'), col('low'), col('close'), col('volume')];
@@ -179,5 +179,3 @@ export function parseTradingViewCsv(csv: string, symbol: string, tf: Timeframe):
   }
   return [...byT.values()].sort((a, b) => a.t - b.t);
 }
-
-export const calendarEventId = (provider: string, ...parts: Array<string | number>): string => hashId(provider, ...parts);

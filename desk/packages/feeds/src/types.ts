@@ -12,7 +12,7 @@ export type FeedKind =
   | 'quotes' | 'candles' | 'rates' | 'rates_history' | 'fed' | 'vol' | 'calendar' | 'headlines' | 'earnings'
   | 'options' | 'predictions' | 'crypto' | 'positioning' | 'flows' | 'ratings';
 
-interface Payloads {
+export interface Payloads {
   candle: Candle; quote: Quote; datum: Datum; headline: Headline; calendar: CalendarEvent;
   prediction: PredictionMarket; earnings: EarningsInfo; lagged: LaggedFact;
 }

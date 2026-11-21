@@ -192,6 +192,6 @@ export function reactionClock<T extends CatalystEx>(catalyst: T, candles1m: Cand
   const verdict = scored ? verdictFor(scored.move as number, scored.sample) : null;
   const text = scored && verdict
     ? `${sym} ${read.join(', ')}. ${verdict.charAt(0).toUpperCase()}${verdict.slice(1)}: ${scored.name} median is ${round(percentile(scored.sample.map(Math.abs), 0.5), 2)}% over ${scored.sample.length} prints.`
-    : `${sym} ${read.join(', ')}. No base rate yet: ${Math.max(...horizons.filter((h) => h.move !== null).map((h) => h.sample.length))} prints on file at this horizon, 4 needed.`;
+    : `${sym} ${read.join(', ')}. No base rate yet: ${Math.max(...horizons.filter((h) => h.move !== null).map((h) => h.sample.length))} of the ${MIN_BASE_RATE_SAMPLE} prints needed at this horizon.`;
   return { ...catalyst, reaction: { m5Pct: m5, m15Pct: m15, verdict, text } };
 }

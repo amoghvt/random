@@ -172,6 +172,13 @@ const LlmOut = z.object({ items: z.array(z.object({
   impact: z.number().int().min(0).max(3), direction: z.number().int().min(-1).max(1), symbols: z.array(z.string()),
 })) });
 
+const obj = (properties: Record<string, unknown>): Record<string, unknown> => ({ type: 'object', properties, required: Object.keys(properties), additionalProperties: false });
+/** JSON Schema twin of `LlmOut` for structured outputs (numeric bounds are enforced by zod after the call). */
+const LLM_SCHEMA = obj({ items: { type: 'array', items: obj({
+  i: { type: 'integer' }, category: { type: 'string', enum: ['macro', 'fed', 'earnings', 'company', 'geopolitical', 'firm-rules', 'other'] },
+  impact: { type: 'integer', enum: [0, 1, 2, 3] }, direction: { type: 'integer', enum: [-1, 0, 1] }, symbols: { type: 'array', items: { type: 'string' } },
+}) } });
+
 const SYSTEM = `You classify market headlines for one Nasdaq-100 futures trader. Return one item per headline, keyed by its index i.
 
 category: macro (data prints, Treasury, tariffs, non-Fed central banks), fed (Federal Reserve policy and speakers), earnings, company, geopolitical, firm-rules (prop-firm rule or payout changes), other.
@@ -195,7 +202,7 @@ export async function classifyHeadlines(raws: RawHeadline[], llm: LlmClient, ctx
     const batch = rules.slice(start, start + 25);
     try {
       const text = await llm.complete({
-        model, maxTokens: 8000, effort: 'low', schema: LlmOut, system: SYSTEM,
+        model, maxTokens: 8000, effort: 'low', jsonSchema: LLM_SCHEMA, system: SYSTEM,
         messages: [{ role: 'user', content: `Watchlist: ${[...allowed].join(', ')}\n\nHeadlines:\n${batch.map((h, i) => `${i}. ${h.title}`).join('\n')}` }],
       });
       const parsed = LlmOut.parse(JSON.parse(text));

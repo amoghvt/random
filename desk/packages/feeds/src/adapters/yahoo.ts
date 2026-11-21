@@ -4,8 +4,8 @@
  */
 import { DATUM_KEYS, INSTRUMENTS, TF_MS, iso, type Candle, type Datum, type Quote, type Timeframe } from '@desk/contracts';
 import { BROWSER_UA, httpJson, httpText, mapLimit, settle } from '../http';
-import { item, pollSubscribe, type Feed, type FeedCtx, type FeedItem, type FetchLike, type ItemOf } from '../types';
-import { spread2s10s, volData } from './tradingview';
+import { item, pollSubscribe, type Feed, type FeedCtx, type FetchLike, type ItemOf } from '../types';
+import { volData } from './tradingview';
 
 const BASE = 'https://query1.finance.yahoo.com';
 
@@ -259,7 +259,3 @@ export const yahooOptions: Feed<ItemOf<'datum'>> = {
     return datumItems(data);
   },
 };
-
-/** Yield spread helper re-exported for callers that only import the Yahoo module. */
-export { spread2s10s };
-export type YahooItem = FeedItem;

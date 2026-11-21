@@ -1,11 +1,9 @@
 /**
  * Generic LLM client shared by the headline classifier, matrix prose, guardrail wording and Ask.
- * `complete` returns the reply text; pass `schema` to get schema-constrained JSON text back
+ * `complete` returns the reply text; pass `jsonSchema` to get schema-constrained JSON text back
  * (structured outputs), which the caller still validates with zod.
  */
 import Anthropic from '@anthropic-ai/sdk';
-import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod';
-import type { z } from 'zod';
 import type { Env } from './types';
 
 /** Most capable current model: prose (matrix text, briefs, Ask). */
@@ -18,8 +16,8 @@ export interface LlmRequest {
   system: string; messages: LlmMessage[]; maxTokens: number;
   /** Defaults to DEFAULT_PROSE_MODEL. */
   model?: string;
-  /** When set, the reply is JSON text constrained to this schema. */
-  schema?: z.ZodType;
+  /** When set, the reply is JSON text constrained to this JSON Schema (objects need `additionalProperties: false` and `required`). */
+  jsonSchema?: Record<string, unknown>;
   effort?: 'low' | 'medium' | 'high';
 }
 export interface LlmClient {
@@ -48,7 +46,7 @@ export class AnthropicLlm implements LlmClient {
 
   async complete(req: LlmRequest): Promise<string> {
     const model = req.model ?? DEFAULT_PROSE_MODEL;
-    const output_config = { ...(req.effort ? { effort: req.effort } : {}), ...(req.schema ? { format: zodOutputFormat(req.schema) } : {}) };
+    const output_config = { ...(req.effort ? { effort: req.effort } : {}), ...(req.jsonSchema ? { format: { type: 'json_schema' as const, schema: req.jsonSchema } } : {}) };
     const base = { model, max_tokens: req.maxTokens, system: req.system, messages: req.messages, ...(Object.keys(output_config).length ? { output_config } : {}) };
     const res = SERVER_FALLBACK.test(model)
       ? await this.client.beta.messages.create({ ...base, betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' })

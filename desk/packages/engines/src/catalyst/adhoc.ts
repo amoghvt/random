@@ -45,7 +45,7 @@ export function analogStats(kind: string, candles: Candle[], events: AnalogEvent
   const sym = candles[0]?.symbol ?? '';
   return {
     kind, n: rows.length, medianDrawdownPct: dd, medianRecoverySessions: rec, recovered: recs.length, windowSessions: ANALOG_DRAWDOWN_SESSIONS, events: rows,
-    text: `${rows.length} analog${rows.length === 1 ? '' : 's'} on ${sym}: median drawdown ${dd}% inside ${ANALOG_DRAWDOWN_SESSIONS} sessions, ${recs.length} of ${rows.length} back to the prior close${rec !== null ? `, median ${rec} sessions` : ''}.`,
+    text: `${rows.length} analog${rows.length === 1 ? '' : 's'} on ${sym}: median drawdown ${dd}% inside ${ANALOG_DRAWDOWN_SESSIONS} sessions, ${recs.length} of ${rows.length} back to the prior close${rec !== null ? `, median ${rec} session${rec === 1 ? '' : 's'}` : ''}.`,
   };
 }
 

@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
-import { describe, expect, it } from 'vitest';
+import { Redis } from 'ioredis';
+import { afterAll, describe, expect, it } from 'vitest';
 import type { Notification } from '@desk/contracts';
 import { createBus, MemoryBus, RedisBus, type Bus } from './bus';
 
@@ -63,9 +64,16 @@ it('createBus picks the in-process bus without REDIS_URL', async () => {
 
 const redisUrl = process.env.REDIS_URL;
 describe.skipIf(!redisUrl)('REDIS_URL', () => {
+  const prefixes: string[] = [];
+  afterAll(async () => {
+    const r = new Redis(redisUrl!);
+    for (const p of prefixes) await r.del(`${p}:last:notification`);
+    await r.quit();
+  });
   // Two connections stand in for two processes: what one publishes the other receives.
   contract('redis pub/sub across two clients', () => {
     const prefix = `desk-test-${randomBytes(5).toString('hex')}`;
+    prefixes.push(prefix);
     return [new RedisBus(redisUrl!, prefix), new RedisBus(redisUrl!, prefix)];
   });
   it('createBus picks Redis when REDIS_URL is set', async () => {
