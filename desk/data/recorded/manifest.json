@@ -1,0 +1,1406 @@
+{
+ "recorded_at": "2026-11-21T18:23:26Z",
+ "source": "query1.finance.yahoo.com v8 chart (delayed, unofficial)",
+ "files": {
+  "NQ_F.1m.json.gz": {
+   "symbol": "NQ=F",
+   "interval": "1m",
+   "bars": 10064,
+   "first": 1794546540,
+   "last": 1795237080
+  },
+  "NQ_F.5m.json.gz": {
+   "symbol": "NQ=F",
+   "interval": "5m",
+   "bars": 17074,
+   "first": 1789337400,
+   "last": 1795236900
+  },
+  "NQ_F.15m.json.gz": {
+   "symbol": "NQ=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "NQ_F.1h.json.gz": {
+   "symbol": "NQ=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "NQ_F.1d.json.gz": {
+   "symbol": "NQ=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "ES_F.1m.json.gz": {
+   "symbol": "ES=F",
+   "interval": "1m",
+   "bars": 10064,
+   "first": 1794546540,
+   "last": 1795237080
+  },
+  "ES_F.5m.json.gz": {
+   "symbol": "ES=F",
+   "interval": "5m",
+   "bars": 17074,
+   "first": 1789337400,
+   "last": 1795236900
+  },
+  "ES_F.15m.json.gz": {
+   "symbol": "ES=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "ES_F.1h.json.gz": {
+   "symbol": "ES=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "ES_F.1d.json.gz": {
+   "symbol": "ES=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "YM_F.1m.json.gz": {
+   "symbol": "YM=F",
+   "interval": "1m",
+   "bars": 10073,
+   "first": 1794546000,
+   "last": 1795237080
+  },
+  "YM_F.5m.json.gz": {
+   "symbol": "YM=F",
+   "interval": "5m",
+   "bars": 17076,
+   "first": 1789336800,
+   "last": 1795236900
+  },
+  "YM_F.15m.json.gz": {
+   "symbol": "YM=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "YM_F.1h.json.gz": {
+   "symbol": "YM=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "YM_F.1d.json.gz": {
+   "symbol": "YM=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "RTY_F.1m.json.gz": {
+   "symbol": "RTY=F",
+   "interval": "1m",
+   "bars": 10064,
+   "first": 1794546540,
+   "last": 1795237080
+  },
+  "RTY_F.5m.json.gz": {
+   "symbol": "RTY=F",
+   "interval": "5m",
+   "bars": 17074,
+   "first": 1789337400,
+   "last": 1795236900
+  },
+  "RTY_F.15m.json.gz": {
+   "symbol": "RTY=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "RTY_F.1h.json.gz": {
+   "symbol": "RTY=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "RTY_F.1d.json.gz": {
+   "symbol": "RTY=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "MNQ_F.1m.json.gz": {
+   "symbol": "MNQ=F",
+   "interval": "1m",
+   "bars": 10064,
+   "first": 1794546540,
+   "last": 1795237080
+  },
+  "MNQ_F.5m.json.gz": {
+   "symbol": "MNQ=F",
+   "interval": "5m",
+   "bars": 17074,
+   "first": 1789337400,
+   "last": 1795236900
+  },
+  "MNQ_F.15m.json.gz": {
+   "symbol": "MNQ=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "MNQ_F.1h.json.gz": {
+   "symbol": "MNQ=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "MNQ_F.1d.json.gz": {
+   "symbol": "MNQ=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "_SOX.1m.json.gz": {
+   "symbol": "^SOX",
+   "interval": "1m",
+   "bars": 2731,
+   "first": 1794493800,
+   "last": 1795208400
+  },
+  "_SOX.5m.json.gz": {
+   "symbol": "^SOX",
+   "interval": "5m",
+   "bars": 4681,
+   "first": 1787923800,
+   "last": 1795208400
+  },
+  "_SOX.15m.json.gz": {
+   "symbol": "^SOX",
+   "interval": "15m",
+   "bars": 1561,
+   "first": 1787923800,
+   "last": 1795208400
+  },
+  "_SOX.1h.json.gz": {
+   "symbol": "^SOX",
+   "interval": "1h",
+   "bars": 5099,
+   "first": 1703601000,
+   "last": 1795208400
+  },
+  "_SOX.1d.json.gz": {
+   "symbol": "^SOX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "_VIX.1m.json.gz": {
+   "symbol": "^VIX",
+   "interval": "1m",
+   "bars": 5551,
+   "first": 1794471300,
+   "last": 1795209300
+  },
+  "_VIX.5m.json.gz": {
+   "symbol": "^VIX",
+   "interval": "5m",
+   "bars": 9538,
+   "first": 1788160500,
+   "last": 1795209300
+  },
+  "_VIX.15m.json.gz": {
+   "symbol": "^VIX",
+   "interval": "15m",
+   "bars": 3180,
+   "first": 1788160500,
+   "last": 1795209300
+  },
+  "_VIX.1h.json.gz": {
+   "symbol": "^VIX",
+   "interval": "1h",
+   "bars": 10220,
+   "first": 1707123600,
+   "last": 1795209300
+  },
+  "_VIX.1d.json.gz": {
+   "symbol": "^VIX",
+   "interval": "1d",
+   "bars": 1305,
+   "first": 1637568000,
+   "last": 1795161600
+  },
+  "_VIX3M.1m.json.gz": {
+   "symbol": "^VIX3M",
+   "interval": "1m",
+   "bars": 2730,
+   "first": 1794493860,
+   "last": 1795208400
+  },
+  "_VIX3M.5m.json.gz": {
+   "symbol": "^VIX3M",
+   "interval": "5m",
+   "bars": 4603,
+   "first": 1788183000,
+   "last": 1795208400
+  },
+  "_VIX3M.15m.json.gz": {
+   "symbol": "^VIX3M",
+   "interval": "15m",
+   "bars": 1535,
+   "first": 1788183000,
+   "last": 1795208400
+  },
+  "_VIX3M.1h.json.gz": {
+   "symbol": "^VIX3M",
+   "interval": "1h",
+   "bars": 4910,
+   "first": 1707143400,
+   "last": 1795208400
+  },
+  "_VIX3M.1d.json.gz": {
+   "symbol": "^VIX3M",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "DX-Y.NYB.1m.json.gz": {
+   "symbol": "DX-Y.NYB",
+   "interval": "1m",
+   "bars": 10073,
+   "first": 1794546000,
+   "last": 1795237080
+  },
+  "DX-Y.NYB.5m.json.gz": {
+   "symbol": "DX-Y.NYB",
+   "interval": "5m",
+   "bars": 17076,
+   "first": 1789336800,
+   "last": 1795236900
+  },
+  "DX-Y.NYB.15m.json.gz": {
+   "symbol": "DX-Y.NYB",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "DX-Y.NYB.1h.json.gz": {
+   "symbol": "DX-Y.NYB",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "DX-Y.NYB.1d.json.gz": {
+   "symbol": "DX-Y.NYB",
+   "interval": "1d",
+   "bars": 1520,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "_IRX.1m.json.gz": {
+   "symbol": "^IRX",
+   "interval": "1m",
+   "bars": 2800,
+   "first": 1794489600,
+   "last": 1795204740
+  },
+  "_IRX.5m.json.gz": {
+   "symbol": "^IRX",
+   "interval": "5m",
+   "bars": 4000,
+   "first": 1789388400,
+   "last": 1795204500
+  },
+  "_IRX.15m.json.gz": {
+   "symbol": "^IRX",
+   "interval": "15m",
+   "bars": 1350,
+   "first": 1789388400,
+   "last": 1795204200
+  },
+  "_IRX.1h.json.gz": {
+   "symbol": "^IRX",
+   "interval": "1h",
+   "bars": 4202,
+   "first": 1719836400,
+   "last": 1795202400
+  },
+  "_IRX.1d.json.gz": {
+   "symbol": "^IRX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637587200,
+   "last": 1795180800
+  },
+  "_FVX.1m.json.gz": {
+   "symbol": "^FVX",
+   "interval": "1m",
+   "bars": 2800,
+   "first": 1794489600,
+   "last": 1795204740
+  },
+  "_FVX.5m.json.gz": {
+   "symbol": "^FVX",
+   "interval": "5m",
+   "bars": 4000,
+   "first": 1789388400,
+   "last": 1795204500
+  },
+  "_FVX.15m.json.gz": {
+   "symbol": "^FVX",
+   "interval": "15m",
+   "bars": 1350,
+   "first": 1789388400,
+   "last": 1795204200
+  },
+  "_FVX.1h.json.gz": {
+   "symbol": "^FVX",
+   "interval": "1h",
+   "bars": 4202,
+   "first": 1719836400,
+   "last": 1795202400
+  },
+  "_FVX.1d.json.gz": {
+   "symbol": "^FVX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637587200,
+   "last": 1795180800
+  },
+  "_TNX.1m.json.gz": {
+   "symbol": "^TNX",
+   "interval": "1m",
+   "bars": 2800,
+   "first": 1794489600,
+   "last": 1795204740
+  },
+  "_TNX.5m.json.gz": {
+   "symbol": "^TNX",
+   "interval": "5m",
+   "bars": 4000,
+   "first": 1789388400,
+   "last": 1795204500
+  },
+  "_TNX.15m.json.gz": {
+   "symbol": "^TNX",
+   "interval": "15m",
+   "bars": 1350,
+   "first": 1789388400,
+   "last": 1795204200
+  },
+  "_TNX.1h.json.gz": {
+   "symbol": "^TNX",
+   "interval": "1h",
+   "bars": 4202,
+   "first": 1719836400,
+   "last": 1795202400
+  },
+  "_TNX.1d.json.gz": {
+   "symbol": "^TNX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637587200,
+   "last": 1795180800
+  },
+  "_TYX.1m.json.gz": {
+   "symbol": "^TYX",
+   "interval": "1m",
+   "bars": 2800,
+   "first": 1794489600,
+   "last": 1795204740
+  },
+  "_TYX.5m.json.gz": {
+   "symbol": "^TYX",
+   "interval": "5m",
+   "bars": 4000,
+   "first": 1789388400,
+   "last": 1795204500
+  },
+  "_TYX.15m.json.gz": {
+   "symbol": "^TYX",
+   "interval": "15m",
+   "bars": 1350,
+   "first": 1789388400,
+   "last": 1795204200
+  },
+  "_TYX.1h.json.gz": {
+   "symbol": "^TYX",
+   "interval": "1h",
+   "bars": 4202,
+   "first": 1719836400,
+   "last": 1795202400
+  },
+  "_TYX.1d.json.gz": {
+   "symbol": "^TYX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637587200,
+   "last": 1795180800
+  },
+  "ZT_F.1m.json.gz": {
+   "symbol": "ZT=F",
+   "interval": "1m",
+   "bars": 10069,
+   "first": 1794546240,
+   "last": 1795237080
+  },
+  "ZT_F.5m.json.gz": {
+   "symbol": "ZT=F",
+   "interval": "5m",
+   "bars": 17076,
+   "first": 1789336800,
+   "last": 1795236900
+  },
+  "ZT_F.15m.json.gz": {
+   "symbol": "ZT=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "ZT_F.1h.json.gz": {
+   "symbol": "ZT=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "ZT_F.1d.json.gz": {
+   "symbol": "ZT=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "ZN_F.1m.json.gz": {
+   "symbol": "ZN=F",
+   "interval": "1m",
+   "bars": 10073,
+   "first": 1794546000,
+   "last": 1795237080
+  },
+  "ZN_F.5m.json.gz": {
+   "symbol": "ZN=F",
+   "interval": "5m",
+   "bars": 17076,
+   "first": 1789336800,
+   "last": 1795236900
+  },
+  "ZN_F.15m.json.gz": {
+   "symbol": "ZN=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "ZN_F.1h.json.gz": {
+   "symbol": "ZN=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "ZN_F.1d.json.gz": {
+   "symbol": "ZN=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "ZQ_F.1m.json.gz": {
+   "symbol": "ZQ=F",
+   "interval": "1m",
+   "bars": 10049,
+   "first": 1794547440,
+   "last": 1795237080
+  },
+  "ZQ_F.5m.json.gz": {
+   "symbol": "ZQ=F",
+   "interval": "5m",
+   "bars": 17076,
+   "first": 1789336800,
+   "last": 1795236900
+  },
+  "ZQ_F.15m.json.gz": {
+   "symbol": "ZQ=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "ZQ_F.1h.json.gz": {
+   "symbol": "ZQ=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "ZQ_F.1d.json.gz": {
+   "symbol": "ZQ=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "NVDA.1m.json.gz": {
+   "symbol": "NVDA",
+   "interval": "1m",
+   "bars": 6718,
+   "first": 1794474000,
+   "last": 1795222798
+  },
+  "NVDA.5m.json.gz": {
+   "symbol": "NVDA",
+   "interval": "5m",
+   "bars": 11077,
+   "first": 1787904000,
+   "last": 1795222798
+  },
+  "NVDA.15m.json.gz": {
+   "symbol": "NVDA",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222798
+  },
+  "NVDA.1h.json.gz": {
+   "symbol": "NVDA",
+   "interval": "1h",
+   "bars": 12101,
+   "first": 1703581200,
+   "last": 1795222798
+  },
+  "NVDA.1d.json.gz": {
+   "symbol": "NVDA",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "AMZN.1m.json.gz": {
+   "symbol": "AMZN",
+   "interval": "1m",
+   "bars": 6056,
+   "first": 1794474000,
+   "last": 1795222799
+  },
+  "AMZN.5m.json.gz": {
+   "symbol": "AMZN",
+   "interval": "5m",
+   "bars": 10996,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "AMZN.15m.json.gz": {
+   "symbol": "AMZN",
+   "interval": "15m",
+   "bars": 3697,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "AMZN.1h.json.gz": {
+   "symbol": "AMZN",
+   "interval": "1h",
+   "bars": 12101,
+   "first": 1703581200,
+   "last": 1795222799
+  },
+  "AMZN.1d.json.gz": {
+   "symbol": "AMZN",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "INTC.1m.json.gz": {
+   "symbol": "INTC",
+   "interval": "1m",
+   "bars": 6596,
+   "first": 1794474000,
+   "last": 1795222796
+  },
+  "INTC.5m.json.gz": {
+   "symbol": "INTC",
+   "interval": "5m",
+   "bars": 11079,
+   "first": 1787904000,
+   "last": 1795222796
+  },
+  "INTC.15m.json.gz": {
+   "symbol": "INTC",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222796
+  },
+  "INTC.1h.json.gz": {
+   "symbol": "INTC",
+   "interval": "1h",
+   "bars": 12101,
+   "first": 1703581200,
+   "last": 1795222796
+  },
+  "INTC.1d.json.gz": {
+   "symbol": "INTC",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "CRWV.1m.json.gz": {
+   "symbol": "CRWV",
+   "interval": "1m",
+   "bars": 6559,
+   "first": 1794474000,
+   "last": 1795222781
+  },
+  "CRWV.5m.json.gz": {
+   "symbol": "CRWV",
+   "interval": "5m",
+   "bars": 11063,
+   "first": 1787904000,
+   "last": 1795222781
+  },
+  "CRWV.15m.json.gz": {
+   "symbol": "CRWV",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222781
+  },
+  "CRWV.1h.json.gz": {
+   "symbol": "CRWV",
+   "interval": "1h",
+   "bars": 6905,
+   "first": 1743179400,
+   "last": 1795222781
+  },
+  "CRWV.1d.json.gz": {
+   "symbol": "CRWV",
+   "interval": "1d",
+   "bars": 416,
+   "first": 1743168600,
+   "last": 1795185000
+  },
+  "NBIS.1m.json.gz": {
+   "symbol": "NBIS",
+   "interval": "1m",
+   "bars": 6484,
+   "first": 1794474000,
+   "last": 1795222799
+  },
+  "NBIS.5m.json.gz": {
+   "symbol": "NBIS",
+   "interval": "5m",
+   "bars": 11064,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "NBIS.15m.json.gz": {
+   "symbol": "NBIS",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "NBIS.1h.json.gz": {
+   "symbol": "NBIS",
+   "interval": "1h",
+   "error": "HTTP Error 422: Unprocessable Entity"
+  },
+  "NBIS.1d.json.gz": {
+   "symbol": "NBIS",
+   "interval": "1d",
+   "bars": 524,
+   "first": 1729517400,
+   "last": 1795185000
+  },
+  "SNDK.1m.json.gz": {
+   "symbol": "SNDK",
+   "interval": "1m",
+   "bars": 6713,
+   "first": 1794474000,
+   "last": 1795222799
+  },
+  "SNDK.5m.json.gz": {
+   "symbol": "SNDK",
+   "interval": "5m",
+   "bars": 11040,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "SNDK.15m.json.gz": {
+   "symbol": "SNDK",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "SNDK.1h.json.gz": {
+   "symbol": "SNDK",
+   "interval": "1h",
+   "bars": 6816,
+   "first": 1740402000,
+   "last": 1795222799
+  },
+  "SNDK.1d.json.gz": {
+   "symbol": "SNDK",
+   "interval": "1d",
+   "bars": 446,
+   "first": 1739457000,
+   "last": 1795185000
+  },
+  "TTWO.1m.json.gz": {
+   "symbol": "TTWO",
+   "interval": "1m",
+   "bars": 4085,
+   "first": 1794474000,
+   "last": 1795222734
+  },
+  "TTWO.5m.json.gz": {
+   "symbol": "TTWO",
+   "interval": "5m",
+   "bars": 8881,
+   "first": 1787904000,
+   "last": 1795222734
+  },
+  "TTWO.15m.json.gz": {
+   "symbol": "TTWO",
+   "interval": "15m",
+   "bars": 3274,
+   "first": 1787904000,
+   "last": 1795222734
+  },
+  "TTWO.1h.json.gz": {
+   "symbol": "TTWO",
+   "interval": "1h",
+   "bars": 11251,
+   "first": 1703581200,
+   "last": 1795222734
+  },
+  "TTWO.1d.json.gz": {
+   "symbol": "TTWO",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "AMD.1m.json.gz": {
+   "symbol": "AMD",
+   "interval": "1m",
+   "bars": 6614,
+   "first": 1794474000,
+   "last": 1795222798
+  },
+  "AMD.5m.json.gz": {
+   "symbol": "AMD",
+   "interval": "5m",
+   "bars": 10987,
+   "first": 1787904000,
+   "last": 1795222798
+  },
+  "AMD.15m.json.gz": {
+   "symbol": "AMD",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222798
+  },
+  "AMD.1h.json.gz": {
+   "symbol": "AMD",
+   "interval": "1h",
+   "bars": 12101,
+   "first": 1703581200,
+   "last": 1795222798
+  },
+  "AMD.1d.json.gz": {
+   "symbol": "AMD",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "AVGO.1m.json.gz": {
+   "symbol": "AVGO",
+   "interval": "1m",
+   "bars": 6034,
+   "first": 1794474000,
+   "last": 1795222785
+  },
+  "AVGO.5m.json.gz": {
+   "symbol": "AVGO",
+   "interval": "5m",
+   "bars": 11017,
+   "first": 1787904000,
+   "last": 1795222785
+  },
+  "AVGO.15m.json.gz": {
+   "symbol": "AVGO",
+   "interval": "15m",
+   "bars": 3697,
+   "first": 1787904000,
+   "last": 1795222785
+  },
+  "AVGO.1h.json.gz": {
+   "symbol": "AVGO",
+   "interval": "1h",
+   "bars": 12104,
+   "first": 1703581200,
+   "last": 1795222785
+  },
+  "AVGO.1d.json.gz": {
+   "symbol": "AVGO",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "MU.1m.json.gz": {
+   "symbol": "MU",
+   "interval": "1m",
+   "bars": 6719,
+   "first": 1794474000,
+   "last": 1795222799
+  },
+  "MU.5m.json.gz": {
+   "symbol": "MU",
+   "interval": "5m",
+   "bars": 11079,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "MU.15m.json.gz": {
+   "symbol": "MU",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "MU.1h.json.gz": {
+   "symbol": "MU",
+   "interval": "1h",
+   "bars": 12101,
+   "first": 1703581200,
+   "last": 1795222799
+  },
+  "MU.1d.json.gz": {
+   "symbol": "MU",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "TSM.1m.json.gz": {
+   "symbol": "TSM",
+   "interval": "1m",
+   "bars": 6137,
+   "first": 1794474000,
+   "last": 1795222785
+  },
+  "TSM.5m.json.gz": {
+   "symbol": "TSM",
+   "interval": "5m",
+   "bars": 10729,
+   "first": 1787904000,
+   "last": 1795222785
+  },
+  "TSM.15m.json.gz": {
+   "symbol": "TSM",
+   "interval": "15m",
+   "bars": 3645,
+   "first": 1787904000,
+   "last": 1795222785
+  },
+  "TSM.1h.json.gz": {
+   "symbol": "TSM",
+   "interval": "1h",
+   "bars": 12149,
+   "first": 1703581200,
+   "last": 1795222785
+  },
+  "TSM.1d.json.gz": {
+   "symbol": "TSM",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "QQQ.1m.json.gz": {
+   "symbol": "QQQ",
+   "interval": "1m",
+   "bars": 6570,
+   "first": 1794474000,
+   "last": 1795222798
+  },
+  "QQQ.5m.json.gz": {
+   "symbol": "QQQ",
+   "interval": "5m",
+   "bars": 11078,
+   "first": 1787904000,
+   "last": 1795222798
+  },
+  "QQQ.15m.json.gz": {
+   "symbol": "QQQ",
+   "interval": "15m",
+   "bars": 3698,
+   "first": 1787904000,
+   "last": 1795222798
+  },
+  "QQQ.1h.json.gz": {
+   "symbol": "QQQ",
+   "interval": "1h",
+   "bars": 12101,
+   "first": 1703581200,
+   "last": 1795222798
+  },
+  "QQQ.1d.json.gz": {
+   "symbol": "QQQ",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "RSP.1m.json.gz": {
+   "symbol": "RSP",
+   "interval": "1m",
+   "bars": 3290,
+   "first": 1794474060,
+   "last": 1795222715
+  },
+  "RSP.5m.json.gz": {
+   "symbol": "RSP",
+   "interval": "5m",
+   "bars": 7091,
+   "first": 1788163200,
+   "last": 1795222715
+  },
+  "RSP.15m.json.gz": {
+   "symbol": "RSP",
+   "interval": "15m",
+   "bars": 2918,
+   "first": 1788163200,
+   "last": 1795222715
+  },
+  "RSP.1h.json.gz": {
+   "symbol": "RSP",
+   "interval": "1h",
+   "bars": 11804,
+   "first": 1704704400,
+   "last": 1795222715
+  },
+  "RSP.1d.json.gz": {
+   "symbol": "RSP",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "SPY.1m.json.gz": {
+   "symbol": "SPY",
+   "interval": "1m",
+   "bars": 6443,
+   "first": 1794474000,
+   "last": 1795222799
+  },
+  "SPY.5m.json.gz": {
+   "symbol": "SPY",
+   "interval": "5m",
+   "bars": 10924,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "SPY.15m.json.gz": {
+   "symbol": "SPY",
+   "interval": "15m",
+   "bars": 3651,
+   "first": 1787904000,
+   "last": 1795222799
+  },
+  "SPY.1h.json.gz": {
+   "symbol": "SPY",
+   "interval": "1h",
+   "bars": 12139,
+   "first": 1703581200,
+   "last": 1795222799
+  },
+  "SPY.1d.json.gz": {
+   "symbol": "SPY",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "XLP.1m.json.gz": {
+   "symbol": "XLP",
+   "interval": "1m",
+   "bars": 3504,
+   "first": 1794474000,
+   "last": 1795221555
+  },
+  "XLP.5m.json.gz": {
+   "symbol": "XLP",
+   "interval": "5m",
+   "bars": 7436,
+   "first": 1787904000,
+   "last": 1795221555
+  },
+  "XLP.15m.json.gz": {
+   "symbol": "XLP",
+   "interval": "15m",
+   "bars": 3010,
+   "first": 1787904000,
+   "last": 1795221555
+  },
+  "XLP.1h.json.gz": {
+   "symbol": "XLP",
+   "interval": "1h",
+   "bars": 11948,
+   "first": 1703581200,
+   "last": 1795221555
+  },
+  "XLP.1d.json.gz": {
+   "symbol": "XLP",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "XLU.1m.json.gz": {
+   "symbol": "XLU",
+   "interval": "1m",
+   "bars": 3246,
+   "first": 1794474000,
+   "last": 1795222128
+  },
+  "XLU.5m.json.gz": {
+   "symbol": "XLU",
+   "interval": "5m",
+   "bars": 8121,
+   "first": 1787904000,
+   "last": 1795222128
+  },
+  "XLU.15m.json.gz": {
+   "symbol": "XLU",
+   "interval": "15m",
+   "bars": 3282,
+   "first": 1787904000,
+   "last": 1795222128
+  },
+  "XLU.1h.json.gz": {
+   "symbol": "XLU",
+   "interval": "1h",
+   "bars": 12023,
+   "first": 1703584800,
+   "last": 1795222128
+  },
+  "XLU.1d.json.gz": {
+   "symbol": "XLU",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "SOXX.1m.json.gz": {
+   "symbol": "SOXX",
+   "interval": "1m",
+   "bars": 6311,
+   "first": 1794474000,
+   "last": 1795222782
+  },
+  "SOXX.5m.json.gz": {
+   "symbol": "SOXX",
+   "interval": "5m",
+   "bars": 10986,
+   "first": 1787904000,
+   "last": 1795222782
+  },
+  "SOXX.15m.json.gz": {
+   "symbol": "SOXX",
+   "interval": "15m",
+   "bars": 3696,
+   "first": 1787904000,
+   "last": 1795222782
+  },
+  "SOXX.1h.json.gz": {
+   "symbol": "SOXX",
+   "interval": "1h",
+   "bars": 12079,
+   "first": 1703581200,
+   "last": 1795222782
+  },
+  "SOXX.1d.json.gz": {
+   "symbol": "SOXX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "GLD.1m.json.gz": {
+   "symbol": "GLD",
+   "interval": "1m",
+   "bars": 5698,
+   "first": 1794474000,
+   "last": 1795222763
+  },
+  "GLD.5m.json.gz": {
+   "symbol": "GLD",
+   "interval": "5m",
+   "bars": 10725,
+   "first": 1787904000,
+   "last": 1795222763
+  },
+  "GLD.15m.json.gz": {
+   "symbol": "GLD",
+   "interval": "15m",
+   "bars": 3646,
+   "first": 1787904000,
+   "last": 1795222763
+  },
+  "GLD.1h.json.gz": {
+   "symbol": "GLD",
+   "interval": "1h",
+   "bars": 12139,
+   "first": 1703581200,
+   "last": 1795222763
+  },
+  "GLD.1d.json.gz": {
+   "symbol": "GLD",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  },
+  "IBIT.1m.json.gz": {
+   "symbol": "IBIT",
+   "interval": "1m",
+   "bars": 5847,
+   "first": 1794474000,
+   "last": 1795222794
+  },
+  "IBIT.5m.json.gz": {
+   "symbol": "IBIT",
+   "interval": "5m",
+   "bars": 10971,
+   "first": 1787904000,
+   "last": 1795222794
+  },
+  "IBIT.15m.json.gz": {
+   "symbol": "IBIT",
+   "interval": "15m",
+   "bars": 3697,
+   "first": 1787904000,
+   "last": 1795222794
+  },
+  "IBIT.1h.json.gz": {
+   "symbol": "IBIT",
+   "interval": "1h",
+   "error": "HTTP Error 422: Unprocessable Entity"
+  },
+  "IBIT.1d.json.gz": {
+   "symbol": "IBIT",
+   "interval": "1d",
+   "bars": 719,
+   "first": 1704983400,
+   "last": 1795185000
+  },
+  "CL_F.1m.json.gz": {
+   "symbol": "CL=F",
+   "interval": "1m",
+   "bars": 10073,
+   "first": 1794546000,
+   "last": 1795237080
+  },
+  "CL_F.5m.json.gz": {
+   "symbol": "CL=F",
+   "interval": "5m",
+   "bars": 17074,
+   "first": 1789337400,
+   "last": 1795236900
+  },
+  "CL_F.15m.json.gz": {
+   "symbol": "CL=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "CL_F.1h.json.gz": {
+   "symbol": "CL=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "CL_F.1d.json.gz": {
+   "symbol": "CL=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "GC_F.1m.json.gz": {
+   "symbol": "GC=F",
+   "interval": "1m",
+   "bars": 10073,
+   "first": 1794546000,
+   "last": 1795237080
+  },
+  "GC_F.5m.json.gz": {
+   "symbol": "GC=F",
+   "interval": "5m",
+   "bars": 17074,
+   "first": 1789337400,
+   "last": 1795236900
+  },
+  "GC_F.15m.json.gz": {
+   "symbol": "GC=F",
+   "interval": "15m",
+   "bars": 5692,
+   "first": 1789336800,
+   "last": 1795236300
+  },
+  "GC_F.1h.json.gz": {
+   "symbol": "GC=F",
+   "interval": "1h",
+   "bars": 17407,
+   "first": 1719806400,
+   "last": 1795233600
+  },
+  "GC_F.1d.json.gz": {
+   "symbol": "GC=F",
+   "interval": "1d",
+   "bars": 1260,
+   "first": 1637557200,
+   "last": 1795150800
+  },
+  "BTC-USD.1m.json.gz": {
+   "symbol": "BTC-USD",
+   "interval": "1m",
+   "bars": 9748,
+   "first": 1794700800,
+   "last": 1795285581
+  },
+  "BTC-USD.5m.json.gz": {
+   "symbol": "BTC-USD",
+   "interval": "5m",
+   "bars": 17215,
+   "first": 1790121600,
+   "last": 1795285581
+  },
+  "BTC-USD.15m.json.gz": {
+   "symbol": "BTC-USD",
+   "interval": "15m",
+   "bars": 5739,
+   "first": 1790121600,
+   "last": 1795285581
+  },
+  "BTC-USD.1h.json.gz": {
+   "symbol": "BTC-USD",
+   "interval": "1h",
+   "bars": 17516,
+   "first": 1732233600,
+   "last": 1795285581
+  },
+  "BTC-USD.1d.json.gz": {
+   "symbol": "BTC-USD",
+   "interval": "1d",
+   "bars": 1827,
+   "first": 1637452800,
+   "last": 1795219200
+  },
+  "ETH-USD.1m.json.gz": {
+   "symbol": "ETH-USD",
+   "interval": "1m",
+   "bars": 9748,
+   "first": 1794700800,
+   "last": 1795285579
+  },
+  "ETH-USD.5m.json.gz": {
+   "symbol": "ETH-USD",
+   "interval": "5m",
+   "bars": 17215,
+   "first": 1790121600,
+   "last": 1795285580
+  },
+  "ETH-USD.15m.json.gz": {
+   "symbol": "ETH-USD",
+   "interval": "15m",
+   "bars": 5739,
+   "first": 1790121600,
+   "last": 1795285580
+  },
+  "ETH-USD.1h.json.gz": {
+   "symbol": "ETH-USD",
+   "interval": "1h",
+   "bars": 17516,
+   "first": 1732233600,
+   "last": 1795285580
+  },
+  "ETH-USD.1d.json.gz": {
+   "symbol": "ETH-USD",
+   "interval": "1d",
+   "bars": 1827,
+   "first": 1637452800,
+   "last": 1795219200
+  },
+  "_NDX.1m.json.gz": {
+   "symbol": "^NDX",
+   "interval": "1m",
+   "bars": 2731,
+   "first": 1794493800,
+   "last": 1795208400
+  },
+  "_NDX.5m.json.gz": {
+   "symbol": "^NDX",
+   "interval": "5m",
+   "bars": 4681,
+   "first": 1787923800,
+   "last": 1795208400
+  },
+  "_NDX.15m.json.gz": {
+   "symbol": "^NDX",
+   "interval": "15m",
+   "bars": 1561,
+   "first": 1787923800,
+   "last": 1795208400
+  },
+  "_NDX.1h.json.gz": {
+   "symbol": "^NDX",
+   "interval": "1h",
+   "bars": 5099,
+   "first": 1703601000,
+   "last": 1795208400
+  },
+  "_NDX.1d.json.gz": {
+   "symbol": "^NDX",
+   "interval": "1d",
+   "bars": 1255,
+   "first": 1637591400,
+   "last": 1795185000
+  }
+ },
+ "calendar": {
+  "source": "economic-calendar.tradingview.com",
+  "events": 16927
+ }
+}

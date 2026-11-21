@@ -1,0 +1,28 @@
+{
+  "name": "trading-desk",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json && pnpm --filter @desk/web typecheck",
+    "lint": "eslint .",
+    "dev:api": "pnpm --filter @desk/api dev",
+    "dev:web": "pnpm --filter @desk/web dev",
+    "build:web": "pnpm --filter @desk/web build",
+    "start": "pnpm --filter @desk/api start",
+    "migrate": "pnpm --filter @desk/api migrate",
+    "replay": "pnpm --filter @desk/api replay",
+    "record": "python3 scripts/record.py"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.0.0",
+    "vitest": "^3.0.0"
+  }
+}

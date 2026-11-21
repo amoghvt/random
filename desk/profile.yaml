@@ -1,0 +1,118 @@
+# Trader profile (spec section 2). The bias engine, guardrails and notifications read this.
+# The weekly memo is appended under `memos` only after the trader approves it in the app.
+trader: Amogh
+# Local timezone for quiet hours, the late-night guardrail and the 06:30 brief. Override with DESK_TZ.
+timezone: America/New_York
+
+style:
+  summary: Event-driven, catalyst plus timing.
+  edge:
+    - A macro read made the night before (CPI, NFP, FOMC, a mega-cap print, a resolution headline).
+    - An entry at the moment the uncertainty resolves (a data release, a flush, a squeeze top).
+    - A scale-out.
+    - Reads macro and news well and times entries well.
+  notEdge:
+    - Pure technical, wait-for-the-setup trading has not been where results came from.
+
+instruments:
+  primary: [NQ, NQ-PERP, MNQ]
+  watchlist: [NVDA, AMZN, INTC, CRWV, NBIS, SNDK, TTWO, AMD, AVGO, MU, TSM]
+  occasional: [GC, CL, BTC, ETH]
+  timeframes:
+    execution: [1m, 15m]
+    structure: [1h, 1d]
+  language: ICT-style structure (liquidity, FVG, order blocks, MSS)
+
+accounts:
+  - vest-instant
+  - vest-eval
+  - mffu-builder-50k
+  - mffu-rapid-50k
+  - mffu-pro-50k
+  - apex-50k
+  - lucid-25k
+  - lucid-pro-50k
+  - tradeify-50k
+
+failurePatterns:
+  - id: thin_fail_price
+    pattern: Sizing to the thesis, not the path
+    looksLike: 50x with the fail price 0.3 to 0.6% away into a live event
+    cost: Correct direction, liquidated by a wick
+  - id: hold_the_winner
+    pattern: Holding a winner past the plan
+    looksLike: '"Should I keep holding it fully" at the top; exits decided after the entry'
+    cost: Full round-trips of intraday gains
+  - id: regret_loop
+    pattern: Regret after a correct exit
+    looksLike: '"If I had held I would have doubled"'
+    cost: Next trade sized bigger to make it back
+  - id: bottom_call
+    pattern: Bottom-calling 24 hours after a flush
+    looksLike: '"I feel like the bottom is in" with no confirmation day'
+    cost: Early entries that get retested
+  - id: squeeze_as_strength
+    pattern: Reading a squeeze candle as institutional buying
+    looksLike: One spike through a moving average, rejected, read as strength
+    cost: Holding into a failed bounce
+  - id: liquidity_run
+    pattern: Liquidity-run rationalization
+    looksLike: '"It will run the highs first" while long and stalling'
+    cost: Ignores the liquidity on the other side
+  - id: late_night_idea
+    pattern: Off-catalyst ideas, often late at night
+    looksLike: Full-port gold on RSI, buy SNDK because it dropped
+    cost: Trades with no edge
+  - id: cross_account_offset
+    pattern: Cross-account hedging ideas
+    looksLike: Opposite positions on two Vest accounts, or with a partner's account
+    cost: Would void payouts and get accounts banned
+
+voice:
+  rules:
+    - Direct, specific, numbers first, no hedging language, no lectures.
+    - Name the pattern in one sentence with the evidence, then give the action.
+    - One sentence of pattern, one of evidence, one of action. No third paragraph.
+    - Never the same flag twice in an episode; a repeat is replaced by the override ledger number.
+    - Acknowledge the correct reads when they happen.
+    - Humor allowed, sarcasm not. A glove, not a parent.
+  banned: ['consider', 'you may want to', 'might want to', 'perhaps', 'it could be argued']
+
+goals:
+  - Consistent payouts across accounts, then scaling notional as the plan-adherence score proves out.
+  - A catalyst model good enough to express on Kalshi as well as in futures.
+
+regimeNotes:
+  - First move trades the headline, second move trades yields.
+  - A beat is not a positive reaction; check the post-print history before assuming one.
+  - Weekend lock on Vest at 20:00 ET Friday.
+  - A hot core with hike odds already high is bearish; an in-line print with odds already high is the squeeze branch.
+
+# Section 6 starting weights; re-fitted monthly against the journal.
+weights:
+  catalyst: 0.30
+  rates: 0.20
+  regime: 0.15
+  breadth: 0.10
+  positioning: 0.10
+  structure: 0.10
+  news: 0.05
+  fed: 0.02
+  calendar: 0.015
+  cross_asset: 0.015
+
+circuitBreakers:
+  planBreakingTradesPerDay: 3
+  vestClaimGainPct: 30
+  lateNight: { from: '23:00', to: '06:00', catalystWithinHours: 12 }
+  reentryCooldownMin: 15
+
+notifications:
+  quietHours: { from: '23:30', to: '06:00' }
+  p1PerSession: 8
+  p2PerDay: 6
+  morningBriefLocal: '06:30'
+  recapET: '16:30'
+  weeklyLocal: 'Sun 18:00'
+
+memos: []
