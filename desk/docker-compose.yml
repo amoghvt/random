@@ -1,0 +1,66 @@
+# The whole desk on one machine:  docker compose up --build   then open http://localhost:8080
+# Passphrase is DESK_TOKEN (default below; override in .env next to this file, see .env.example).
+name: desk
+
+services:
+  db:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_USER: desk
+      POSTGRES_PASSWORD: desk
+      POSTGRES_DB: desk
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U desk -d desk"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7
+    # BullMQ needs keys never evicted; no persistence needed, schedules are re-registered on boot.
+    command: ["redis-server", "--maxmemory-policy", "noeviction", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      # Not "production" here: over plain http://localhost Safari drops Secure cookies. Fly sets production.
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: "8080"
+      DATABASE_URL: postgres://desk:desk@db:5432/desk
+      REDIS_URL: redis://redis:6379
+      DESK_TOKEN: ${DESK_TOKEN:-desk-local-passphrase}
+      DESK_TZ: ${DESK_TZ:-}
+      TV_WEBHOOK_SECRET: ${TV_WEBHOOK_SECRET:-}
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY:-}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      POLYGON_API_KEY: ${POLYGON_API_KEY:-}
+      DATABENTO_API_KEY: ${DATABENTO_API_KEY:-}
+      TRADIER_TOKEN: ${TRADIER_TOKEN:-}
+      ALPACA_KEY_ID: ${ALPACA_KEY_ID:-}
+      ALPACA_SECRET: ${ALPACA_SECRET:-}
+      TRADING_ECONOMICS_KEY: ${TRADING_ECONOMICS_KEY:-}
+      FRED_API_KEY: ${FRED_API_KEY:-}
+      BENZINGA_API_KEY: ${BENZINGA_API_KEY:-}
+      KALSHI_KEY_ID: ${KALSHI_KEY_ID:-}
+      SPOTGAMMA_KEY: ${SPOTGAMMA_KEY:-}
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+
+volumes:
+  pgdata:

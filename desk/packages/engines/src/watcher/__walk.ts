@@ -1,0 +1,12 @@
+import { fromZoned, hhmm, dayKey } from '@desk/contracts';
+import { loadSessionFixture } from './loadFixture';
+import { walkForward } from './replay';
+const fx = loadSessionFixture();
+const t0 = Date.now();
+const seen = walkForward({ instrument: 'NQ', m1: fx.m1.NQ!, history: { '15m': fx.m15History.NQ! }, peersM1: { ES: fx.m1.ES! }, from: fromZoned(2026, 11, 16, 0, 0), to: fromZoned(2026, 11, 18, 0, 0) });
+console.log('ms', Date.now() - t0, 'events', seen.size);
+const counts: Record<string, number> = {};
+for (const { event: e } of seen.values()) counts[`${e.tf} ${e.detector}/${e.kind}`] = (counts[`${e.tf} ${e.detector}/${e.kind}`] ?? 0) + 1;
+console.log(Object.entries(counts).sort().map(([k, v]) => `${k}: ${v}`).join('\n'));
+const want = new Set(['retrace_quality', 'volume_context']);
+for (const { event: e, at } of seen.values()) if ((want.has(e.detector) || e.confirmedSetup || e.kind.startsWith('first_touch') || e.kind.startsWith('reclaim') || e.kind.startsWith('last_hour')) && e.tf !== '1m') console.log(dayKey(at), hhmm(at), e.tf, e.kind, '|', e.text);

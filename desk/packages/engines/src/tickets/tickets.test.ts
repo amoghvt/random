@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MIN, Ticket as TicketSchema, iso, type Candle, type Catalyst, type Fill, type Ticket } from '@desk/contracts';
-import { loadRecordedCalendar, loadRecordedCandles } from '@desk/feeds/recorded.ts';
+import { loadRecordedCalendar, loadRecordedCandles } from '@desk/feeds';
 import {
   allDeviations, applyFill, cancelTicket, captureComparison, capturePct, closeTicket, detectDeviations, overrideLedger, overridePrompt,
   planBreakingTradesToday, postExitExcursions, recordOverride, replayFills, rollingAdherence, scoreAdherence, settleResult, simulatePlan,

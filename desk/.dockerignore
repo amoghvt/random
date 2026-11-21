@@ -1,0 +1,12 @@
+**/node_modules
+**/.next
+**/out
+**/dist
+**/coverage
+**/*.log
+**/.env
+**/.env.local
+.pgdata
+.git
+apps/web/screenshots
+docs
