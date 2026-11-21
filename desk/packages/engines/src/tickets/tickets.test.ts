@@ -424,7 +424,8 @@ describe('full lifecycle on recorded NQ 1m candles', () => {
     t = recordOverride(t, 'skipped_scale_out', 'it is flushing, let it run', h2.t + 5 * MIN);
     expect(detectDeviations(t, during(h3.t + 6 * MIN), h3.t + 6 * MIN).map((d) => d.targetIndex)).toEqual([3]);
     const lateTs = Date.parse('2026-11-17T20:10:00Z');
-    expect(ticketAlerts(t, candle(TIME_STOP).o, TIME_STOP).map((a) => a.kind)).toEqual(['time_stop']);
+    // 26,888.5 at the time stop: below T2 and T3, neither scaled, so all three are due
+    expect(ticketAlerts(t, candle(TIME_STOP).o, TIME_STOP).map((a) => a.kind)).toEqual(['time_stop', 'target', 'target']);
 
     // Out ten minutes after the time stop, at the recorded 20:10 open.
     const late = candle(lateTs);
@@ -437,11 +438,12 @@ describe('full lifecycle on recorded NQ 1m candles', () => {
     expect(t.result?.pnlUsd).toBe(expectedPnl);
 
     // Plan impact: realized minus the 14,280 the ticket as written made on the same candles.
+    // On this recorded day the hold paid: the two runners came off near 26,894 instead of 27,150 and 26,900.
     const impact = t.overrides.reduce((a, o) => a + (o.pnlImpactUsd ?? 0), 0);
     expect(impact).toBeCloseTo(expectedPnl - 14280, 1);
     const settled = settleResult(t, throughWindow, WINDOW_END).ticket;
     const ledger = overrideLedger([settled], WINDOW_END);
-    expect(ledger).toMatchObject({ month: '2026-11', instances: 3, pendingInstances: 0, lastPaidAt: null });
+    expect(ledger).toMatchObject({ month: '2026-11', instances: 3, pendingInstances: 0, lastPaidAt: iso(TIME_STOP) });
     expect(ledger.monthToDateUsd).toBeCloseTo(expectedPnl - 14280, 1);
     expect(planBreakingTradesToday([settled], lateTs + MIN, 'America/New_York')).toBe(1);
     expect(planBreakingTradesToday([settled], lateTs + 24 * 60 * MIN, 'America/New_York')).toBe(0);

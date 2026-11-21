@@ -279,7 +279,7 @@ export function parseMemoryQuestion(question: string): MemoryIntent {
   count = Math.min(20, Math.max(1, count));
 
   const kind: MemoryKind | null = tags.some((t) => t !== 'short' && t !== 'long') || /\btrades?\b|\btraded\b|\bposition|\bexit(ed|s)?\b|\bentr(y|ies)\b|\bp&l\b|\bpnl\b/.test(q) ? 'trade'
-    : /\bcalls?\b|\bbias\b/.test(q) ? 'call' : /\bguardrails?\b|\bflag(s|ged)?\b/.test(q) ? 'event' : /\bnotes?\b/.test(q) ? 'note' : /\bcatalysts?\b|\breleases?\b/.test(q) ? 'catalyst' : null;
+    : /\bcalls?\b|\bbias\b/.test(q) ? 'call' : /\bguardrails?\b|\bflag(s|ged)?\b/.test(q) ? 'event' : /\bnotes?\b|\bwrote\b|\bwrite\b/.test(q) ? 'note' : null;
   return { count, countStated, kind, tags, instrument, structured: tags.length > 0 || (kind !== null && (countStated || instrument !== null)) };
 }
 

@@ -240,6 +240,8 @@ export const liquidityRun: ChatRule = (message, ctx) => {
     const sym = priceSym(position.instrument);
     const maxAge = th.structureMaxAgeHours * HOUR;
     const stall = recentEvents(ctx, 'retrace_quality', [sym], maxAge).find((e) => {
+      // A stall that favors the position (a held dip while long) is not the tell.
+      if (e.bias === sign(position.direction)) return false;
       const r = retracePct(e);
       return r != null ? r < th.liquidityRunRetraceMaxPct : /under_50|stalled/.test(e.kind);
     });

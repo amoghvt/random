@@ -6,8 +6,8 @@ import { INSTRUMENTS, fmtNum, hhmm, instrument, ms, pnlUsd, type Candle, type Di
 
 export const EPS = 1e-9;
 export const sign = (d: Direction): 1 | -1 => (d === 'long' ? 1 : -1);
-/** 27338 -> "27,338"; 27338.25 -> "27,338.25". */
-export const px = (x: number): string => fmtNum(x, Number.isInteger(x) ? 0 : 2);
+/** 27338 -> "27,338"; 27338.25 -> "27,338.25"; 262.5 -> "262.5". */
+export const px = (x: number): string => x.toLocaleString('en-US', { maximumFractionDigits: 2 });
 export const etClock = (t: number | string): string => `${hhmm(t)} ET`;
 export const isIncrease = (f: Fill): boolean => f.kind === 'entry' || f.kind === 'add';
 /** The price series an instrument tracks (NQ-PERP and MNQ are NQ). Unknown symbols stand for themselves. */

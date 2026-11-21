@@ -140,6 +140,8 @@ describe('liquidity_run', () => {
     expect(f[0]!.text).toBe('Long NQ and the retrace is 38% of the leg. Liquidity sits both sides: buy stops 1.2% up, sell stops 1.7% down, fail price 1.0% down. Order of arrival decides, not the thesis.');
     expect(only(checkChat(said, makeCtx(NOW, { positions: [syntheticHeld(NOW)], structure: [stall(62), ...pools] })), 'liquidity_run')).toHaveLength(0);
     expect(only(checkChat(said, makeCtx(NOW, { positions: [syntheticHeld(NOW, { direction: 'short' })], structure: [stall(38), ...pools] })), 'liquidity_run')).toHaveLength(0);
+    // A dip that held above 50% (bullish for the long) is not a stall against it.
+    expect(only(checkChat(said, makeCtx(NOW, { positions: [syntheticHeld(NOW)], structure: [{ ...stall(38), kind: 'dip_stalled_under_50', bias: 1 }, ...pools] })), 'liquidity_run')).toHaveLength(0);
   });
   it('drops a side that has no mapped pool', () => {
     const f = only(checkChat('sweep the highs', makeCtx(NOW, { positions: [syntheticHeld(NOW)], structure: [stall(38), pools[1]!] })), 'liquidity_run');
