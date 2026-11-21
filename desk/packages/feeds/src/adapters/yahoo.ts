@@ -252,8 +252,10 @@ export const yahooOptions: Feed<ItemOf<'datum'>> = {
       if (r.value.symbol === 'QQQ') { data.push(...impliedMoveData(r.value, 'yahoo:options', 1800, 'NQ', { proxy: 'QQQ' })); nq = true; }
     }
     if (!nq) {
-      const q = mapYahooQuote(await fetchYahooChart('^VIX', '1d', '1d', ctx.fetch), 'VIX', 1800);
-      if (q) data.push(vixImpliedMove({ key: DATUM_KEYS.vix, value: q.price, source: q.source, asOf: q.asOf, cadenceSec: 1800 }));
+      try {
+        const q = mapYahooQuote(await fetchYahooChart('^VIX', '1d', '1d', ctx.fetch), 'VIX', 1800);
+        if (q) data.push(vixImpliedMove({ key: DATUM_KEYS.vix, value: q.price, source: q.source, asOf: q.asOf, cadenceSec: 1800 }));
+      } catch { /* no chain and no VIX: opt.implied_move.NQ stays unwritten rather than guessed */ }
     }
     if (data.length === 0) { const bad = results.find((r) => !r.ok); if (bad && !bad.ok) throw bad.error; }
     return datumItems(data);

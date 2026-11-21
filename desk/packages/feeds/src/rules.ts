@@ -52,7 +52,8 @@ export function normalizeRuleText(html: string): string[] {
   let h = html.replace(/<!--[\s\S]*?-->/g, ' ').replace(/<(script|style|noscript|svg|nav|header|footer|form|button|select|iframe|template)\b[\s\S]*?<\/\1>/gi, ' ');
   const body = /<article\b[\s\S]*<\/article>/i.exec(h) ?? /<main\b[\s\S]*<\/main>/i.exec(h);
   if (body) h = body[0];
-  const text = decode(h.replace(/<(br|\/p|\/div|\/li|\/h[1-6]|\/tr|\/td|\/th|\/section|\/blockquote)\b[^>]*>/gi, '\n').replace(/<[^>]+>/g, ' '));
+  // Source line breaks are layout, not structure: only block tags end a line.
+  const text = decode(h.replace(/\s+/g, ' ').replace(/<(br|\/p|\/div|\/li|\/h[1-6]|\/tr|\/td|\/th|\/section|\/blockquote)\b[^>]*>/gi, '\n').replace(/<[^>]+>/g, ' '));
   const seen = new Set<string>();
   const out: string[] = [];
   for (const block of text.split('\n')) {

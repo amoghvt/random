@@ -289,12 +289,12 @@ export function TicketForm({ prefill }: { prefill: Prefill }) {
       <Card title="5 · Targets and scale-out">
         <div className="space-y-2">
           {f.targets.map((t, i) => (
-            <div key={i} className="grid grid-cols-[2rem_1fr_5.5rem] items-center gap-2">
+            <div key={i} className="grid grid-cols-[2rem_1fr_6rem] items-center gap-2">
               <span className="text-sm font-semibold text-mute">T{i + 1}</span>
               <input className="inp" inputMode="decimal" placeholder="Price" aria-label={`Target ${i + 1} price`} aria-invalid={errs('targets') != null} value={t.price} data-testid={`t${i + 1}-price`}
                 onChange={(e) => set({ targets: f.targets.map((x, j) => (j === i ? { ...x, price: e.target.value } : x)) })} />
               <span className="relative">
-                <input className="inp pr-7 text-right" inputMode="decimal" aria-label={`Target ${i + 1} share of size, percent`} value={t.pct}
+                <input className="inp text-right" style={{ paddingRight: 30 }} inputMode="decimal" aria-label={`Target ${i + 1} share of size, percent`} value={t.pct}
                   onChange={(e) => set({ targets: f.targets.map((x, j) => (j === i ? { ...x, pct: e.target.value } : x)) })} />
                 <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-mute">%</span>
               </span>

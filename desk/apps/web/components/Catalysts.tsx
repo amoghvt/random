@@ -131,7 +131,7 @@ function History({ c }: { c: Catalyst }) {
   if (c.history.length === 0) return <Card title="Historical reactions"><Empty>No recorded instances.</Empty></Card>;
   return (
     <Card title={`Historical reactions · last ${c.history.length}`}>
-      <table className="w-full text-right text-[13px]" data-testid="history">
+      <table className="w-full text-right text-[13px] [&_td]:pl-1.5 [&_th]:pl-1.5 [&_th:first-child]:pl-0" data-testid="history">
         <thead className="text-[11px] uppercase text-mute">
           <tr><th scope="col" className="pb-1 text-left font-medium">Date</th><th scope="col" className="font-medium">Act</th><th scope="col" className="font-medium">Cons</th><th scope="col" className="font-medium">5m</th><th scope="col" className="font-medium">1h</th><th scope="col" className="font-medium">Close</th><th scope="col" className="font-medium">Rev</th></tr>
         </thead>
