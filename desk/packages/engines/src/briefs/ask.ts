@@ -7,7 +7,7 @@ import {
   INSTRUMENTS, dayKey, freshness, hashId, iso,
   type BiasCall, type ChatMessage, type Profile,
 } from '@desk/contracts';
-import { callKey, callLine, catalystLine, ensureDot, etStamp, monthDay, quoteText, signed, sortCalls, usd, yieldText } from './common';
+import { callKey, callLine, catalystLine, ensureDot, etStamp, quoteText, signed, sortCalls, usd, yieldText } from './common';
 import { accountLine, headlineLine, positionText, topReads } from './morning';
 import { extractNumbers, numberOnSheet, numbersNotOnSheet } from './numbers';
 import type { AskCtx } from './types';
@@ -110,7 +110,7 @@ export function buildAskContext(ctx: AskCtx): AskContext {
   const upcoming = ctx.catalysts.filter((c) => c.status !== 'resolved').sort((a, b) => Date.parse(a.scheduledAt) - Date.parse(b.scheduledAt)).slice(0, MAX_CATALYSTS);
   for (const c of upcoming) {
     const engine = c.matrix ? ` Engine: ${ensureDot(c.matrix.whatIWouldDo)}` : '';
-    add('catalyst', `catalyst ${c.name}`, `${monthDay(c.scheduledAt)} ${catalystLine(c, now)}${engine}`, c.source, c.asOf, false, [...c.instruments, ...(c.symbol ? [c.symbol] : [])]);
+    add('catalyst', `catalyst ${c.name}`, `${catalystLine(c, now)}${engine}`, c.source, c.asOf, false, [...c.instruments, ...(c.symbol ? [c.symbol] : [])]);
   }
   for (const e of (ctx.structure ?? []).filter((x) => x.confirmedSetup)) add('structure', `setup ${e.instrument} ${e.tf}`, `${e.instrument} ${e.tf}: ${ensureDot(e.text)}`, 'chart watcher', e.ts, false, [e.instrument]);
   for (const p of ctx.positions) {
@@ -198,7 +198,8 @@ export function answerByRules(text: string, ctx: AskCtx): ChatMessage {
       if (route.instruments.length) pick = pick.filter((f) => route.instruments.some((i) => about(f, i)));
       if (word) pick = pick.filter((f) => word[1].test(f.text));
       if (pick.length === 0) out.push(`No matching catalyst on the calendar I hold ${nowStamp}.${all.length ? ' Next on it:' : ''}`);
-      (pick.length ? pick : all).slice(0, 3).forEach((f) => say(f));
+      // A catalyst line carries a branch trade, so the answer closes with the call on the instruments it moves.
+      (pick.length ? pick : all).slice(0, 3).forEach((f) => { say(f); f.instruments.forEach((i) => endWith.add(tracks(i))); });
       break;
     }
     case 'instrument': {

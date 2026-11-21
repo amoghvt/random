@@ -132,7 +132,7 @@ function Yield({ label, s, chg1h, chg1d }: { label: string; s: Stamped<number>; 
       <div className="text-[11px] uppercase tracking-wide text-mute">{label}</div>
       <div className="text-lg font-semibold">{s.value != null ? `${s.value.toFixed(2)}%` : '—'}<Age stale={s.stale} age={s.age} /></div>
       <div className="text-xs text-mute">
-        {chg1h != null ? <span className={chg1h > 0 ? 'text-down' : chg1h < 0 ? 'text-up' : ''}>{fmtBp(chg1h)}</span> : '—'} 1h
+        {chg1h != null ? <span className="text-ink">{fmtBp(chg1h)}</span> : '—'} 1h
         <span className="mx-1 text-dim">·</span>
         {chg1d != null ? fmtBp(chg1d) : '—'} 1d
       </div>

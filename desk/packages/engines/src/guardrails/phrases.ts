@@ -77,7 +77,7 @@ const REGRET = [
   /\bif i (?:hadn'?t|had not|didn'?t) (?:sold|closed|exited|trimmed|scaled|taken profit)\b/i,
   /\b(?:would|could|should)(?:'ve| have) (?:doubled|tripled|made|been up|held|kept)\b/i,
   /\bleft (?:so much|a lot|too much|money|\$?[\d,.]+k?) on the table\b/i,
-  /\bsold (?:way |too |far too )?(?:early|soon)\b/i,
+  /\bsold (?:way |far )?(?:too )?(?:early|soon)\b/i,
   /\bshould(?:'ve| have|n'?t have) (?:held|kept|stayed in|sold)\b/i,
   /\bmissed (?:the rest|out on) (?:of )?the (?:move|run)\b/i,
 ];

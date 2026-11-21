@@ -56,7 +56,7 @@ describe('fact sheet', () => {
     expect(sheet.text).toContain('- 10Y 4.94% −9 bp 1d (3h old) [synthetic rates, as of 07:30 ET, STALE]');
     expect(sheet.text).toContain('- 2Y 4.61% +2 bp 1d [synthetic rates, as of 06:29 ET]');
     expect(sheet.text).toContain('- NQ 27,062 +0.4% [synthetic feed, as of 10:29 ET]');
-    expect(sheet.text).toContain('- Nov 25 Nov 25 08:30 ET PCE (T1): consensus 0.3%, whisper 0.2%, implied move ±1.1% (options). Branch trade: core 0.3 (p 0.45): No edge, stand aside until 09:15. Engine: Short the second move on a hot core. [synthetic calendar, as of 05:00 ET]');
+    expect(sheet.text).toContain('- Nov 25 08:30 ET PCE (T1): consensus 0.3%, whisper 0.2%, implied move ±1.1% (options). Branch trade: core 0.3 (p 0.45): No edge, stand aside until 09:15. Engine: Short the second move on a hot core. [synthetic calendar, as of 05:00 ET]');
     expect(sheet.text).toContain('- Overrides: −$1,240 month to date over 5 instances; plan capture 68% vs override capture 41%. [journal, as of Nov 19 17:00 ET]');
     expect(sheet.text).toContain('CONFIRMED SETUPS\n- no data');
     expect(sheet.text).toContain('MEMORY HITS\n- no data');
@@ -141,7 +141,7 @@ describe('rules answers', () => {
     const lines = answerByRules('thoughts on SNDK', ctx).text.split('\n');
     expect(lines[0]).toBe('SNDK: no quote on file (as of 10:30 ET).');
     expect(lines[1]).toBe('No edge on SNDK. No catalyst on the calendar for it and no confirmed setup (as of 10:30 ET).');
-    expect(lines[2]).toMatch(/^What would create one: a confirmed sweep-and-reclaim with an MSS on SNDK, or the next market catalyst\. Nov 25 Nov 25 08:30 ET PCE \(T1\)/);
+    expect(lines[2]).toMatch(/^What would create one: a confirmed sweep-and-reclaim with an MSS on SNDK, or the next market catalyst\. Nov 25 08:30 ET PCE \(T1\)/);
     expect(lines.at(-2)).toBe('Current call: none on file for SNDK; that reads as No edge (as of 10:30 ET).');
     expect(lines.at(-1)).toBe(`Desk call: ${callLine(ctx.calls[0]!, ASK_NOW)} (as of 06:00 ET)`);
     expect(answerByRules('thoughts on SNDK', { ...ctx, catalysts: [] }).text).toContain('None is scheduled in the data I hold.');
@@ -177,7 +177,7 @@ describe('LLM path', () => {
     expect(m.text.startsWith('NQ 27,062')).toBe(true);
     expect(m.citations!.map((c) => c.label)).toEqual(expect.arrayContaining(['NQ', '10Y']));
     expect(m.citations!.map((c) => c.label)).not.toContain('VIX');
-    expect(m.asOf).toBe(iso(NOW)); // the oldest fact used: the call that also carries 4.94 and 27,062-adjacent levels is older than the 10Y print
+    expect(m.asOf).toBe(at(6, 0)); // the oldest fact used is the 06:00 call, whose facts also carry 4.94%
     expect(finalizeAnswer('No data.', sheet, ASK_NOW)).toMatchObject({ asOf: iso(ASK_NOW), citations: [], role: 'desk' });
   });
 });

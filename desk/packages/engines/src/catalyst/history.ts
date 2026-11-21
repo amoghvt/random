@@ -107,11 +107,24 @@ export function reactionFor(event: Pick<CalendarEvent, 'time' | 'actual' | 'cons
   return row;
 }
 
+/**
+ * One printed event per release time for a code, newest first. Where the feed gives several series the same code at the
+ * same time (MoM and YoY), the MoM series is kept, then the provider's importance.
+ */
+export function canonicalEvents(events: CalendarEvent[], code: EventCode, before?: number): CalendarEvent[] {
+  const rank = (e: CalendarEvent): number => (/mom|m\/m/i.test(e.name) ? 4 : /yoy|y\/y/i.test(e.name) ? 0 : 2) + (e.importance ?? -1);
+  const byTime = new Map<string, CalendarEvent>();
+  for (const e of events) {
+    if (e.code !== code || e.actual === null || (before !== undefined && Date.parse(e.time) >= before)) continue;
+    const cur = byTime.get(e.time);
+    if (!cur || rank(e) > rank(cur)) byTime.set(e.time, e);
+  }
+  return [...byTime.values()].sort((a, b) => Date.parse(b.time) - Date.parse(a.time));
+}
+
 /** The last `n` releases of `code` that have printed, newest first. */
 export function buildHistory(code: EventCode, pastEvents: CalendarEvent[], candlesByTf: CandlesByTf, n = 8, before?: number): HistoricalReactionEx[] {
-  return pastEvents
-    .filter((e) => e.code === code && e.actual !== null && (before === undefined || Date.parse(e.time) < before))
-    .sort((a, b) => Date.parse(b.time) - Date.parse(a.time))
+  return canonicalEvents(pastEvents, code, before)
     .slice(0, n)
     .map((e) => reactionFor(e, candlesByTf));
 }
@@ -122,9 +135,7 @@ export function buildHistory(code: EventCode, pastEvents: CalendarEvent[], candl
  */
 export function buildRateHistory(code: EventCode, pastEvents: CalendarEvent[], us10y: CandlesByTf, n = 8, before?: number): RateReaction[] {
   const bp = (a: number | null, b: number | null): number | null => (a === null || b === null ? null : round((a - b) * 100, 1));
-  return pastEvents
-    .filter((e) => e.code === code && e.actual !== null && (before === undefined || Date.parse(e.time) < before))
-    .sort((a, b) => Date.parse(b.time) - Date.parse(a.time))
+  return canonicalEvents(pastEvents, code, before)
     .slice(0, n)
     .map((e) => {
       const T = Date.parse(e.time);

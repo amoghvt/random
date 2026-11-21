@@ -4,7 +4,7 @@ import { countWords, renderBriefText } from './common';
 import { extractNumbers } from './numbers';
 import { NOW, at, emptyMorning, syntheticAccount, syntheticCall, syntheticCatalyst, syntheticLedger, syntheticMorning, syntheticPosition, syntheticProfile, syntheticQuote, syntheticRates, syntheticTicket } from './fixtures';
 import { MORNING_SECTIONS, briefChanged, morningBrief } from './morning';
-import { RECAP_SECTIONS, postCloseRecap } from './recap';
+import { RECAP_SECTIONS, postCloseRecap, trimToWords } from './recap';
 import { briefDue, slotTime } from './schedule';
 import type { RecapCtx, WeeklyCtx } from './types';
 import { commonality, rankReads, readAttrs, weekKey, weeklyMemo, weeklyReview } from './weekly';
@@ -185,9 +185,16 @@ describe('post-close recap', () => {
     expect(b.sections[0]!.lines[0]).toBe('NQ intraday: Lean short 0.62 at 06:00 ET.');
     expect(b.sections[2]!.lines[0]).toBe('NQ intraday: right, −1.00% over the call.');
     expect(b.sections[5]!.lines[0]).toMatch(/^Nov 21 08:30 ET Synthetic catalyst/);
-    expect(b.sections[5]!.lines[0]).toMatch(/…$/);
     // A short day is not trimmed at all.
     expect(postCloseRecap(recapCtx()).sections.flatMap((s) => s.lines)).toHaveLength(9);
+  });
+
+  it('lines that must stay are clipped when dropping is not enough', () => {
+    const long = Array.from({ length: 80 }, (_, i) => `w${i}`).join(' ');
+    const kept = trimToWords(RECAP_SECTIONS.map((section) => ({ section, text: long, priority: 0 })), 199);
+    expect(kept).toHaveLength(6);
+    expect(kept.every((l) => l.text.endsWith('…'))).toBe(true);
+    expect(kept.reduce((n, l) => n + countWords(l.text), 0)).toBeLessThan(190);
   });
 
   it('empty day: no call, no trades, no ledger, nothing tomorrow', () => {

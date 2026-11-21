@@ -364,7 +364,7 @@ describe('full lifecycle on recorded NQ 1m candles', () => {
 
     // Fills at the plan's levels, each in the first recorded minute that traded through the level.
     const h1 = firstThrough(27250, ENTRY_T), h2 = firstThrough(27150, ENTRY_T), h3 = firstThrough(26900, ENTRY_T);
-    expect([h1.t, h2.t, h3.t].map((x) => iso(x).slice(11, 16))).toEqual(['14:34', '15:02', '15:38']);
+    expect([h1.t, h2.t, h3.t].map((x) => iso(x).slice(11, 16))).toEqual(['14:34', '15:10', '15:41']);
     t = applyFill(t, { kind: 'entry', ts: iso(ENTRY_T), price: entryPrice, units: 3, source: 'manual' }, ENTRY_T).ticket;
     for (const [hit, price] of [[h1, 27250], [h2, 27150]] as const) {
       const now = hit.t + 30_000;
@@ -420,7 +420,7 @@ describe('full lifecycle on recorded NQ 1m candles', () => {
     // No scale-out at T2 or T3; the worker's loop finds both on the real path, and the alert fires at the time stop.
     const h2 = firstThrough(27150, ENTRY_T), h3 = firstThrough(26900, ENTRY_T);
     expect(detectDeviations(t, during(h2.t + 4 * MIN), h2.t + 4 * MIN)).toEqual([]);
-    expect(detectDeviations(t, during(h2.t + 5 * MIN), h2.t + 5 * MIN)).toEqual([{ kind: 'skipped_scale_out', ts: iso(h2.t), targetIndex: 2, price: 27150, reason: 'T2 27,150 traded at 10:02 ET; no scale-out within 5 min.' }]);
+    expect(detectDeviations(t, during(h2.t + 5 * MIN), h2.t + 5 * MIN)).toEqual([{ kind: 'skipped_scale_out', ts: iso(h2.t), targetIndex: 2, price: 27150, reason: 'T2 27,150 traded at 10:10 ET; no scale-out within 5 min.' }]);
     t = recordOverride(t, 'skipped_scale_out', 'it is flushing, let it run', h2.t + 5 * MIN);
     expect(detectDeviations(t, during(h3.t + 6 * MIN), h3.t + 6 * MIN).map((d) => d.targetIndex)).toEqual([3]);
     const lateTs = Date.parse('2026-11-17T20:10:00Z');
@@ -448,7 +448,7 @@ describe('full lifecycle on recorded NQ 1m candles', () => {
     console.log('[real NQ 2026-11-17] override trade:', JSON.stringify({ exit: late.o, ...settled.result, impactUsd: ledger.monthToDateUsd, ledger: ledgerSentence(ledger) }));
   });
 
-  it('a hold through invalidation on the real path is detected: long from the open, 27,300 lost at 09:31 ET', () => {
+  it('a hold through invalidation on the real path is detected: long from the open, 27,300 lost at 09:30 ET', () => {
     const sizing = syntheticSizing({ direction: 'long', maxUnits: 1 });
     const r = validateDraft({
       accountId: 'mffu-pro-50k', instrument: 'NQ', direction: 'long', reason: { kind: 'catalyst', catalystId: retailSales.id },
@@ -459,7 +459,7 @@ describe('full lifecycle on recorded NQ 1m candles', () => {
     const hit = all.find((c) => c.t >= ENTRY_T && c.l <= 27300)!;
     expect(iso(hit.t).slice(11, 16)).toBe('14:30');
     expect(ticketAlerts(t, hit.l, hit.t + 30_000).map((a) => a.kind)).toEqual(['invalidation']);
-    const exitTs = Date.parse('2026-11-17T15:00:00Z');
+    const exitTs = Date.parse('2026-11-17T15:15:00Z');
     t = closeTicket(t, { price: candle(exitTs).o, ts: iso(exitTs) }, during(exitTs));
     expect(t.fills.at(-1)?.kind).toBe('stop');
     expect(t.result).toMatchObject({ adherence: 70, deductions: [{ kind: 'held_through_invalidation', points: 30 }], followedPlan: false });

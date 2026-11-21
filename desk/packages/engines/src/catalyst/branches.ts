@@ -5,6 +5,7 @@
  */
 import { round } from '@desk/contracts';
 import type { CalendarEvent, EventCode, PredictionMarket, ScenarioBranch } from '@desk/contracts';
+import { canonicalEvents } from './history';
 import type { FedStance, Regime, Trend } from './types';
 
 export type Family = 'inflation' | 'growth' | 'policy' | 'tone' | 'auction' | 'earnings' | 'adhoc';
@@ -309,8 +310,7 @@ export function probsFromPrior(spec: Spec, regime: Regime): ProbResult {
 
 /** Past surprises for a calendar code, newest first, using only prints before `before`. */
 export function pastSurprises(events: CalendarEvent[], code: EventCode, before: number): number[] {
-  return events
-    .filter((e) => e.code === code && e.actual !== null && e.consensus !== null && Date.parse(e.time) < before)
-    .sort((a, b) => Date.parse(b.time) - Date.parse(a.time))
+  return canonicalEvents(events, code, before)
+    .filter((e) => e.consensus !== null)
     .map((e) => round((e.actual as number) - (e.consensus as number), 6));
 }

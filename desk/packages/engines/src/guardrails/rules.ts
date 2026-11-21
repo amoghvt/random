@@ -300,7 +300,7 @@ export const hedgeTheDecisionTicket: TicketRule = (t, ctx) => {
   return fire(ctx, {
     pattern: 'hedge_the_decision', episodeKey: held.position.id, trigger: ticketTrigger(t), effect: 'block',
     text: `${cap(t.direction)} ${t.instrument} ticket against your open ${held.position.instrument} ${held.position.direction} on ${t.accountId}. ${hedgeLine(sym)} ${HEDGE_ACTION}`,
-    evidence: { positionId: held.position.id, held: held.position.direction, ticketDirection: t.direction, accountId: t.accountId, shown: [] },
+    evidence: { positionId: held.position.id, held: held.position.direction, ticketDirection: t.direction, accountId: t.accountId, shown: [t.accountId] },
   });
 };
 
@@ -319,6 +319,8 @@ export const crossAccountOffset: TicketRule = (t, ctx) => {
   const quote = clauseQuote(hit.clause);
   const S = shownValues();
   S(quote);
+  S(t.accountId);
+  S(other);
   const attributed = firm && !quote.toLowerCase().startsWith(firm.toLowerCase()) ? `${firm}: "${quote}".` : `Clause: "${quote}".`;
   return fire(ctx, {
     pattern: 'cross_account_offset', episodeKey: `${[t.accountId, other].sort().join('|')}:${priceSym(t.instrument)}:${localDay(ctx)}`,
@@ -545,6 +547,7 @@ export function claimPrompts(ctx: GuardrailContext): GuardrailFiring[] {
     const pct = (s.dayPnl / s.dayStartBalance) * 100;
     if (pct <= limit) continue;
     const S = shownValues();
+    S(s.accountId);
     const next = upcomingCatalysts(ctx)[0];
     const nextLine = next ? `Next catalyst is ${next.name} at ${S(etClock(next.scheduledAt))}, ${S(fmtElapsed(hoursUntil(ctx, next.scheduledAt)))} out. Claim before it.` : 'Claim before the next catalyst.';
     out.push(fire(ctx, {

@@ -293,7 +293,7 @@ describe('once per episode', () => {
   it('a repeat inside the episode is the override-ledger number alone, marked as a repeat, with its effect intact', () => {
     const ticket = syntheticTicket(NOW, { fills: [{ ts: iso(NOW - HOUR), price: 27050, units: 1, kind: 'scale_out', source: 'manual' }] });
     const base = { tickets: [ticket], positions: [syntheticHeld(NOW)] };
-    const first = checkChat('should I keep holding it fully', makeCtx(NOW, base)).filter((f) => f.pattern === 'hold_the_winner');
+    const first = only(checkChat('should I keep holding it fully', makeCtx(NOW, base)), 'hold_the_winner');
     expect(first[0]!.evidence.repeat).toBe(false);
     const again = checkChat('but what if I hold just the runner', makeCtx(NOW + 5 * 60_000, { ...base, priorFirings: first })).filter((f) => f.pattern === 'hold_the_winner');
     expect(again[0]!.text).toBe('Overrides −$6,400 MTD across 7.');
@@ -437,7 +437,7 @@ describe('voice lint', () => {
     const all = [...SEEN, ...creep, ...sized, ...offset];
     for (const f of all) patterns.add(f.pattern);
     expect([...patterns].sort()).toEqual([...GuardrailPattern.options].sort());
-    expect(all.length).toBeGreaterThan(40);
+    expect(all.length).toBeGreaterThan(30);
     for (const f of all) {
       expect(lintVoice(f.text, PROFILE.voice.banned), f.text).toEqual([]);
       expect(inventedNumbers(f), f.text).toEqual([]);

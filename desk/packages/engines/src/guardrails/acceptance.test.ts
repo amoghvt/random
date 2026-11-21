@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { loadRecordedCandles } from '@desk/feeds/recorded.ts';
-import type { HedgeViolation } from '@desk/contracts';
+import { loadRecordedCandles } from '@desk/feeds';
+import type { GuardrailFiring, HedgeViolation } from '@desk/contracts';
 import { checkChat, checkTicket, combineEffects } from './entry';
 import { findFlushes } from './flush';
 import { lintVoice } from './voice';
 import { et, inventedNumbers, makeCtx, syntheticCatalyst, syntheticDraft, syntheticHeld, syntheticSizing, syntheticState, syntheticTicket } from './testkit';
 
 const NQ_D1 = loadRecordedCandles('NQ', '1d');
-const fired = (fs: Array<{ pattern: string }>, pattern: string) => fs.filter((f) => f.pattern === pattern);
+const fired = (fs: GuardrailFiring[], pattern: string): GuardrailFiring[] => fs.filter((f) => f.pattern === pattern);
 
 describe('guardrails acceptance', () => {
   it('recorded NQ daily candles: the flush and confirmation days the scenarios rely on', () => {
@@ -105,7 +105,7 @@ describe('guardrails acceptance', () => {
     expect(second[0]!.text).toBe('Two asks tonight and still no scheduled catalyst inside 12 hours. Saved as a watch, not a trade. It keeps until 06:00.');
 
     for (const f of [...bcScenario, ...phraseScenario, ...scScenario, ...hwScenario, ...fired(caScenario, 'cross_account_offset'), ...lnScenario, ...second]) {
-      expect(lintVoice(f.text, f.pattern ? makeCtx(now).profile.voice.banned : [])).toEqual([]);
+      expect(lintVoice(f.text, makeCtx(now).profile.voice.banned)).toEqual([]);
       expect(inventedNumbers(f)).toEqual([]);
     }
   });

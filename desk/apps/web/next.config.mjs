@@ -1,5 +1,5 @@
 const dev = process.env.NODE_ENV === 'development';
-const apiOrigin = process.env.DESK_API_URL ?? 'http://localhost:8787';
+const apiOrigin = process.env.DESK_API_URL ?? 'http://localhost:8080';
 
 /** Static export served by the API from the same origin. In `next dev` only, /api is proxied to DESK_API_URL. */
 const config = {

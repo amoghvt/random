@@ -74,7 +74,7 @@ export function detectSpikes(ctx: TfContext): StructureEvent[] {
           emaPierced: pierced, emaLevel: ctx.ema[ema][i], rejectedVia: via, rejectedViaEma: viaPeriod, rejectedWithinCandles: within,
           rejectedWithinMin: ((c[rej]!.t + ctx.tfMs) - c[i]!.t) / 60_000, rejectionClose: c[rej]!.c,
           volumePctOfImpulse: ratio == null ? null : ratio * 100, spikeVolPerCandle: spikeVol.mean, impulseVolPerCandle: impVol?.mean ?? null,
-          zeroVolumeCandles: spikeVol.zero, impulseFromT: leg?.from.t ?? null, impulseToT: leg?.to.t ?? null, impulsePts: leg?.size ?? null, crossSession,
+          zeroVolumeCandles: spikeVol.zero, impulseLabel: leg ? when(ctx.tf, leg.from.t, c[rej]!.t) : null, impulseFromT: leg?.from.t ?? null, impulseToT: leg?.to.t ?? null, impulsePts: leg?.size ?? null, crossSession,
         },
       }));
     }

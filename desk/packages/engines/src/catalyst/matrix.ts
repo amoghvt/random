@@ -1,11 +1,11 @@
 import { HOUR, INSTRUMENTS, MIN, clamp, dayKey, fmtNum, fmtPct, fromZoned, hhmm, iso, median, round, zoned } from '@desk/contracts';
 import type { AccountRules, Catalyst, ScenarioBranch, ScenarioMatrix, TradePlan } from '@desk/contracts';
 import {
-  BRANCH_IDS, KEYING, MIXED_KEY, MIXED_PRIOR, MIN_SURPRISE_SAMPLE, RATE_PRIOR_BP, SPECS, Y2_PER_Y10,
+  BRANCH_IDS, KEYING, MAX_SURPRISE_SAMPLE, MIXED_KEY, MIXED_PRIOR, MIN_SURPRISE_SAMPLE, RATE_PRIOR_BP, SPECS, Y2_PER_Y10,
   fmtValue, pastSurprises, probsFromMarkets, probsFromPrior, probsFromSurprises, regimeBand, secondOrderFor, signFor, slotBounds, slotLabel, slotOf,
 } from './branches';
 import type { ProbResult, Score, Slot, Spec } from './branches';
-import { cashCloseAfter } from './history';
+import { canonicalEvents, cashCloseAfter } from './history';
 import type { CatalystEx, HistoricalReactionEx, MatrixCtx, RateReaction } from './types';
 
 export const MIN_BUCKET_SAMPLE = 2;
@@ -165,10 +165,10 @@ export function isMixed(spec: Spec, step: number, m: MixedParams, actual: number
 
 function mixedProbability(catalyst: CatalystEx, spec: Spec, step: number, ctx: MatrixCtx, m: MixedParams): { p: number; source: ScenarioBranch['probabilitySource']; basis: string } {
   const keyed = catalyst.keyedOn ?? KEYING[catalyst.code]?.primary ?? catalyst.code;
-  const past = (ctx.pastEvents ?? []).filter((e) => Date.parse(e.time) < ctx.now && e.actual !== null && e.consensus !== null);
+  const secs = spec.secondary ? canonicalEvents(ctx.pastEvents ?? [], spec.secondary.code, ctx.now).filter((e) => e.consensus !== null) : [];
   let n = 0, k = 0;
-  for (const e of past.filter((x) => x.code === keyed)) {
-    const sec = past.find((x) => x.code === spec.secondary?.code && x.time === e.time);
+  for (const e of canonicalEvents(ctx.pastEvents ?? [], keyed, ctx.now).filter((x) => x.consensus !== null).slice(0, MAX_SURPRISE_SAMPLE)) {
+    const sec = secs.find((x) => x.time === e.time);
     if (!sec) continue;
     n++;
     if (isMixed(spec, step, { ...m, primaryCentre: e.consensus as number, secondaryCentre: sec.consensus as number }, e.actual as number, sec.actual as number)) k++;
