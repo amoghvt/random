@@ -230,6 +230,8 @@ export function searchVector(index: MemoryIndex, queryVec: SparseVector, opts: {
 export function search(index: MemoryIndex, query: string, opts: { k?: number; filters?: MemoryFilters; minScore?: number } = {}): MemoryHit[] {
   if (index.embedder !== tfidfEmbedder.id) throw new Error(`Index was built with ${index.embedder}; embed the query with it and call searchVector.`);
   const [vec] = tfidfEmbedder.embed([query], index.state as TfidfState);
+  /* An empty query browses the filtered docs by recency; a query made only of words the corpus never saw matches nothing. */
+  if (query.trim() !== '' && Object.keys(vec ?? {}).length === 0) return [];
   return searchVector(index, vec ?? {}, opts);
 }
 

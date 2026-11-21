@@ -7,7 +7,7 @@
  * Month to date = the sum of those for overrides stamped in the current calendar month (tz wall clock). Negative means
  * overriding cost money against the plan. An override "paid" when its trade's impact is above 0.
  */
-import { ET, dayKey, fromZoned, iso, ms, round, zoned, fmtSignedUsd, fmtUsd, type OverrideLedger, type Ticket } from '@desk/contracts';
+import { ET, dayKey, fromZoned, iso, ms, round, zoned, fmtSignedUsd, type OverrideLedger, type Ticket } from '@desk/contracts';
 import { captureComparison } from './regret';
 import { etClock, px } from './position';
 
@@ -51,7 +51,7 @@ export function ledgerSentence(ledger: OverrideLedger & { pendingInstances?: num
   const n = `${ledger.instances} ${ledger.instances === 1 ? 'instance' : 'instances'}`;
   const paid = ledger.lastPaidAt ? `the last one that paid was ${shortDate(ledger.lastPaidAt, tz)}` : 'none has paid yet';
   if ((ledger.pendingInstances ?? 0) >= ledger.instances) return `${n} of overriding this month, none settled yet; ${paid}.`;
-  return `Overrides are ${ledger.monthToDateUsd === 0 ? '$0' : fmtUsd(ledger.monthToDateUsd)} month to date across ${n}; ${paid}.`;
+  return `Overrides are ${ledger.monthToDateUsd === 0 ? '$0' : fmtSignedUsd(ledger.monthToDateUsd)} month to date across ${n}; ${paid}.`;
 }
 
 /**
