@@ -131,14 +131,14 @@ function History({ c }: { c: Catalyst }) {
   if (c.history.length === 0) return <Card title="Historical reactions"><Empty>No recorded instances.</Empty></Card>;
   return (
     <Card title={`Historical reactions · last ${c.history.length}`}>
-      <table className="w-full text-right text-[13px] [&_td]:pl-1.5 [&_th]:pl-1.5 [&_th:first-child]:pl-0" data-testid="history">
+      <table className="w-full text-right text-[13px] [&_td]:pl-1 [&_th]:pl-1 [&_th:first-child]:pl-0" data-testid="history">
         <thead className="text-[11px] uppercase text-mute">
           <tr><th scope="col" className="pb-1 text-left font-medium">Date</th><th scope="col" className="font-medium">Act</th><th scope="col" className="font-medium">Cons</th><th scope="col" className="font-medium">5m</th><th scope="col" className="font-medium">1h</th><th scope="col" className="font-medium">Close</th><th scope="col" className="font-medium">Rev</th></tr>
         </thead>
         <tbody>
           {c.history.map((h) => (
             <tr key={h.date} className="border-t border-line">
-              <th scope="row" className="py-1.5 text-left font-normal text-mute">{h.date.slice(2)}</th>
+              <th scope="row" className="whitespace-nowrap py-1.5 text-left font-normal text-mute">{h.date.slice(2)}</th>
               <td>{val(h.actual)}</td><td className="text-mute">{val(h.consensus)}</td>
               <td>{pct(h.m5Pct)}</td><td>{pct(h.h1Pct)}</td><td>{pct(h.closePct)}</td>
               <td className={h.firstMoveReversed ? 'text-warn' : 'text-mute'}>{h.firstMoveReversed == null ? '—' : h.firstMoveReversed ? 'yes' : 'no'}</td>
@@ -183,7 +183,7 @@ function ReactionClock({ c, onDismiss }: { c: Catalyst; onDismiss: () => void })
   const r = c.reaction;
   return (
     <div role="dialog" aria-modal="true" aria-label={`${c.name} reaction clock`} data-testid="reaction-clock"
-      className="fixed inset-0 z-40 overflow-y-auto bg-bg px-[calc(16px+var(--sal))] pb-[calc(24px+var(--sab))] pt-[calc(16px+var(--sat))]">
+      className="fixed inset-0 z-40 !m-0 overflow-y-auto bg-bg px-[calc(16px+var(--sal))] pb-[calc(24px+var(--sab))] pt-[calc(16px+var(--sat))]">
       <div className="mx-auto max-w-xl space-y-4">
         <div className="flex items-center justify-between">
           <Chip tone="bad">{c.status === 'live' ? 'Live' : 'Just resolved'} · Tier {c.tier}</Chip>

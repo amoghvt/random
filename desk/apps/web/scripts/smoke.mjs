@@ -174,7 +174,8 @@ if (mock) {
     await p.getByTestId('reaction-clock').waitFor();
     assert(/^\d\d:\d\d$/.test((await p.getByTestId('clock').innerText()).trim()), 'clock not running');
     const box = await p.getByTestId('reaction-clock').boundingBox();
-    assert(box && box.x === 0 && box.y === 0 && box.width === 390 && box.height >= 844, `clock is not full-screen: ${JSON.stringify(box)}`);
+    assert(box && box.x === 0 && box.y === 0 && box.width === 390 && box.height === 844, `clock is not full-screen: ${JSON.stringify(box)}`);
+    await noOverflow(p, 'Reaction clock');
     await shot(p, 'phone-catalyst-live');
     await p.getByTestId('clock-dismiss').click();
     await p.getByTestId('reaction-clock').waitFor({ state: 'hidden' });
@@ -288,6 +289,7 @@ if (mock) {
     await p.goto(`${base}/ticket/?id=tkt_open`);
     await p.getByTestId('ticket-detail').waitFor();
     await p.getByTestId('ledger').waitFor();
+    await noOverflow(p, 'Ticket detail');
     await shot(p, 'phone-ticket-detail', true);
     await p.getByTestId('override-btn').click();
     await p.getByTestId('override-prompt').getByText(/month to date/).waitFor();

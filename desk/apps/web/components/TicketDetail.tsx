@@ -133,7 +133,7 @@ export function TicketDetail({ id }: { id: string }) {
           </div>
           <Chip tone={STATUS[t.status]}>{t.status}</Chip>
         </div>
-        <dl className="mt-3 grid grid-cols-[5.5rem_1fr] gap-x-3 gap-y-1.5 text-sm">
+        <dl className="mt-3 grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 text-sm">
           <dt className="text-mute">Reason</dt>
           <dd>{t.reason.kind === 'catalyst'
             ? <Link className="text-info underline" href={`/catalysts?id=${encodeURIComponent(t.reason.catalystId)}`}>Catalyst {t.reason.catalystId}{t.reason.branchId ? ` · ${t.reason.branchId}` : ''}</Link>
@@ -141,7 +141,7 @@ export function TicketDetail({ id }: { id: string }) {
           <dt className="text-mute">Entry</dt><dd>{t.entry.text}{t.entry.price != null && ` · ${fmtPrice(t.entry.price)}`}</dd>
           <dt className="text-mute">Size</dt><dd><span className="font-semibold">{fmtUnits(t.size.units)}</span> of engine max {fmtUnits(t.size.engineMaxUnits)}{t.size.leverage != null && ` · ${t.size.leverage}x`}</dd>
           <dt className="text-mute">Fail price</dt><dd className="text-down">{t.size.failPrice != null ? fmtPrice(t.size.failPrice) : '—'}</dd>
-          <dt className="text-mute">Targets</dt><dd>{t.targets.map((x, i) => <span key={i} className="mr-3 whitespace-nowrap">T{i + 1} {fmtPrice(x.price)} <span className="text-xs text-mute">{Math.round(x.fraction * 100)}%</span></span>)}</dd>
+          <dt className="text-mute">Targets</dt><dd className="flex min-w-0 flex-wrap gap-x-3">{t.targets.map((x, i) => <span key={i} className="whitespace-nowrap">T{i + 1} {fmtPrice(x.price)} <span className="text-xs text-mute">{Math.round(x.fraction * 100)}%</span></span>)}</dd>
           <dt className="text-mute">Invalid</dt><dd>{fmtPrice(t.invalidation.price)} · {t.invalidation.reason}</dd>
           <dt className="text-mute">Time stop</dt><dd>{dayTimeET(t.timeStop)}</dd>
           {t.holdThroughCatalyst.flag && <><dt className="text-mute">Catalyst</dt><dd className="text-down">Held through {t.holdThroughCatalyst.catalystId ?? 'a catalyst'}</dd></>}

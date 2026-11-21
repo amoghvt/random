@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,24677,o=>{"use strict";o.s(["mockApi",0,function(o,t){return Promise.reject(Error(`Mock mode is not built into this bundle (${o})`))}])}]);
