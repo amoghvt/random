@@ -17,7 +17,7 @@ export function answerUpOrDown(call: BiasCall, now: number): string {
   }
   const next = call.nextCatalyst ? ` Next: ${call.nextCatalyst.name} ${etStamp(call.nextCatalyst.at)}.` : '';
   if (call.call === 'no_edge' || !call.trade) {
-    return `Neither. ${name}: No edge until ${expiry}. ${call.facts.map(sentence).join(' ')}${next}`;
+    return `Neither. ${name}, until ${expiry}. ${call.facts.map(sentence).join(' ')}${next}`;
   }
   const t = call.trade, long = t.direction === 'long';
   const trade = `Trade: ${t.direction} ${t.instrument} on ${t.entry.text}; targets ${t.targets.map((x) => px(x.price)).join(' / ')}; out on ${t.invalidation.reason}; ${t.timeStop.text}.`;

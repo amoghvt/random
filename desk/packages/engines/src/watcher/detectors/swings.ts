@@ -1,7 +1,7 @@
 /** Swing highs/lows (fractals) and liquidity pools. Both sides of the book are always reported. */
 import type { StructureEvent } from '@desk/contracts';
 import type { Pivot } from '../candles';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, when, type TfContext } from '../core';
 
 export function detectSwings(ctx: TfContext): StructureEvent[] {
   const out: StructureEvent[] = [];
@@ -11,8 +11,8 @@ export function detectSwings(ctx: TfContext): StructureEvent[] {
     const high = p.type === 'high';
     out.push(mkEvent(ctx, 'swing', p.confirmedI, {
       kind: high ? 'swing_high' : 'swing_low', level: p.level, bias: 0, confidence: 0.4, anchor: [p.t],
-      text: `${ctx.instrument} ${ctx.tf} swing ${p.type} ${px(p.level)} at ${when(ctx.tf, p.t, ref)} ET.`,
-      short: `${ctx.tf} swing ${p.type} ${px(p.level)}`,
+      text: `${ctx.instrument} ${ctx.tf} swing ${p.type} ${ctx.px(p.level)} at ${when(ctx.tf, p.t, ref)} ET.`,
+      short: `${ctx.tf} swing ${p.type} ${ctx.px(p.level)}`,
       data: { pivotT: p.t },
     }));
   }
@@ -54,8 +54,8 @@ export function detectLiquidity(ctx: TfContext): StructureEvent[] {
       out.push(mkEvent(ctx, 'liquidity_pool', idx, {
         kind: side === 'high' ? 'equal_highs' : 'equal_lows', level: r.levelLo, levelHi: r.levelHi, bias: 0,
         confidence: Math.min(0.7, 0.5 + 0.05 * r.touches), anchor: [r.firstT, r.lastT, r.touches],
-        text: `${ctx.instrument} ${ctx.tf} equal ${side}s ${px(r.levelLo)}-${px(r.levelHi)}, ${r.touches} touches since ${when(ctx.tf, r.firstT, ref)} ET. Resting ${side === 'high' ? 'buy' : 'sell'} stops, unswept.`,
-        short: `${ctx.tf} equal ${side}s ${px(r.level)} unswept`,
+        text: `${ctx.instrument} ${ctx.tf} equal ${side}s ${ctx.px(r.levelLo)}-${ctx.px(r.levelHi)}, ${r.touches} touches since ${when(ctx.tf, r.firstT, ref)} ET. Resting ${side === 'high' ? 'buy' : 'sell'} stops, unswept.`,
+        short: `${ctx.tf} equal ${side}s ${ctx.px(r.level)} unswept`,
         data: { touches: r.touches, side: side === 'high' ? 'buy' : 'sell' },
       }));
     }
@@ -65,8 +65,8 @@ export function detectLiquidity(ctx: TfContext): StructureEvent[] {
   const below = lows.filter((r) => r.level < price).sort((a, b) => b.level - a.level)[0];
   const dist = (lvl: number): number => ((lvl - price) / price) * 100;
   const describe = (r: Resting | undefined, name: string): string =>
-    r ? `${name} ${px(r.level)} (${dist(r.level) >= 0 ? '+' : '-'}${Math.abs(dist(r.level)).toFixed(2)}%${r.touches > 1 ? `, ${r.touches} equal` : ''})` : `no ${name} inside ${ctx.n - ctx.scanFrom} candles`;
-  const text = `${ctx.instrument} ${ctx.tf} ${px(price)}: ${describe(above, 'buy stops')}; ${describe(below, 'sell stops')}. Liquidity sits both sides.`;
+    r ? `${name} ${ctx.px(r.level)} (${dist(r.level) >= 0 ? '+' : '-'}${Math.abs(dist(r.level)).toFixed(2)}%${r.touches > 1 ? `, ${r.touches} equal` : ''})` : `no ${name} inside ${ctx.n - ctx.scanFrom} candles`;
+  const text = `${ctx.instrument} ${ctx.tf} ${ctx.px(price)}: ${describe(above, 'buy stops')}; ${describe(below, 'sell stops')}. Liquidity sits both sides.`;
   const both = { buySide: above?.level ?? null, sellSide: below?.level ?? null, buySideDistPct: above ? dist(above.level) : null, sellSideDistPct: below ? dist(below.level) : null, price };
   for (const [kind, r] of [['buy_side_liquidity', above], ['sell_side_liquidity', below]] as const) {
     out.push(mkEvent(ctx, 'liquidity_pool', r ? Math.min(last, r.lastI + PARAMS.fractalN) : last, {

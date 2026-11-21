@@ -1,7 +1,7 @@
 /** Market structure shift (close beyond the last lower-high / higher-low) and break of structure (continuation). */
 import type { StructureEvent } from '@desk/contracts';
 import type { Pivot } from '../candles';
-import { mkEvent, px, when, type TfContext } from '../core';
+import { mkEvent, when, type TfContext } from '../core';
 
 export function detectStructure(ctx: TfContext): StructureEvent[] {
   const out: StructureEvent[] = [];
@@ -29,8 +29,8 @@ export function detectStructure(ctx: TfContext): StructureEvent[] {
       out.push(mkEvent(ctx, shift ? 'mss' : 'bos', j, {
         kind: `${shift ? 'mss' : 'bos'}_${up ? 'bullish' : 'bearish'}`, level: pivot.level, bias: up ? 1 : -1,
         confidence: (shift ? 0.6 : 0.55) + (displaced ? 0.1 : 0), anchor: [pivot.t, k.t],
-        text: `${ctx.instrument} ${ctx.tf} closed ${px(k.c)}, ${px(beyond)} pts ${up ? 'above' : 'below'} the ${when(ctx.tf, pivot.t, k.t)} ${what} ${px(pivot.level)}. ${shift ? `MSS ${up ? 'up' : 'down'}: structure shifted.` : `BOS ${up ? 'up' : 'down'}: trend continues.`}`,
-        short: `${ctx.tf} ${shift ? 'MSS' : 'BOS'} ${up ? 'up' : 'down'} through ${px(pivot.level)}`,
+        text: `${ctx.instrument} ${ctx.tf} closed ${ctx.px(k.c)}, ${ctx.px(beyond)} pts ${up ? 'above' : 'below'} the ${when(ctx.tf, pivot.t, k.t)} ${what} ${ctx.px(pivot.level)}. ${shift ? `MSS ${up ? 'up' : 'down'}: structure shifted.` : `BOS ${up ? 'up' : 'down'}: trend continues.`}`,
+        short: `${ctx.tf} ${shift ? 'MSS' : 'BOS'} ${up ? 'up' : 'down'} through ${ctx.px(pivot.level)}`,
         data: { brokenLevel: pivot.level, brokenPivotT: pivot.t, close: k.c, beyondPts: beyond, beyondAtr: a ? beyond / a : null, priorTrend: shift ? (up ? 'down' : 'up') : (up ? 'up' : 'down') },
       }));
     }

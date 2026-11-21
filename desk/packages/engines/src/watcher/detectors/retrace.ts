@@ -1,7 +1,7 @@
 /** Retrace quality: the counter-move as a fraction of the prior leg. A bounce that puts in a lower high under 50% has stalled (bear flag); mirrored for dips. */
 import type { StructureEvent } from '@desk/contracts';
 import { meanVolume, type Leg, type Pivot } from '../candles';
-import { PARAMS, mkEvent, pct, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, pct, when, type TfContext } from '../core';
 
 export interface RetraceObs {
   leg: Leg; kind: 'stalled' | 'through_50';
@@ -57,7 +57,7 @@ export function detectRetrace(ctx: TfContext): StructureEvent[] {
     const down = leg.dir === -1;
     const ref = ctx.c[o.idx]!.t;
     const legName = `${when(ctx.tf, leg.from.t, ref)} ${down ? 'drop' : 'rally'}`;
-    const span = `${px(leg.from.level)} to ${px(leg.to.level)}`;
+    const span = `${ctx.px(leg.from.level)} to ${ctx.px(leg.to.level)}`;
     const impulse = meanVolume(ctx.c, leg.from.i + 1, leg.to.i);
     const retrace = o.pivot ? meanVolume(ctx.c, leg.to.i + 1, o.pivot.i) : meanVolume(ctx.c, leg.to.i + 1, o.idx);
     const volPct = impulse.mean && retrace.mean ? retrace.mean / impulse.mean : null;
@@ -71,15 +71,15 @@ export function detectRetrace(ctx: TfContext): StructureEvent[] {
       return mkEvent(ctx, 'retrace_quality', o.idx, {
         kind: down ? 'bounce_stalled_under_50' : 'dip_stalled_under_50', level: o.extreme, levelHi: o.half, bias: down ? -1 : 1,
         confidence: 0.65, anchor: [leg.from.t, leg.to.t, o.pivot!.t], obsKey: `retrace_stalled|${legKey}`, severity: o.stallCount,
-        text: `${ctx.instrument} ${ctx.tf} ${down ? 'bounce' : 'dip'} stalled at ${pct(o.fraction)} of the ${legName} (${span}): ${down ? 'lower high' : 'higher low'} ${px(o.extreme)} at ${when(ctx.tf, o.pivot!.t, ref)} ET, 50% is ${px(o.half)}. ${down ? 'Bounce stalled under 50%: bear flag' : 'Dip held above 50%: bull flag'} until ${px(o.half)} ${down ? 'is reclaimed' : 'gives way'}.`,
-        short: `${ctx.tf} ${down ? 'bounce' : 'dip'} stalled at ${pct(o.fraction)} of the ${legName}, 50% is ${px(o.half)}`,
+        text: `${ctx.instrument} ${ctx.tf} ${down ? 'bounce' : 'dip'} stalled at ${pct(o.fraction)} of the ${legName} (${span}): ${down ? 'lower high' : 'higher low'} ${ctx.px(o.extreme)} at ${when(ctx.tf, o.pivot!.t, ref)} ET, 50% is ${ctx.px(o.half)}. ${down ? 'Bounce stalled under 50%: bear flag' : 'Dip held above 50%: bull flag'} until ${ctx.px(o.half)} ${down ? 'is reclaimed' : 'gives way'}.`,
+        short: `${ctx.tf} ${down ? 'bounce' : 'dip'} stalled at ${pct(o.fraction)} of the ${legName}, 50% is ${ctx.px(o.half)}`,
         data,
       });
     }
     return mkEvent(ctx, 'retrace_quality', o.idx, {
       kind: down ? 'bounce_through_50' : 'dip_through_50', level: o.half, bias: down ? 1 : -1, confidence: 0.55,
       anchor: [leg.from.t, leg.to.t], obsKey: `retrace_through|${legKey}`, severity: 1,
-      text: `${ctx.instrument} ${ctx.tf} ${down ? 'bounce' : 'dip'} now ${pct(o.fraction)} of the ${legName} (${span}): closed ${px(ctx.c[o.idx]!.c)}, through the 50% level ${px(o.half)}. No longer a ${down ? 'bear' : 'bull'} flag.`,
+      text: `${ctx.instrument} ${ctx.tf} ${down ? 'bounce' : 'dip'} now ${pct(o.fraction)} of the ${legName} (${span}): closed ${ctx.px(ctx.c[o.idx]!.c)}, through the 50% level ${ctx.px(o.half)}. No longer a ${down ? 'bear' : 'bull'} flag.`,
       short: `${ctx.tf} ${down ? 'bounce' : 'dip'} now ${pct(o.fraction)} of the ${legName}`,
       data,
     });

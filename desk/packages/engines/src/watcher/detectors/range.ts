@@ -1,7 +1,7 @@
 /** Range and compression: inside bars, pennants, opening-range state, last-hour compression against the session midpoint. */
 import type { StructureEvent } from '@desk/contracts';
 import { sessionBounds } from '../candles';
-import { PARAMS, etLabel, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, etLabel, mkEvent, when, type TfContext } from '../core';
 
 const OR_MINUTES = 30;
 const INTRADAY = new Set(['1m', '5m', '15m']);
@@ -19,8 +19,8 @@ function insideBars(ctx: TfContext): StructureEvent[] {
       out.push(mkEvent(ctx, 'range_compression', i, {
         kind: 'inside_bar', level: c[m]!.l, levelHi: c[m]!.h, bias: 0, confidence: Math.min(0.6, 0.35 + 0.05 * count), anchor: [c[m]!.t, count],
         obsKey: `inside|${ctx.tf}|${c[m]!.t}`, severity: count,
-        text: `${ctx.instrument} ${ctx.tf} ${count} inside bar${count > 1 ? 's' : ''} within the ${when(ctx.tf, c[m]!.t, c[i]!.t)} ET candle ${px(c[m]!.l)}-${px(c[m]!.h)}. Compression; direction undecided.`,
-        short: `${ctx.tf} ${count} inside bar${count > 1 ? 's' : ''} in ${px(c[m]!.l)}-${px(c[m]!.h)}`,
+        text: `${ctx.instrument} ${ctx.tf} ${count} inside bar${count > 1 ? 's' : ''} within the ${when(ctx.tf, c[m]!.t, c[i]!.t)} ET candle ${ctx.px(c[m]!.l)}-${ctx.px(c[m]!.h)}. Compression; direction undecided.`,
+        short: `${ctx.tf} ${count} inside bar${count > 1 ? 's' : ''} in ${ctx.px(c[m]!.l)}-${ctx.px(c[m]!.h)}`,
         data: { count, motherT: c[m]!.t },
       }));
     } else mother = -1;
@@ -50,8 +50,8 @@ function pennant(ctx: TfContext): StructureEvent[] {
   const tHi = Math.max(...tail.map((k) => k.h)), tLo = Math.min(...tail.map((k) => k.l));
   return [mkEvent(ctx, 'range_compression', n - 1, {
     kind: 'pennant', level: tLo, levelHi: tHi, bias: 0, confidence: 0.5, anchor: [hi.t, lo.t],
-    text: `${ctx.instrument} ${ctx.tf} pennant: range ${px(first)} pts down to ${px(lastR)} over ${W} candles, lower highs from ${px(hi.h)}, higher lows from ${px(lo.l)}. Coiled between ${px(tLo)} and ${px(tHi)}.`,
-    short: `${ctx.tf} pennant ${px(tLo)}-${px(tHi)}`,
+    text: `${ctx.instrument} ${ctx.tf} pennant: range ${ctx.px(first)} pts down to ${ctx.px(lastR)} over ${W} candles, lower highs from ${ctx.px(hi.h)}, higher lows from ${ctx.px(lo.l)}. Coiled between ${ctx.px(tLo)} and ${ctx.px(tHi)}.`,
+    short: `${ctx.tf} pennant ${ctx.px(tLo)}-${ctx.px(tHi)}`,
     data: { windowCandles: W, firstRange: first, lastRange: lastR, high: hi.h, low: lo.l },
   })];
 }
@@ -75,8 +75,8 @@ function openingRange(ctx: TfContext): StructureEvent[] {
     if (i < ctx.scanFrom) return;
     out.push(mkEvent(ctx, 'range_compression', i, {
       kind, level: lo, levelHi: hi, bias, confidence, anchor: [day, c[i]!.t], obsKey: `opening_range|${ctx.tf}|${day}|${kind}|${c[i]!.t}`,
-      text: `${ctx.instrument} ${ctx.tf} opening range ${px(lo)}-${px(hi)} (${px(hi - lo)} pts): close ${px(c[i]!.c)} at ${when(ctx.tf, c[i]!.t, c[i]!.t)} ET. ${tail}`,
-      short: `${tail.replace(/\.$/, '').toLowerCase()} (${px(lo)}-${px(hi)})`,
+      text: `${ctx.instrument} ${ctx.tf} opening range ${ctx.px(lo)}-${ctx.px(hi)} (${ctx.px(hi - lo)} pts): close ${ctx.px(c[i]!.c)} at ${when(ctx.tf, c[i]!.t, c[i]!.t)} ET. ${tail}`,
+      short: `${tail.replace(/\.$/, '').toLowerCase()} (${ctx.px(lo)}-${ctx.px(hi)})`,
       data: { orHigh: hi, orLow: lo, day, close: c[i]!.c },
     }));
   };
@@ -120,8 +120,8 @@ function lastHour(ctx: TfContext): StructureEvent[] {
   return [mkEvent(ctx, 'range_compression', n - 1, {
     kind: under ? 'last_hour_compression_under_mid' : 'last_hour_compression_over_mid', level: ll, levelHi: lh, bias: under ? -1 : 1, confidence: 0.6,
     anchor: [day], obsKey: `last_hour|${ctx.tf}|${day}`,
-    text: `${ctx.instrument} ${ctx.tf} last hour ${px(ll)}-${px(lh)}: ${px(lh - ll)} pts, ${Math.round(ratio * 100)}% of the session range ${px(sl)}-${px(sh)}, every close ${under ? 'under' : 'over'} the midpoint ${px(mid)}. Compression ${under ? 'under' : 'over'} the midpoint.`,
-    short: `last hour compressed to ${px(lh - ll)} pts ${under ? 'under' : 'over'} the midpoint ${px(mid)}`,
+    text: `${ctx.instrument} ${ctx.tf} last hour ${ctx.px(ll)}-${ctx.px(lh)}: ${ctx.px(lh - ll)} pts, ${Math.round(ratio * 100)}% of the session range ${ctx.px(sl)}-${ctx.px(sh)}, every close ${under ? 'under' : 'over'} the midpoint ${ctx.px(mid)}. Compression ${under ? 'under' : 'over'} the midpoint.`,
+    short: `last hour compressed to ${ctx.px(lh - ll)} pts ${under ? 'under' : 'over'} the midpoint ${ctx.px(mid)}`,
     data: { sessionHigh: sh, sessionLow: sl, midpoint: mid, lastHourHigh: lh, lastHourLow: ll, rangePctOfSession: ratio * 100, day },
   })];
 }

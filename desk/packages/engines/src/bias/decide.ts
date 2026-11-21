@@ -8,12 +8,12 @@
 import { BIAS_TEXT, DAY, DEFAULT_WEIGHTS, MIN, hashId, iso, round, type BiasCall, type BiasLabel, type FactorScore } from '@desk/contracts';
 import { etStamp } from './calendar';
 import { extractInputs } from './extract';
-import { catalystState, scoreFactors, structureSignals, type CatalystState } from './factors';
+import { catalystState, scoreFactors, sg, structureSignals, type CatalystState } from './factors';
 import { branchTrade, buildTrade, creatorOfEdge, expiryFor, killForTrade } from './plan';
 import { DEAD_BAND, LEAN_CAP, P_CAP, P_MIN, applyCalibration, combine, labelFromScore, normaliseWeights, probabilityFromScore, type Composite } from './scoring';
 import type { BiasInputs, BiasSnapshot, CalibrationMap, DecideOpts, PrevRef, StoredInputs, Weights } from './types';
 
-const sg = (x: number, dp = 1): string => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(dp)}`;
+
 export const FIRST_MOVE_MINUTES = 15;
 
 export function storedInputs(call: BiasCall): StoredInputs | null {

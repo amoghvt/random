@@ -1,7 +1,7 @@
 /** Divergence: NQ vs ES, NQ vs SOX (swing highs/lows that the peer does or does not confirm) and index vs 10Y. */
 import { INSTRUMENTS, type Candle, type StructureEvent } from '@desk/contracts';
 import { atr } from '../candles';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, pxFor, when, type TfContext } from '../core';
 
 /** Peer extreme within two candles either side of `t`; null when the peer did not trade there. */
 function peerExtreme(peer: Candle[], t: number, span: number, type: 'high' | 'low'): number | null {
@@ -32,7 +32,7 @@ function swingDivergence(ctx: TfContext, sym: string, peer: Candle[]): Structure
       out.push(mkEvent(ctx, 'divergence', b.confirmedI, {
         kind: agree ? `both_${mine}_${type}s` : `${type}s_diverge`, level: b.level, bias, confidence: agree ? 0.5 : 0.55,
         anchor: [sym, a.t, b.t], obsKey: `divergence|${ctx.tf}|${sym}|${type}|${agree ? mine : 'diverge'}`, severity: b.t,
-        text: `${ctx.instrument} ${ctx.tf} ${mine} ${type} ${px(b.level)} at ${when(ctx.tf, b.t, ref)} ET vs ${px(a.level)}; ${sym} ${theirs} ${type} ${px(pb)} vs ${px(pa)}. ${agree ? (mine === 'lower' ? 'Both lower: broad weakness, not rotation.' : 'Both higher: broad strength.') : `${sym} does not confirm: rotation, not a broad move.`}`,
+        text: `${ctx.instrument} ${ctx.tf} ${mine} ${type} ${ctx.px(b.level)} at ${when(ctx.tf, b.t, ref)} ET vs ${ctx.px(a.level)}; ${sym} ${theirs} ${type} ${pxFor(sym)(pb)} vs ${pxFor(sym)(pa)}. ${agree ? (mine === 'lower' ? 'Both lower: broad weakness, not rotation.' : 'Both higher: broad strength.') : `${sym} does not confirm: rotation, not a broad move.`}`,
         short: agree ? `${sym} ${theirs} ${type}s too` : `${sym} ${theirs} ${type} while ${ctx.instrument} ${mine}`,
         data: { peer: sym, swing: type, instrumentMade: `${mine}_${type}`, peerMade: `${theirs}_${type}`, levels: [a.level, b.level], peerLevels: [pa, pb], agree },
       }));
@@ -63,7 +63,7 @@ function ratesDivergence(ctx: TfContext, sym: string, peer: Candle[]): Structure
   return [mkEvent(ctx, 'divergence', last, {
     kind: up ? 'index_up_yields_up' : 'index_down_yields_down', level: ctx.c[last]!.c, bias: up ? -1 : 1, confidence: 0.5,
     anchor: [sym, day], obsKey: `divergence|${ctx.tf}|${sym}|rates|${up ? 'up' : 'down'}|${day}`,
-    text: `${ctx.instrument} ${ctx.tf} ${up ? '+' : '-'}${px(Math.abs(dI))} pts over ${PARAMS.divergenceWindow} candles while ${sym} moved ${dY > 0 ? '+' : '-'}${(Math.abs(dY) * 100).toFixed(1)} bp to ${peer[i1]!.c.toFixed(3)}. ${up ? 'Rally against rising yields.' : 'Selling into falling yields: not a rates move.'}`,
+    text: `${ctx.instrument} ${ctx.tf} ${up ? '+' : '-'}${ctx.px(Math.abs(dI))} pts over ${PARAMS.divergenceWindow} candles while ${sym} moved ${dY > 0 ? '+' : '-'}${(Math.abs(dY) * 100).toFixed(1)} bp to ${peer[i1]!.c.toFixed(3)}. ${up ? 'Rally against rising yields.' : 'Selling into falling yields: not a rates move.'}`,
     short: `${sym} ${dY > 0 ? '+' : '-'}${(Math.abs(dY) * 100).toFixed(1)} bp with the index ${up ? 'up' : 'down'}`,
     data: { peer: sym, indexMovePts: dI, yieldMove: dY, yieldLevel: peer[i1]!.c, windowCandles: PARAMS.divergenceWindow },
   })];

@@ -4,7 +4,7 @@ import { WEEKDAY, etStamp, horizonEnd } from './calendar';
 import { branchDir } from './extract';
 import type { BiasInputs, CatalystIn, RawFactor, StructureIn, YieldIn } from './types';
 
-const sg = (x: number, dp = 1): string => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(dp)}`;
+export const sg = (x: number, dp = 1): string => { const a = Math.abs(x).toFixed(dp); return `${x >= 0 || Number(a) === 0 ? '+' : '−'}${a}`; };
 export const px = (x: number): string => fmtNum(x, Math.abs(x) >= 1000 ? 0 : 2);
 const nowMs = (inp: BiasInputs): number => Date.parse(inp.now);
 const have = (factor: FactorName, score: number, evidence: string, asOf: string): RawFactor =>

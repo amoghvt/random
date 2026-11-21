@@ -1,5 +1,5 @@
 /** Shared context and event construction for the detectors. */
-import { TF_MS, dayKey, hashId, hhmm, iso, type Candle, type DetectorName, type StructureEvent, type Timeframe } from '@desk/contracts';
+import { INSTRUMENTS, TF_MS, dayKey, hashId, hhmm, iso, type Candle, type DetectorName, type StructureEvent, type Timeframe } from '@desk/contracts';
 import { atr, buildLegs, ema, fractals, type Leg, type Pivot } from './candles';
 
 /**
@@ -49,6 +49,7 @@ export const PARAMS = {
 
 export interface TfContext {
   instrument: string; tf: Timeframe; tfMs: number;
+  px: (x: number) => string;
   /** Closed candles, ascending. */
   c: Candle[]; n: number;
   atr: Array<number | null>;
@@ -66,7 +67,7 @@ export function buildContext(instrument: string, tf: Timeframe, closed: Candle[]
   const index = new Map<string, Pivot>();
   for (const p of pivots) index.set(`${p.type}${p.i}`, p);
   return {
-    instrument, tf, tfMs: TF_MS[tf], c: closed, n: closed.length, atr: atrs,
+    instrument, tf, tfMs: TF_MS[tf], px: pxFor(instrument), c: closed, n: closed.length, atr: atrs,
     ema: { 20: ema(closes, 20), 50: ema(closes, 50), 200: ema(closes, 200) },
     pivots, legs: buildLegs(pivots, atrs),
     pivotAt: (type, i) => index.get(`${type}${i}`),
@@ -74,12 +75,17 @@ export function buildContext(instrument: string, tf: Timeframe, closed: Candle[]
   };
 }
 
-/** 27062.4 -> "27,062"; 4.943 -> "4.94". */
-export function px(x: number): string {
-  // Hand-rolled: toLocaleString is slow enough to dominate a detector pass.
-  if (Math.abs(x) < 1000) return x.toFixed(2);
-  const r = Math.round(Math.abs(x)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  return x < 0 ? `-${r}` : r;
+/**
+ * Price formatter for an instrument: whole numbers with thousands separators where the tick is 0.1 or more
+ * (index futures, gold), two decimals elsewhere (stocks, yields, crude). 27062.4 -> "27,062"; 4.943 -> "4.94".
+ * Hand-rolled because toLocaleString is slow enough to dominate a detector pass.
+ */
+export function pxFor(instrument: string): (x: number) => string {
+  const whole = (INSTRUMENTS[instrument]?.tickSize ?? 0.01) >= 0.1;
+  return (x) => {
+    const [int, frac] = Math.abs(x).toFixed(whole ? 0 : 2).split('.') as [string, string | undefined];
+    return `${x < 0 ? '-' : ''}${int.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}${frac ? `.${frac}` : ''}`;
+  };
 }
 export const pct = (x: number): string => `${Math.round(x * 100)}%`;
 /** ET wall-clock labels per candle time. Memoized: Intl formatting dominates a detector pass otherwise. Pure (a cache of a pure function). */

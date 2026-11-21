@@ -1,6 +1,6 @@
 /** Fair value gaps (three-candle imbalance) and order blocks (last opposing candle before an impulse), with fill/mitigation state. */
 import type { StructureEvent } from '@desk/contracts';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, when, type TfContext } from '../core';
 
 export function detectFvgs(ctx: TfContext): StructureEvent[] {
   const out: StructureEvent[] = [];
@@ -27,8 +27,8 @@ export function detectFvgs(ctx: TfContext): StructureEvent[] {
       kind: `fvg_${dir}_${state}`, level: lo, levelHi: hi, bias: state === 'filled' ? 0 : bull ? 1 : -1,
       confidence: state === 'filled' ? 0.4 : Math.min(0.6, 0.45 + 0.05 * ((hi - lo) / a)), anchor: [c[i]!.t],
       obsKey: `fvg|${ctx.tf}|${c[i]!.t}`, severity: state === 'open' ? 1 : state === 'mitigated' ? 2 : 3,
-      text: `${ctx.instrument} ${ctx.tf} ${bull ? 'bullish' : 'bearish'} FVG ${px(lo)}-${px(hi)} (${px(hi - lo)} pts) from ${when(ctx.tf, c[i]!.t, c[n - 1]!.t)} ET: ${state === 'open' ? 'open, untested' : state === 'mitigated' ? `${Math.round(filledPct * 100)}% filled` : 'filled'}.`,
-      short: `${ctx.tf} ${dir} FVG ${px(lo)}-${px(hi)} ${state}`,
+      text: `${ctx.instrument} ${ctx.tf} ${bull ? 'bullish' : 'bearish'} FVG ${ctx.px(lo)}-${ctx.px(hi)} (${ctx.px(hi - lo)} pts) from ${when(ctx.tf, c[i]!.t, c[n - 1]!.t)} ET: ${state === 'open' ? 'open, untested' : state === 'mitigated' ? `${Math.round(filledPct * 100)}% filled` : 'filled'}.`,
+      short: `${ctx.tf} ${dir} FVG ${ctx.px(lo)}-${ctx.px(hi)} ${state}`,
       data: { direction: dir, state, formedT: c[i]!.t, sizePts: hi - lo, sizeAtr: (hi - lo) / a, filledPct },
     }));
   }
@@ -77,8 +77,8 @@ export function detectOrderBlocks(ctx: TfContext): StructureEvent[] {
       kind: `ob_${dir}_${state}`, level: lo, levelHi: hi, bias: state === 'invalidated' ? 0 : bull ? 1 : -1,
       confidence: state === 'invalidated' ? 0.4 : 0.5, anchor: [c[b]!.t],
       obsKey: `ob|${ctx.tf}|${c[b]!.t}`, severity: state === 'fresh' ? 1 : state === 'mitigated' ? 2 : 3,
-      text: `${ctx.instrument} ${ctx.tf} ${bull ? 'bullish' : 'bearish'} order block ${px(lo)}-${px(hi)}: last ${bull ? 'down' : 'up'} candle (${when(ctx.tf, c[b]!.t, c[n - 1]!.t)} ET) before a ${px(imp.net)}-pt, ${imp.atrMult.toFixed(1)} ATR impulse. ${state === 'fresh' ? 'Untested.' : state === 'mitigated' ? 'Retested, holding.' : `Invalidated by a close ${bull ? 'below' : 'above'} it.`}`,
-      short: `${ctx.tf} ${dir} order block ${px(lo)}-${px(hi)} ${state}`,
+      text: `${ctx.instrument} ${ctx.tf} ${bull ? 'bullish' : 'bearish'} order block ${ctx.px(lo)}-${ctx.px(hi)}: last ${bull ? 'down' : 'up'} candle (${when(ctx.tf, c[b]!.t, c[n - 1]!.t)} ET) before a ${ctx.px(imp.net)}-pt, ${imp.atrMult.toFixed(1)} ATR impulse. ${state === 'fresh' ? 'Untested.' : state === 'mitigated' ? 'Retested, holding.' : `Invalidated by a close ${bull ? 'below' : 'above'} it.`}`,
+      short: `${ctx.tf} ${dir} order block ${ctx.px(lo)}-${ctx.px(hi)} ${state}`,
       data: { direction: dir, state, blockT: c[b]!.t, impulsePts: imp.net, impulseAtr: imp.atrMult },
     }));
   }

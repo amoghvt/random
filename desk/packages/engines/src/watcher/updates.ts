@@ -1,6 +1,6 @@
 /** State diff and autonomous updates: plain text, at most 280 characters, numbers first; never the same observation twice. */
 import { BIAS_TEXT, INSTRUMENTS, hashId, hhmm, iso, type BiasCall, type Position, type StructureEvent, type Ticket, type WatcherUpdate } from '@desk/contracts';
-import { px } from './core';
+import { pxFor } from './core';
 
 export const UPDATE_MAX_CHARS = 280;
 /** Minimum confidence for an event to count as touching a position or ticket. */
@@ -54,6 +54,7 @@ function fractionWord(f: number): string {
 }
 
 function ticketLine(t: Ticket): string {
+  const px = pxFor(t.instrument);
   if (t.status === 'open') {
     const done = t.fills.filter((f) => f.kind === 'scale_out').length;
     const next = t.targets[done];
@@ -83,6 +84,7 @@ function fit(head: string, optional: Array<{ text: string; keep: number }>): str
  */
 export function generateUpdates(input: UpdateInput): { updates: WatcherUpdate[]; state: WatcherState } {
   const prev = input.prevState ?? emptyWatcherState();
+  const px = pxFor(input.instrument);
   const observations = { ...prev.observations };
   const seen = new Set(prev.eventIds);
   for (const e of input.allEvents) seen.add(e.id);

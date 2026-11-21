@@ -5,7 +5,7 @@
  */
 import type { StructureEvent } from '@desk/contracts';
 import { meanVolume, sessionOf, type Leg } from '../candles';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, when, type TfContext } from '../core';
 import { retraceObservations } from './retrace';
 
 const PERIODS = [200, 50, 20] as const;
@@ -63,12 +63,12 @@ export function detectSpikes(ctx: TfContext): StructureEvent[] {
         ? (spikeVol.mean == null ? 'volume not reported for the spike candles' : 'no prior impulse in view to compare volume')
         : `volume ${Math.round(ratio * 100)}% of the ${impName}`;
       const crossSession = leg ? sessionOf(leg.to.t) !== sessionOf(c[i]!.t) : false;
-      const pts = `${up ? '+' : '-'}${px(move)} pts`;
+      const pts = `${up ? '+' : '-'}${ctx.px(move)} pts`;
       out.push(mkEvent(ctx, 'volume_context', rej, {
         kind: `${up ? 'spike_rejected' : 'flush_reclaimed'}${suffix}`, level: ext, bias: ratio != null && ratio < 1 ? (up ? -1 : 1) : 0,
         confidence: ratio == null ? 0.55 : ratio < 1 ? 0.7 : 0.55, anchor: [c[i]!.t], obsKey: `spike|${ctx.tf}|${c[i]!.t}`, severity: 1,
-        text: `${ctx.instrument} ${ctx.tf} ${pts} to ${px(ext)} at ${when(ctx.tf, c[i]!.t, c[rej]!.t)} ET through the ${ema} EMA (${px(ctx.ema[ema][i]!)}), ${within === 0 ? 'rejected inside the same candle' : `rejected within ${within} candle${within > 1 ? 's' : ''}`}: close ${px(c[rej]!.c)}. ${up ? 'Spike' : 'Flush'}, ${up ? 'rejected' : 'reclaimed'}, ${volText}${crossSession ? ' (different session: overnight volume runs lighter)' : ''}.${up && ratio != null && ratio < 1 ? ' Covering, not accumulation.' : ''}`,
-        short: `${ctx.tf} ${up ? 'spike' : 'flush'} ${pts} to ${px(ext)}, ${up ? 'rejected' : 'reclaimed'}, ${volText}`,
+        text: `${ctx.instrument} ${ctx.tf} ${pts} to ${ctx.px(ext)} at ${when(ctx.tf, c[i]!.t, c[rej]!.t)} ET through the ${ema} EMA (${ctx.px(ctx.ema[ema][i]!)}), ${up ? 'rejected' : 'reclaimed'} ${within === 0 ? 'inside the same candle' : `within ${within} candle${within > 1 ? 's' : ''}`}: close ${ctx.px(c[rej]!.c)}. ${up ? 'Spike' : 'Flush'}, ${up ? 'rejected' : 'reclaimed'}, ${volText}${crossSession ? ' (different session: overnight volume runs lighter)' : ''}.${up && ratio != null && ratio < 1 ? ' Covering, not accumulation.' : ''}`,
+        short: `${ctx.tf} ${up ? 'spike' : 'flush'} ${pts} to ${ctx.px(ext)}, ${up ? 'rejected' : 'reclaimed'}, ${volText}`,
         data: {
           direction: up ? 'up' : 'down', points: move, extreme: ext, extremeT: c[i]!.t, baseClose: c[base]!.c, runCandles: k,
           emaPierced: pierced, emaLevel: ctx.ema[ema][i], rejectedVia: via, rejectedViaEma: viaPeriod, rejectedWithinCandles: within,

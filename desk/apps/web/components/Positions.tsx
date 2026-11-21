@@ -2,7 +2,7 @@
 import { useState, type FormEvent } from 'react';
 import type { AccountRow, PositionRow, PositionsView } from '@desk/contracts';
 import { api } from '@/lib/api';
-import { countdown, dayTimeET, fmtPct, fmtPrice, fmtSignedUsd, fmtUnits, fmtUsd, num, timeET } from '@/lib/format';
+import { countdown, dayTimeET, fmtPrice, fmtSignedUsd, fmtUnits, fmtUsd, num, timeET } from '@/lib/format';
 import { keyOf, setCache, useApi, useNow } from '@/lib/store';
 import { Btn, Card, Chip, Empty, ErrorLine, Field, LinkBtn, Loading, Segmented, Sheet, Stale, type Tone } from './ui';
 
@@ -217,4 +217,3 @@ export function PositionsList({ compact = false }: { compact?: boolean }) {
     </div>
   );
 }
-export { fmtPct as _fmtPct };

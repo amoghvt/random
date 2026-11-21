@@ -1,6 +1,6 @@
 /** Sweep and reclaim: price trades through a swing and closes back inside within N candles. */
 import type { StructureEvent } from '@desk/contracts';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, when, type TfContext } from '../core';
 
 /** Only swings this recent are tracked for sweeps, to bound the work on long histories. */
 const SWING_MAX_AGE = 300;
@@ -30,8 +30,8 @@ export function detectSweeps(ctx: TfContext): StructureEvent[] {
       out.push(mkEvent(ctx, 'sweep_reclaim', k, {
         kind: low ? 'sweep_reclaim_low' : 'sweep_reclaim_high', level: p.level, bias: low ? 1 : -1,
         confidence: 0.55 + (pool ? 0.1 : 0) + (candles === 1 ? 0.05 : 0), anchor: [p.t, c[j]!.t],
-        text: `${ctx.instrument} ${ctx.tf} swept the ${when(ctx.tf, p.t, c[k]!.t)} swing ${p.type} ${px(p.level)} by ${px(depth)} pts to ${px(extreme)}, closed back ${low ? 'above' : 'below'} at ${px(c[k]!.c)} within ${candles} candle${candles > 1 ? 's' : ''}. Sweep and reclaim; not a setup until an MSS ${low ? 'up' : 'down'}.`,
-        short: `${ctx.tf} swept ${px(p.level)} and reclaimed`,
+        text: `${ctx.instrument} ${ctx.tf} swept the ${when(ctx.tf, p.t, c[k]!.t)} swing ${p.type} ${ctx.px(p.level)} by ${ctx.px(depth)} pts to ${ctx.px(extreme)}, closed back ${low ? 'above' : 'below'} at ${ctx.px(c[k]!.c)} within ${candles} candle${candles > 1 ? 's' : ''}. Sweep and reclaim; not a setup until an MSS ${low ? 'up' : 'down'}.`,
+        short: `${ctx.tf} swept ${ctx.px(p.level)} and reclaimed`,
         data: { sweptLevel: p.level, sweptPivotT: p.t, sweepT: c[j]!.t, extreme, depthPts: depth, depthAtr: a ? depth / a : null, candlesToReclaim: candles, pool, direction: low ? 'long' : 'short' },
       }));
       break;
@@ -45,7 +45,7 @@ export function detectSweeps(ctx: TfContext): StructureEvent[] {
  * within PARAMS.setupWithin candles, with the sweep extreme still intact.
  */
 export function confirmSetups(ctx: TfContext, sweeps: StructureEvent[], shifts: StructureEvent[]): StructureEvent[] {
-  const out: StructureEvent[] = [];
+  const byMss = new Map<string, { k: number; e: StructureEvent }>();
   const at = new Map<number, number>();
   ctx.c.forEach((k, i) => at.set(k.t, i));
   for (const s of sweeps) {
@@ -62,13 +62,15 @@ export function confirmSetups(ctx: TfContext, sweeps: StructureEvent[], shifts: 
     let intact = true;
     for (let j = k + 1; j <= mss.i && intact; j++) intact = long ? ctx.c[j]!.l >= extreme : ctx.c[j]!.h <= extreme;
     if (!intact) continue;
-    out.push(mkEvent(ctx, 'sweep_reclaim', mss.i, {
+    const cur = byMss.get(mss.m.id);
+    if (cur && cur.k >= k) continue;
+    byMss.set(mss.m.id, { k, e: mkEvent(ctx, 'sweep_reclaim', mss.i, {
       kind: long ? 'sweep_reclaim_mss_long' : 'sweep_reclaim_mss_short', level: mss.m.level, bias: s.bias, confidence: 0.75,
       anchor: [s.id, mss.m.id], confirmedSetup: true,
-      text: `${ctx.instrument} ${ctx.tf} swept ${px(s.level ?? 0)} to ${px(extreme)}, reclaimed, then closed ${long ? 'above' : 'below'} ${px(mss.m.level ?? 0)} (MSS) ${mss.i - k} candles later. Confirmed setup ${long ? 'long' : 'short'}; invalid ${long ? 'below' : 'above'} ${px(extreme)}.`,
-      short: `${ctx.tf} sweep of ${px(s.level ?? 0)} + MSS ${long ? 'up' : 'down'} through ${px(mss.m.level ?? 0)}: confirmed setup`,
+      text: `${ctx.instrument} ${ctx.tf} swept ${ctx.px(s.level ?? 0)} to ${ctx.px(extreme)}, reclaimed, then closed ${long ? 'above' : 'below'} ${ctx.px(mss.m.level ?? 0)} (MSS) ${mss.i - k} candle${mss.i - k === 1 ? '' : 's'} later. Confirmed setup ${long ? 'long' : 'short'}; invalid ${long ? 'below' : 'above'} ${ctx.px(extreme)}.`,
+      short: `${ctx.tf} sweep of ${ctx.px(s.level ?? 0)} + MSS ${long ? 'up' : 'down'} through ${ctx.px(mss.m.level ?? 0)}: confirmed setup`,
       data: { sweepEventId: s.id, mssEventId: mss.m.id, sweptLevel: s.level, mssLevel: mss.m.level, invalidation: extreme, direction: long ? 'long' : 'short', candlesFromReclaim: mss.i - k },
-    }));
+    }) });
   }
-  return out;
+  return [...byMss.values()].map((x) => x.e);
 }

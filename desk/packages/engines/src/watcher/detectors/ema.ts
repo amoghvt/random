@@ -1,6 +1,6 @@
 /** EMA posture (20/50/200) and first-touch behaviour: rejection vs. reclaim-and-hold. */
 import type { StructureEvent } from '@desk/contracts';
-import { PARAMS, mkEvent, px, when, type TfContext } from '../core';
+import { PARAMS, mkEvent, when, type TfContext } from '../core';
 
 const PERIODS = [20, 50, 200] as const;
 type Stack = 'ema_stack_bull' | 'ema_stack_bear' | 'ema_mixed';
@@ -30,7 +30,7 @@ export function detectEmaPosture(ctx: TfContext): StructureEvent[] {
     out.push(mkEvent(ctx, 'ema_posture', start, {
       kind: state, level: e20, bias: state === 'ema_stack_bull' ? 1 : state === 'ema_stack_bear' ? -1 : 0, confidence: state === 'ema_mixed' ? 0.4 : 0.5,
       anchor: [c[start]!.t],
-      text: `${ctx.instrument} ${ctx.tf} ${px(c[last]!.c)}: ${where} the 20/50/200 EMA (${px(e20)} / ${px(e50)} / ${e200 == null ? `needs 200 candles, have ${n}` : px(e200)})${state === 'ema_mixed' ? ', no stack' : `, stacked ${state === 'ema_stack_bull' ? 'bullish' : 'bearish'} since ${when(ctx.tf, c[start]!.t, c[last]!.t)} ET`}.${slope200 == null ? '' : ` 200 ${slope200 < 0 ? 'declining' : 'rising'}.`}`,
+      text: `${ctx.instrument} ${ctx.tf} ${ctx.px(c[last]!.c)}: ${where} the 20/50/200 EMA (${ctx.px(e20)} / ${ctx.px(e50)} / ${e200 == null ? `needs 200 candles, have ${n}` : ctx.px(e200)})${state === 'ema_mixed' ? ', no stack' : `, stacked ${state === 'ema_stack_bull' ? 'bullish' : 'bearish'} since ${when(ctx.tf, c[start]!.t, c[last]!.t)} ET`}.${slope200 == null ? '' : ` 200 ${slope200 < 0 ? 'declining' : 'rising'}.`}`,
       short: `${ctx.tf} ${where} the 20/50/200 EMA`,
       data: { ema20: e20, ema50: e50, ema200: e200, slope200, since: c[start]!.t, asOfT: c[last]!.t, price: c[last]!.c },
     }));
@@ -61,8 +61,8 @@ export function detectEmaPosture(ctx: TfContext): StructureEvent[] {
           out.push(mkEvent(ctx, 'ema_posture', rejI, {
             kind: fromBelow ? 'first_touch_rejection' : 'first_touch_support', level: e[i]!, bias: fromBelow ? -1 : 1, confidence: period === 200 ? 0.6 : 0.5,
             anchor: [period, c[i]!.t], obsKey: `ema_touch|${ctx.tf}|${period}|${c[i]!.t}`, severity: 1,
-            text: `${ctx.instrument} ${ctx.tf} first touch of the ${trend} ${period} EMA ${px(e[i]!)} at ${at}: ${fromBelow ? 'high' : 'low'} ${px(common.touchExtreme)}, ${PARAMS.emaHold} closes back ${fromBelow ? 'under' : 'over'}. First-touch ${fromBelow ? 'rejection' : 'support'}, not a trend change.`,
-            short: `${ctx.tf} first touch of the ${trend} ${period} EMA ${px(e[i]!)} ${fromBelow ? 'rejected' : 'held'}`,
+            text: `${ctx.instrument} ${ctx.tf} first touch of the ${trend} ${period} EMA ${ctx.px(e[i]!)} at ${at}: ${fromBelow ? 'high' : 'low'} ${ctx.px(common.touchExtreme)}, ${PARAMS.emaHold} closes back ${fromBelow ? 'under' : 'over'}. First-touch ${fromBelow ? 'rejection' : 'support'}, not a trend change.`,
+            short: `${ctx.tf} first touch of the ${trend} ${period} EMA ${ctx.px(e[i]!)} ${fromBelow ? 'rejected' : 'held'}`,
             data: common,
           }));
         }
@@ -74,8 +74,8 @@ export function detectEmaPosture(ctx: TfContext): StructureEvent[] {
             out.push(mkEvent(ctx, 'ema_posture', holdI, {
               kind: fromBelow ? 'reclaim_and_hold' : 'lost_and_held_below', level: e[holdI]!, bias: fromBelow ? 1 : -1, confidence: period === 200 ? 0.6 : 0.5,
               anchor: [period, c[i]!.t], obsKey: `ema_touch|${ctx.tf}|${period}|${c[i]!.t}`, severity: 2,
-              text: `${ctx.instrument} ${ctx.tf} ${fromBelow ? 'reclaimed' : 'lost'} the ${trend} ${period} EMA ${px(e[holdI]!)}: first touch ${at}, ${PARAMS.emaHold} straight closes ${fromBelow ? 'above' : 'below'}, last ${px(c[holdI]!.c)}. ${fromBelow ? 'Reclaim-and-hold' : 'Lost and held below'}.`,
-              short: `${ctx.tf} ${fromBelow ? 'reclaimed' : 'lost'} the ${period} EMA ${px(e[holdI]!)}, ${PARAMS.emaHold} closes ${fromBelow ? 'above' : 'below'}`,
+              text: `${ctx.instrument} ${ctx.tf} ${fromBelow ? 'reclaimed' : 'lost'} the ${trend} ${period} EMA ${ctx.px(e[holdI]!)}: first touch ${at}, ${PARAMS.emaHold} straight closes ${fromBelow ? 'above' : 'below'}, last ${ctx.px(c[holdI]!.c)}. ${fromBelow ? 'Reclaim-and-hold' : 'Lost and held below'}.`,
+              short: `${ctx.tf} ${fromBelow ? 'reclaimed' : 'lost'} the ${period} EMA ${ctx.px(e[holdI]!)}, ${PARAMS.emaHold} closes ${fromBelow ? 'above' : 'below'}`,
               data: { ...common, holdFromT: c[s]!.t },
             }));
           }
