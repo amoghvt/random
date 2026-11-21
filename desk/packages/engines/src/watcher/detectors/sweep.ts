@@ -66,7 +66,7 @@ export function confirmSetups(ctx: TfContext, sweeps: StructureEvent[], shifts: 
     if (cur && cur.k >= k) continue;
     byMss.set(mss.m.id, { k, e: mkEvent(ctx, 'sweep_reclaim', mss.i, {
       kind: long ? 'sweep_reclaim_mss_long' : 'sweep_reclaim_mss_short', level: mss.m.level, bias: s.bias, confidence: 0.75,
-      anchor: [s.id, mss.m.id], confirmedSetup: true,
+      anchor: [mss.m.id], confirmedSetup: true,
       text: `${ctx.instrument} ${ctx.tf} swept ${ctx.px(s.level ?? 0)} to ${ctx.px(extreme)}, reclaimed, then closed ${long ? 'above' : 'below'} ${ctx.px(mss.m.level ?? 0)} (MSS) ${mss.i - k} candle${mss.i - k === 1 ? '' : 's'} later. Confirmed setup ${long ? 'long' : 'short'}; invalid ${long ? 'below' : 'above'} ${ctx.px(extreme)}.`,
       short: `${ctx.tf} sweep of ${ctx.px(s.level ?? 0)} + MSS ${long ? 'up' : 'down'} through ${ctx.px(mss.m.level ?? 0)}: confirmed setup`,
       data: { sweepEventId: s.id, mssEventId: mss.m.id, sweptLevel: s.level, mssLevel: mss.m.level, invalidation: extreme, direction: long ? 'long' : 'short', candlesFromReclaim: mss.i - k },

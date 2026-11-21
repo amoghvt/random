@@ -7,8 +7,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse } from 'yaml';
-import { AccountRules, CORE_SYMBOLS, DATUM_KEYS, DAY, DEFAULT_WATCHLIST, HOUR, KV } from '@desk/contracts';
-import { TIER1_CODES, buildFeeds, checkFirmRules, ingestOnce, lagText, stamped, type FeedHealthRow } from '../src/index';
+import { AccountRules, CORE_SYMBOLS, DATUM_KEYS, DAY, DEFAULT_WATCHLIST, HOUR, INSTRUMENTS, KV } from '@desk/contracts';
+import { TIER1_CODES, buildFeeds, changeBp, checkFirmRules, ingestOnce, lagText, stamped, type FeedHealthRow } from '../src/index';
 import { FakeStore } from '../src/testing';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -25,14 +25,14 @@ console.log('written', JSON.stringify(report.written), '\n');
 
 const quotes = await store.latestQuotes();
 for (const s of ['NQ', 'ES', 'VIX', 'DXY', 'NVDA', 'BTC']) { const q = quotes[s]; if (q) { const st = stamped({ value: q.price, ...q }, now); console.log(`quote ${s.padEnd(5)} ${q.price}  ${q.changePct?.toFixed(2)}%  src=${q.source} age=${st.age} stale=${st.stale}`); } }
-console.log(`quotes stored: ${Object.keys(quotes).length}/${symbols.length}; missing: ${symbols.filter((s) => !quotes[s]).join(',') || 'none'}`);
+console.log(`quotes stored: ${Object.keys(quotes).length}/${symbols.length}; missing: ${symbols.filter((s) => !quotes[INSTRUMENTS[s]?.priceSymbol ?? s]).join(',') || 'none'}`);
 
 for (const k of ['US2Y', 'US10Y', 'US30Y'] as const) {
   const d = await store.latestDatum(DATUM_KEYS.rate(k));
   if (!d) { console.log(`rate ${k}: missing`); continue; }
   const hist = await store.dataHistory(d.key, Date.parse(d.asOf) - 26 * HOUR);
-  const ref = hist.filter((h) => Date.parse(h.asOf) <= Date.parse(d.asOf) - HOUR).at(-1);
-  console.log(`rate ${k} ${d.value}%  src=${d.source} asOf=${d.asOf} age=${stamped(d, now).age} history=${hist.length} pts  1h chg=${ref ? `${((d.value - ref.value) * 100).toFixed(1)} bp (vs ${ref.value} @ ${ref.asOf}, ${ref.source})` : 'n/a'}`);
+  const chg = changeBp(hist, HOUR);
+  console.log(`rate ${k} ${d.value}%  src=${d.source} asOf=${d.asOf} age=${stamped(d, now).age} history=${hist.length} pts  1h chg=${chg ? `${chg.bp} bp (${chg.source}, ${chg.from.slice(11, 16)} to ${chg.to.slice(11, 16)}Z)` : 'n/a'}`);
 }
 const d2s10s = await store.latestDatum(DATUM_KEYS.spread2s10s);
 console.log(`2s10s ${d2s10s?.value} bp`);

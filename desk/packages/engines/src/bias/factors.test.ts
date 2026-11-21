@@ -5,7 +5,7 @@ import { extractInputs } from './extract';
 import { SCORERS, scoreFactors } from './factors';
 import { snapshotFromHistory } from './history';
 import { effectiveWeights } from './scoring';
-import { recordedCandlesByKey, syntheticCandles, syntheticCatalyst, syntheticDatum, syntheticEvent, syntheticHeadline, syntheticSet, syntheticSnapshot } from './testkit';
+import { recordedCandlesByKey, syntheticCatalyst, syntheticDatum, syntheticEvent, syntheticHeadline, syntheticSet, syntheticSnapshot } from './testkit';
 import type { BiasSnapshot } from './types';
 import type { FactorName } from '@desk/contracts';
 
@@ -99,14 +99,14 @@ describe('factor scorers on synthetic cases, for sign', () => {
   it('rates: yields up through 5.00% with stocks down is negative; yields down with stocks up is positive', () => {
     const k = DATUM_KEYS.rate('US10Y');
     const up = syntheticSnapshot(T, {
-      candles: syntheticSet('NQ', T, 25000, -1), data: { [k]: syntheticDatum(k, 5.03, T - MIN) },
+      candles: syntheticSet('NQ', T, 25000, -3), data: { [k]: syntheticDatum(k, 5.03, T - MIN) },
       dataHistory: { [k]: [syntheticDatum(k, 4.9, T - DAY - MIN), syntheticDatum(k, 4.97, T - HOUR - MIN), syntheticDatum(k, 5.03, T - MIN)] },
     });
     const f = score('rates', up);
     expect(f.score).toBeLessThanOrEqual(-1.5);
     expect(f.evidence).toContain('up through 5.00%');
     const down = syntheticSnapshot(T, {
-      candles: syntheticSet('NQ', T, 25000, 1), data: { [k]: syntheticDatum(k, 4.84, T - MIN) },
+      candles: syntheticSet('NQ', T, 25000, 3), data: { [k]: syntheticDatum(k, 4.84, T - MIN) },
       dataHistory: { [k]: [syntheticDatum(k, 4.95, T - DAY - MIN), syntheticDatum(k, 4.89, T - HOUR - MIN), syntheticDatum(k, 4.84, T - MIN)] },
     });
     expect(score('rates', down).score).toBeGreaterThanOrEqual(1.5);
@@ -178,8 +178,7 @@ describe('factor scorers on synthetic cases, for sign', () => {
     expect(liq.evidence).toContain('25,300 above / 24,700 below');
   });
   it('cross-asset: oil spiking with yields up is negative', () => {
-    const y = syntheticCandles('US10Y', '1d', 60, T, 5.1, 0.2);
-    const f = score('cross_asset', syntheticSnapshot(T, { peers: { CL: syntheticSet('CL', T, 80, 3), US10Y: { m15: [], h1: [], d1: y } } }));
+    const f = score('cross_asset', syntheticSnapshot(T, { peers: { CL: syntheticSet('CL', T, 80, 3), US10Y: syntheticSet('US10Y', T, 5.1, 1) } }));
     expect(f.score).toBeLessThan(-1);
     expect(f.evidence).toContain('oil spiking');
   });

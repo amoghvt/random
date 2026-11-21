@@ -64,7 +64,7 @@ export function refitWeights(calls: BiasCall[], weights: Weights): { weights: We
     for (const f of FACTORS) w[f] = Math.max(0, w[f] - RATE * (g[f] / n + 2 * L2 * (w[f] - w0[f])));
   }
   // Alternate the two constraints (step bound, sum to 1) until both hold.
-  let out = unit(w);
+  let out = { ...w };
   for (let i = 0; i < 200; i++) {
     for (const f of FACTORS) out[f] = Math.min(w0[f] + REFIT_MAX_STEP, Math.max(Math.max(0, w0[f] - REFIT_MAX_STEP), out[f]));
     out = unit(out);
@@ -73,13 +73,17 @@ export function refitWeights(calls: BiasCall[], weights: Weights): { weights: We
 
   const hit = (xs: typeof rows): number | null => (xs.length ? round(xs.filter((r) => r.y === 1).length / xs.length, 3) : null);
   const pc = (x: number | null): string => (x == null ? 'n/a' : `${(x * 100).toFixed(0)}%`);
+  const verdict = (a: number | null, g: number | null): string => {
+    const gap = a != null && g != null ? a - g : null;
+    return gap == null ? 'one-sided sample' : gap >= 0.1 ? 'it separated right from wrong' : gap <= -0.1 ? 'it pointed the wrong way' : 'it did not separate right from wrong';
+  };
   const moved: RefitMove[] = FACTORS.map((f) => {
     const agree = rows.filter((r) => r.x[f] > 0), against = rows.filter((r) => r.x[f] < 0);
     const delta = round(out[f] - w0[f], 4);
     const aH = hit(agree), gH = hit(against);
     const why = agree.length + against.length === 0
       ? 'never had a score in these calls; moved only by renormalising'
-      : `calls it sided with hit ${pc(aH)} (${agree.length}), calls it opposed hit ${pc(gH)} (${against.length})`;
+      : `calls it sided with hit ${pc(aH)} (${agree.length}), calls it opposed hit ${pc(gH)} (${against.length}); ${verdict(aH, gH)}`;
     return { factor: f, from: round(w0[f], 4), to: out[f], delta, agreeN: agree.length, agreeHit: aH, againstN: against.length, againstHit: gH, why };
   }).filter((m) => Math.abs(m.delta) >= 0.001).sort((p, q) => Math.abs(q.delta) - Math.abs(p.delta));
   const hitRate = hit(rows);

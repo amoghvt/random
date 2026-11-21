@@ -5,7 +5,7 @@
  * `feeds.health`. A failing feed is recorded and skipped: nothing thrown by a provider leaves `ingestOnce`.
  */
 import {
-  CalendarEvent, Candle, Datum, EarningsInfo, Headline, INSTRUMENTS, KV, LaggedFact, PredictionMarket, Quote, DAY, HOUR, iso,
+  CalendarEvent, Candle, DATUM_KEYS, Datum, EarningsInfo, Headline, INSTRUMENTS, KV, LaggedFact, PredictionMarket, Quote, DAY, HOUR, iso,
   type Store, type Timeframe,
 } from '@desk/contracts';
 import type { z } from 'zod';
@@ -17,7 +17,7 @@ import {
   tradierQuotes, tradingEconomics,
 } from './adapters/paid';
 import { kalshi, polymarket } from './adapters/predictions';
-import { tradingViewCalendar, tradingViewQuotes, tradingViewRates, tradingViewVol } from './adapters/tradingview';
+import { spread2s10s, tradingViewCalendar, tradingViewQuotes, tradingViewRates, tradingViewVol, volData } from './adapters/tradingview';
 import { BACKFILL_RANGE, yahooCandleFeed, yahooCandles, yahooCoverage, yahooOptions, yahooQuotes, yahooRates, yahooRatesHistory, yahooVol } from './adapters/yahoo';
 import { dedupeHeadlines } from './headlines';
 import { mapLimit } from './http';
@@ -103,6 +103,41 @@ async function write(store: Store, items: FeedItem[], now: number, written: Reco
   written.calendar += calendar.length; written.prediction += predictions.length; written.earnings += earnings.length; written.lagged += lagged.length;
 }
 
+/**
+ * Cross-provider derived data: 2s10s and the VIX term ratio are recomputed from the latest stored legs, so
+ * they exist even when the two legs came from different providers (VIX from TradingView, VIX3M from Yahoo).
+ */
+export async function deriveData(store: Store): Promise<Datum[]> {
+  const d = await store.latestData([DATUM_KEYS.rate('US2Y'), DATUM_KEYS.rate('US10Y'), DATUM_KEYS.vix, DATUM_KEYS.vix3m, DATUM_KEYS.spread2s10s, DATUM_KEYS.vixTerm]);
+  const out: Datum[] = [];
+  const y2 = d[DATUM_KEYS.rate('US2Y')], y10 = d[DATUM_KEYS.rate('US10Y')], vix = d[DATUM_KEYS.vix], vix3m = d[DATUM_KEYS.vix3m];
+  const fresher = (x: Datum, key: string): boolean => !d[key] || d[key].asOf < x.asOf;
+  if (y2 && y10) { const s = spread2s10s(y2, y10); if (fresher(s, s.key)) out.push(s); }
+  if (vix && vix3m) { const t = volData(vix, vix3m, Math.max(vix.cadenceSec, vix3m.cadenceSec)).find((x) => x.key === DATUM_KEYS.vixTerm); if (t && fresher(t, t.key)) out.push({ ...t, source: vix.source === vix3m.source ? vix.source : `${vix.source}+${vix3m.source}` }); }
+  return out;
+}
+
+/**
+ * Change of a datum series over a window, in basis points for percent-valued series (value diff x 100).
+ * Both ends come from the same source: a TradingView yield is never differenced against a Yahoo one. If the
+ * latest point's source has no point that old, the other source's own change over the window is returned.
+ */
+export function changeBp(history: Datum[], windowMs: number, toleranceMs = 20 * 60_000): { bp: number; source: string; from: string; to: string } | null {
+  const bySource = new Map<string, Datum[]>();
+  for (const h of [...history].sort((a, b) => a.asOf.localeCompare(b.asOf))) bySource.set(h.source, [...(bySource.get(h.source) ?? []), h]);
+  const latest = [...history].sort((a, b) => a.asOf.localeCompare(b.asOf)).at(-1);
+  if (!latest) return null;
+  const series = [bySource.get(latest.source) ?? [], ...[...bySource].filter(([s]) => s !== latest.source).map(([, xs]) => xs).sort((a, b) => b.at(-1)!.asOf.localeCompare(a.at(-1)!.asOf))];
+  for (const xs of series) {
+    const to = xs.at(-1);
+    if (!to) continue;
+    const target = Date.parse(to.asOf) - windowMs;
+    const from = xs.filter((x) => Date.parse(x.asOf) <= target && Date.parse(x.asOf) >= target - toleranceMs).at(-1);
+    if (from) return { bp: Math.round((to.value - from.value) * 1000) / 10, source: to.source, from: from.asOf, to: to.asOf };
+  }
+  return null;
+}
+
 /** One ingest pass. Never throws for a feed failure; the failure lands in the report and in kv `feeds.health`. */
 export async function ingestOnce(store: Store, feeds: Feeds, now: number, opts: IngestOpts = {}): Promise<IngestReport> {
   const env = opts.env ?? {};
@@ -149,13 +184,19 @@ export async function ingestOnce(store: Store, feeds: Feeds, now: number, opts: 
       const missing = new Set(want ?? []);
       for (const feed of slot.feeds) {
         // A fallback is asked only for what is still missing, and may only write that: it never overwrites the better source.
-        const items = await run(feed, slot, slot.kind === 'quotes' && want ? [...missing] : symbols, want ? (k) => missing.has(k) : null);
+        const items = await run(feed, slot, slot.kind === 'quotes' && want ? [...missing] : symbols, want ? (k) => !want.includes(k) || missing.has(k) : null);
         for (const it of items) if (it.symbol !== undefined) missing.delete(it.symbol);
         if (want ? missing.size === 0 : items.length > 0) break;
       }
     } catch (e) {
       report.polled.push({ feed: `slot:${slot.kind}`, kind: slot.kind, ok: false, items: 0, invalid: 0, error: errText(e), ms: 0 });
     }
+  }
+  try {
+    const derived = await deriveData(store);
+    if (derived.length) { await store.putData(derived); report.written.datum += derived.length; }
+  } catch (e) {
+    report.polled.push({ feed: 'derived', kind: 'rates', ok: false, items: 0, invalid: 0, error: errText(e), ms: 0 });
   }
   try {
     // Rows written by the rule scraper (`rules:<host>`) are kept as they are.

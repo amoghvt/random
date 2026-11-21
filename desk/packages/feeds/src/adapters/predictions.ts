@@ -103,7 +103,7 @@ export function mapKalshiMarkets(markets: KalshiMarket[], series: string, code: 
 }
 
 export async function fetchKalshiMarkets(series: string, fetch?: FetchLike): Promise<KalshiMarket[]> {
-  return (await httpJson<{ markets: KalshiMarket[] }>(`${KALSHI}/markets?series_ticker=${series}&status=open&limit=200`, { fetch })).markets ?? [];
+  return (await httpJson<{ markets: KalshiMarket[] }>(`${KALSHI}/markets?series_ticker=${series}&status=open&limit=1000`, { fetch })).markets ?? [];
 }
 
 /** Hike / cut / hold from the KXFEDDECISION event closing nearest the meeting date; null when none is listed. */

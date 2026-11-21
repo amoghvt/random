@@ -12,6 +12,8 @@ interface Ctx<K extends RouteKey> {
 type Handlers = { [K in Exclude<RouteKey, 'GET /api/stream' | 'POST /api/hooks/tradingview' | 'POST /api/import/tradingview-csv'>]: (c: Ctx<K>) => ApiRoutes[K]['res'] };
 
 const state = fx.initialState();
+// Runtime marker: the production build script greps the bundle for it and fails if it is present.
+(globalThis as { __DESK_MOCK__?: string }).__DESK_MOCK__ = fx.MOCK_MARKER;
 
 class MockHttpError extends Error {
   constructor(public readonly status: number, message: string) { super(message); }

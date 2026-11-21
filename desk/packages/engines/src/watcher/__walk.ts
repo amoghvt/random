@@ -1,12 +1,9 @@
-import { fromZoned, hhmm, dayKey } from '@desk/contracts';
+import { fromZoned, hhmm } from '@desk/contracts';
 import { loadSessionFixture } from './loadFixture';
 import { walkForward } from './replay';
 const fx = loadSessionFixture();
-const t0 = Date.now();
-const seen = walkForward({ instrument: 'NQ', m1: fx.m1.NQ!, history: { '15m': fx.m15History.NQ! }, peersM1: { ES: fx.m1.ES! }, from: fromZoned(2026, 11, 16, 0, 0), to: fromZoned(2026, 11, 18, 0, 0) });
-console.log('ms', Date.now() - t0, 'events', seen.size);
-const counts: Record<string, number> = {};
-for (const { event: e } of seen.values()) counts[`${e.tf} ${e.detector}/${e.kind}`] = (counts[`${e.tf} ${e.detector}/${e.kind}`] ?? 0) + 1;
-console.log(Object.entries(counts).sort().map(([k, v]) => `${k}: ${v}`).join('\n'));
-const want = new Set(['retrace_quality', 'volume_context']);
-for (const { event: e, at } of seen.values()) if ((want.has(e.detector) || e.confirmedSetup || e.kind.startsWith('first_touch') || e.kind.startsWith('reclaim') || e.kind.startsWith('last_hour')) && e.tf !== '1m') console.log(dayKey(at), hhmm(at), e.tf, e.kind, '|', e.text);
+const base = { instrument: 'NQ', m1: fx.m1.NQ!, history: { '15m': fx.m15History.NQ! }, peersM1: { ES: fx.m1.ES! } };
+const a = walkForward({ ...base, from: fromZoned(2026, 11, 16, 9, 30), to: fromZoned(2026, 11, 16, 16, 0) });
+for (const { event: e, at } of a.values()) if (at > fromZoned(2026, 11, 16, 9, 30) && (e.kind.includes('stalled') || e.kind.startsWith('bounce_volume')) ) console.log(hhmm(at), e.tf, e.kind, JSON.stringify(e.data));
+const b = walkForward({ ...base, from: fromZoned(2026, 11, 17, 17, 0), to: fromZoned(2026, 11, 17, 21, 30) });
+for (const { event: e, at } of b.values()) if (at > fromZoned(2026, 11, 17, 17, 0) && (e.detector === 'volume_context' || e.kind.includes('touch') || e.detector==='divergence')) console.log(hhmm(at), e.tf, e.kind, e.text, JSON.stringify(e.data));

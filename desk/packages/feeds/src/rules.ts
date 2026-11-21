@@ -97,8 +97,9 @@ export async function checkFirmRules(store: Store, accounts: AccountRules[], now
   for (const [url, accts] of byUrl) {
     const page = await fetchRulePage(url, fetch);
     const sentences = page.ok ? normalizeRuleText(page.html) : [];
-    const usable = page.ok && sentences.length > 0;
-    const error = usable ? null : page.error ?? 'page had no rule text';
+    // A client-rendered page leaves a line or two of shell text: not a rule page we can diff.
+    const usable = page.ok && sentences.length >= 3;
+    const error = usable ? null : page.error ?? 'no rule text in the HTML (client-rendered page)';
     const host = `rules:${new URL(url).host}`;
     const h = health.get(host);
     health.set(host, { ok: (h?.ok ?? true) && usable, error: h?.error ?? (usable ? null : `${error} (${url})`) });

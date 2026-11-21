@@ -70,8 +70,8 @@ export async function api<K extends RouteKey>(route: K, ...args: Args<K>): Promi
   const opts = (args[0] ?? {}) as LooseOpts;
   const { method, url } = resolve(route, opts);
   if (process.env.NEXT_PUBLIC_MOCK === '1') {
-    const { mockApi } = await import('./mock/handler');
-    return mockApi(route, opts) as Res<K>;
+    const { mockApi } = await import('desk-mock');
+    return (await mockApi(route, opts)) as Res<K>;
   }
   let r: Response;
   try {

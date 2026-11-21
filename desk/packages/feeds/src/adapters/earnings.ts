@@ -28,7 +28,9 @@ export function mapTvEarnings(res: { data: Array<{ s: string; d: Array<string | 
 export function timingOf(tsMs: number | null): Timing {
   if (tsMs === null) return 'unknown';
   const m = minutesOfDay(tsMs);
-  if (m === 0 || new Date(tsMs).getUTCHours() * 60 + new Date(tsMs).getUTCMinutes() === 0) return 'unknown';
+  const utc = new Date(tsMs).getUTCHours() * 60 + new Date(tsMs).getUTCMinutes();
+  // Midnight and noon UTC are date-only placeholders.
+  if (m === 0 || utc === 0 || utc === 720) return 'unknown';
   return m < 9 * 60 + 30 ? 'bmo' : m >= 16 * 60 ? 'amc' : 'unknown';
 }
 
@@ -73,7 +75,8 @@ export const earningsFeed: Feed<ItemOf<'earnings'>> = {
     const asOf = iso(ctx.now);
     const infos = await mapLimit(rows.filter((r) => r.nextAt !== null), 3, async (r): Promise<EarningsInfo> => {
       const nextAt = r.nextAt as number;
-      const timing = timingOf(nextAt) === 'unknown' ? timingOf(r.lastAt) : timingOf(nextAt);
+      // The last release carries its real time of day; a future date is often a placeholder time.
+      const timing = timingOf(r.lastAt) === 'unknown' ? timingOf(nextAt) : timingOf(r.lastAt);
       let history: History = [];
       const sources = ['tradingview'];
       try {

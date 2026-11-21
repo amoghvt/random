@@ -1,5 +1,5 @@
 /** Test helpers: recorded candles into the shape snapshotFromHistory reads. Filesystem access lives here, not in the engine. */
-import { loadRecordedCandles, hasRecorded } from '@desk/feeds/recorded.ts';
+import { loadRecordedCandles, hasRecorded } from '@desk/feeds';
 import { DEFAULT_WEIGHTS, TF_MS, iso, type Candle, type Catalyst, type Datum, type Headline, type ScenarioBranch, type StructureEvent, type Timeframe, type TradePlan } from '@desk/contracts';
 import { candleKey } from './history';
 import { PEER_SYMBOLS, type BiasSnapshot, type CandleSet } from './types';
@@ -31,7 +31,8 @@ export function syntheticCandles(symbol: string, tf: Timeframe, n: number, end: 
 }
 export const syntheticSet = (symbol: string, end: number, last: number, dayPct: number): CandleSet => ({
   m15: syntheticCandles(symbol, '15m', 300, end, last, dayPct / 60), h1: syntheticCandles(symbol, '1h', 60, end, last, dayPct / 16),
-  d1: syntheticCandles(symbol, '1d', 300, end, last, dayPct),
+  // Daily bars are the completed sessions before today: the last one closed one day's move ago.
+  d1: syntheticCandles(symbol, '1d', 300, end, last / (1 + dayPct / 100), dayPct),
 });
 export const syntheticDatum = (key: string, value: number, at: number, cadenceSec = 60): Datum => ({ key, value, source: 'synthetic', asOf: iso(at), cadenceSec });
 export function syntheticSnapshot(now: number, over: Partial<BiasSnapshot> = {}): BiasSnapshot {
