@@ -1,0 +1,66 @@
+# Lucid Pro 50K. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# The spec gives payouts only; drawdown and daily loss were read from the help center.
+id: lucid-pro-50k
+firm: "Lucid Trading"
+program: "LucidPro 50K"
+name: "Lucid Pro 50K"
+venue: cme
+startingBalance: 50000
+instruments: [NQ, MNQ, ES, YM, RTY, CL, GC]
+drawdown:
+  type: eod_trailing
+  amountUsd: 2000
+  pct: null
+  locksAtBalance: 52100
+  lockedFloor: 50100
+  includesOpenPnl: true
+  text: "EOD trailing max loss $2,000 from the highest closing balance; locks at $50,100 once the balance closes at $52,100 (firm help center, read 2026-11-21)."
+dailyLoss:
+  amountUsd: 1200
+  pctOfSnapshot: null
+  snapshotET: null
+  hardBreach: false
+  text: "$1,200 daily loss limit, soft breach: trading is restricted until the next session (firm help center, read 2026-11-21)."
+payout:
+  capUsd: null
+  minUsd: 500
+  qualifyingDays: 3
+  qualifyingDayMinUsd: null
+  cycleDays: null
+  consistencyPct: 40
+  maxPayouts: null
+  ladderUsd: [2000, 2500]
+  bufferUsd: 2100
+  text: "3 days, 40% consistency, $2,000 then $2,500 (trader spec). Minimum request $500; buffer balance $52,100 for the first payout (firm help center, read 2026-11-21)."
+inactivityDays: 30
+leverage:
+  caps: {}
+  eventCutText: null
+  maxContracts: null
+session:
+  flattenByET: "16:00"
+  weekendLock: null
+prohibited:
+  - rule: cross_account_hedging
+    clause: "Hedging across multiple accounts held by the same user. However, you cannot go long / short different contracts in separate accounts with correlated assets. (firm help center, read 2026-11-21)"
+  - rule: micro_scalping
+    clause: "No scalps under 5 to 10 seconds (trader spec). Lucid: more than 50% of your profits are generated from trades held for 5 seconds or less (firm help center, read 2026-11-21)."
+    minHoldSec: 5
+  - rule: other
+    clause: "Flat before 16:00 ET (trader spec). Lucid auto-closes at 4:45 PM EST (firm help center, read 2026-11-21)."
+markDivergencePts: null
+firmRisk: []
+claimPromptGainPct: null
+source:
+  urls:
+    - https://support.lucidtrading.com/en/articles/12890136-lucidpro-drawdown
+    - https://support.lucidtrading.com/en/articles/12890122-lucidpro-daily-loss-limit
+    - https://support.lucidtrading.com/en/articles/12890092-lucidpro-payouts
+    - https://support.lucidtrading.com/en/articles/11404734-prohibited-hedging
+    - https://support.lucidtrading.com/en/articles/11404742-prohibited-microscalping
+    - https://support.lucidtrading.com/en/articles/11404729-allowed-trading-times
+    - https://support.lucidtrading.com/en/articles/11404632-inactivity-policy
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21; firm help center (read 2026-11-21) where marked"

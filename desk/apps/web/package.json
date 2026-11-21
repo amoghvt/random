@@ -1,0 +1,32 @@
+{
+  "name": "@desk/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "dev:mock": "NEXT_PUBLIC_MOCK=1 next dev -p 3000",
+    "build": "node scripts/build.mjs",
+    "build:mock": "node scripts/build.mjs --mock",
+    "typecheck": "next typegen && tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "icons": "node scripts/gen-icons.mjs",
+    "serve": "node scripts/serve.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "@desk/contracts": "workspace:*",
+    "lightweight-charts": "^5.3.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,56 @@
+# MFFU Pro 50K. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# The help center says the max loss moves to $50,100 and goes static after the first payout. The schema has no after-first-payout lock, so the floor is left trailing (the tighter reading).
+id: mffu-pro-50k
+firm: "MyFundedFutures"
+program: "Pro 50K"
+name: "MFFU Pro 50K"
+venue: cme
+startingBalance: 50000
+instruments: [NQ, MNQ, ES, YM, RTY, CL, GC]
+drawdown:
+  type: eod_trailing
+  amountUsd: 2000
+  pct: null
+  locksAtBalance: null
+  lockedFloor: null
+  includesOpenPnl: true
+  text: "EOD max loss $2,000; after the first payout it moves to $50,100 and stays static (firm help center, read 2026-11-21). Sized as trailing without a lock until the dashboard shows the static floor."
+dailyLoss: null
+payout:
+  capUsd: null
+  minUsd: 1000
+  qualifyingDays: null
+  qualifyingDayMinUsd: null
+  cycleDays: 14
+  consistencyPct: 60
+  maxPayouts: null
+  ladderUsd: null
+  bufferUsd: 2100
+  text: "14 calendar days, $1,000 minimum, 60% consistency pre-buffer; $2,100 buffer on 50K (trader spec). The help center (read 2026-11-21) lists no consistency rule on the sim-funded Pro account; the spec's 60% is kept."
+inactivityDays: 7
+leverage:
+  caps: {}
+  eventCutText: null
+  maxContracts: 3
+session:
+  flattenByET: "16:00"
+  weekendLock: null
+prohibited:
+  - rule: cross_account_hedging
+    clause: "MyFundedFutures prohibits hedging of any kind. Hedging is defined as a trader entering both buy and sell positions on the same underlying asset, at the same time. (firm help center, read 2026-11-21)"
+  - rule: news_trading
+    clause: "News trading is prohibited on MFFU Pro (trader spec). No positions or orders (including limit orders) can be open 2 minutes before and after the release. T1: FOMC Meetings, FOMC Minutes, Employment Report, CPI. (firm help center, read 2026-11-21)"
+  - rule: other
+    clause: "Max size reads 3 mini / 3 micro (firm help center, read 2026-11-21); micro limit unverified, confirm in the firm dashboard. Flat before 16:00 ET (trader spec)."
+markDivergencePts: null
+firmRisk: []
+claimPromptGainPct: null
+source:
+  urls:
+    - https://help.myfundedfutures.com/en/articles/17573707-comprehensive-look-into-redesigned-pro-plan
+    - https://help.myfundedfutures.com/en/articles/12011241-hedging-what-you-should-know
+    - https://help.myfundedfutures.com/en/articles/8230009-news-trading-policy
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21; firm help center (read 2026-11-21) where marked"

@@ -1,0 +1,61 @@
+# Tradeify 50K. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# The spec does not name the Tradeify program (Growth, Select or Lightning). Drawdown amount and daily loss differ by program, so both are null: the engine blocks sizing until they are confirmed.
+id: tradeify-50k
+firm: "Tradeify"
+program: "50K"
+name: "Tradeify 50K"
+venue: cme
+startingBalance: 50000
+instruments: [NQ, MNQ, ES, YM, RTY, CL, GC]
+drawdown:
+  type: eod_trailing
+  amountUsd: null
+  pct: null
+  locksAtBalance: null
+  lockedFloor: null
+  includesOpenPnl: true
+  text: "EOD trailing: recalculates only at market close, enforced in real time (firm help center, read 2026-11-21). Amount unverified, confirm in the firm dashboard for this program (Growth 50K reads $2,000)."
+dailyLoss:
+  amountUsd: null
+  pctOfSnapshot: null
+  snapshotET: null
+  hardBreach: false
+  text: "Daily loss limit unverified, confirm in the firm dashboard: Growth and Lightning 50K read $1,250, Select Daily $1,000, Select Flex none (firm help center, read 2026-11-21). Set dailyLoss to null if the program has none."
+payout:
+  capUsd: null
+  minUsd: null
+  qualifyingDays: null
+  qualifyingDayMinUsd: null
+  cycleDays: null
+  consistencyPct: null
+  maxPayouts: null
+  ladderUsd: null
+  bufferUsd: null
+  text: "Payout rules for this program are not in the spec: unverified, confirm in the firm dashboard. Growth reads 35% consistency and 5 profitable days per cycle (firm help center, read 2026-11-21)."
+inactivityDays: 7
+leverage:
+  caps: {}
+  eventCutText: null
+  maxContracts: null
+session:
+  flattenByET: "16:00"
+  weekendLock: null
+prohibited:
+  - rule: cross_account_hedging
+    clause: "Tradeify prohibits hedging. You cannot hold opposing positions (one long, one short) on the same instrument, whether those positions sit in a single account or are spread across several of your accounts. (firm help center, read 2026-11-21)"
+  - rule: micro_scalping
+    clause: "No scalps under 5 to 10 seconds (trader spec). Tradeify: over 50% of your trades AND profits must come from trades held longer than 10 seconds (firm help center, read 2026-11-21)."
+    minHoldSec: 10
+  - rule: other
+    clause: "Flat before 16:00 ET (trader spec). Tradeify closes positions at 4:45 PM ET (firm help center, read 2026-11-21). At least 1 trade per week, Monday to Friday (firm help center, read 2026-11-21)."
+markDivergencePts: null
+firmRisk: []
+claimPromptGainPct: null
+source:
+  urls:
+    - https://intercom.help/tradeify/en/articles/12268167-essential-trading-rules-overview
+    - https://intercom.help/tradeify/en/articles/10495868-rules-hedging-correlated-products
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21; firm help center (read 2026-11-21) where marked"

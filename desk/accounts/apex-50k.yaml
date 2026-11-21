@@ -1,0 +1,59 @@
+# Apex 50K. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# apextraderfunding.com/help-center returned HTTP 403 on 2026-11-21: nothing was read from Apex. The URL is listed for the nightly diff only.
+# Trailing amount and daily loss limit are null: the engine blocks sizing on this account until they are confirmed.
+id: apex-50k
+firm: "Apex Trader Funding"
+program: "50K"
+name: "Apex 50K"
+venue: cme
+startingBalance: 50000
+instruments: [NQ, MNQ, ES, YM, RTY, CL, GC]
+drawdown:
+  type: intraday_trailing
+  amountUsd: null
+  pct: null
+  locksAtBalance: null
+  lockedFloor: null
+  includesOpenPnl: true
+  text: "Trailing drawdown (trader spec); sized as intraday trailing on equity, the tighter reading. Trailing amount unverified, confirm in the firm dashboard."
+dailyLoss:
+  amountUsd: null
+  pctOfSnapshot: null
+  snapshotET: null
+  hardBreach: false
+  text: "Daily loss limit unverified, confirm in the firm dashboard; set dailyLoss to null if the dashboard shows none."
+payout:
+  capUsd: 3000
+  minUsd: null
+  qualifyingDays: 5
+  qualifyingDayMinUsd: null
+  cycleDays: null
+  consistencyPct: 50
+  maxPayouts: 6
+  ladderUsd: null
+  bufferUsd: 2100
+  text: "Safety Net $52,100 for life; 5 qualifying days, 50% consistency, $1,500 to $3,000 ladder, closes after 6 payouts (trader spec). Ladder steps between $1,500 and $3,000 unverified, confirm in the firm dashboard."
+inactivityDays: null
+leverage:
+  caps: {}
+  eventCutText: null
+  maxContracts: null
+session:
+  flattenByET: "16:00"
+  weekendLock: null
+prohibited:
+  - rule: cross_account_hedging
+    clause: "Apex: cross-account hedging is prohibited (trader spec, section 7; the firm's own wording was not read)."
+  - rule: other
+    clause: "Flat before 16:00 ET (trader spec). Max contracts unverified, confirm in the firm dashboard."
+markDivergencePts: null
+firmRisk:
+  - "Account closes after 6 payouts."
+claimPromptGainPct: null
+source:
+  urls:
+    - https://apextraderfunding.com/help-center/
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21"

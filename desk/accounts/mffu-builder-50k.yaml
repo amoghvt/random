@@ -1,0 +1,59 @@
+# MFFU Builder 50K. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# Kept on a $50,000 basis: the help center shows the sim-funded balance from $0, so enter dashboard balance + $50,000.
+id: mffu-builder-50k
+firm: "MyFundedFutures"
+program: "Builder 50K"
+name: "MFFU Builder 50K"
+venue: cme
+startingBalance: 50000
+instruments: [NQ, MNQ, ES, YM, RTY, CL, GC]
+drawdown:
+  type: eod_trailing
+  amountUsd: 2000
+  pct: null
+  locksAtBalance: 52100
+  lockedFloor: 50100
+  includesOpenPnl: true
+  text: "EOD trailing, locks at +$100 (trader spec). Max loss $2,000 (firm help center, read 2026-11-21). Kept on a $50,000 basis: the help center shows the sim-funded balance from $0, so enter dashboard balance + $50,000."
+dailyLoss:
+  amountUsd: 1000
+  pctOfSnapshot: null
+  snapshotET: null
+  hardBreach: false
+  text: "$1,000 daily loss limit (trader spec). Soft pause, not a breach (firm help center, read 2026-11-21)."
+payout:
+  capUsd: 2000
+  minUsd: 500
+  qualifyingDays: 2
+  qualifyingDayMinUsd: null
+  cycleDays: null
+  consistencyPct: 50
+  maxPayouts: null
+  ladderUsd: null
+  bufferUsd: 2100
+  text: "$2,000 per cycle, 2 qualifying days, 50% consistency; $2,100 buffer, everything above withdrawable (trader spec). Minimum request $500 (firm help center, read 2026-11-21)."
+inactivityDays: 7
+leverage:
+  caps: {}
+  eventCutText: null
+  maxContracts: 4
+session:
+  flattenByET: "16:00"
+  weekendLock: null
+prohibited:
+  - rule: cross_account_hedging
+    clause: "MyFundedFutures prohibits hedging of any kind. Hedging is defined as a trader entering both buy and sell positions on the same underlying asset, at the same time. (firm help center, read 2026-11-21)"
+  - rule: other
+    clause: "Max size 4 minis / 40 micros (firm help center, read 2026-11-21). Flat before 16:00 ET (trader spec)."
+markDivergencePts: null
+firmRisk: []
+claimPromptGainPct: null
+source:
+  urls:
+    - https://help.myfundedfutures.com/en/articles/14290805-builder-plan-50k-a-comprehensive-guide
+    - https://help.myfundedfutures.com/en/articles/12011241-hedging-what-you-should-know
+    - https://help.myfundedfutures.com/en/articles/8230009-news-trading-policy
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21; firm help center (read 2026-11-21) where marked"

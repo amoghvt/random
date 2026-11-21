@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0c0f;
+  --color-panel: #13171c;
+  --color-raise: #1c2229;
+  --color-line: #2a323c;
+  --color-ink: #e9edf2;
+  --color-mute: #9aa4b2;
+  --color-dim: #76818f;
+  --color-up: #3dd68c;
+  --color-down: #ff6b6b;
+  --color-warn: #f2b84b;
+  --color-info: #7ab4ff;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  --tab-h: 56px;
+  --head-h: 44px;
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+}
+
+html, body { background: var(--color-bg); }
+body {
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: contain;
+  min-height: 100dvh;
+}
+
+/* 16px inputs: iOS Safari zooms the page on focus below that. */
+input, select, textarea { font-size: 16px; font-family: inherit; font-variant-numeric: tabular-nums; }
+.inp {
+  width: 100%; min-height: 44px; padding: 8px 12px; border-radius: 10px;
+  background: var(--color-bg); color: var(--color-ink); border: 1px solid var(--color-line); outline: none;
+}
+.inp:focus-visible { border-color: var(--color-info); }
+.inp[aria-invalid="true"] { border-color: var(--color-down); }
+.inp::placeholder { color: var(--color-dim); }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--color-info); outline-offset: 2px; }
+input[type="range"] { accent-color: var(--color-info); width: 100%; height: 44px; }
+
+.shell-main {
+  padding: calc(var(--head-h) + var(--sat) + 12px) calc(16px + var(--sar)) calc(var(--tab-h) + var(--sab) + 24px) calc(16px + var(--sal));
+  max-width: 720px; margin: 0 auto;
+}
+@media (min-width: 1024px) {
+  .shell-main { padding-bottom: 32px; padding-top: calc(var(--head-h) + 16px); }
+  .shell-main.wide { max-width: none; }
+}
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+@keyframes pulse-dot { 50% { opacity: 0.35; } }
+.pulse { animation: pulse-dot 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }

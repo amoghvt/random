@@ -1,0 +1,57 @@
+# MFFU Rapid 50K. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# Kept on a $50,000 basis: the help center shows the sim-funded balance from $0, so enter dashboard balance + $50,000.
+# The spec gives no Rapid drawdown; every drawdown and payout value here was read from the help center.
+id: mffu-rapid-50k
+firm: "MyFundedFutures"
+program: "Rapid 50K"
+name: "MFFU Rapid 50K"
+venue: cme
+startingBalance: 50000
+instruments: [NQ, MNQ, ES, YM, RTY, CL, GC]
+drawdown:
+  type: intraday_trailing
+  amountUsd: 2000
+  pct: null
+  locksAtBalance: 52100
+  lockedFloor: 50100
+  includesOpenPnl: true
+  text: "Intraday trailing: $2,000 from the equity high-water mark; locks once the max loss reaches +$100 (firm help center, read 2026-11-21). Kept on a $50,000 basis: the help center shows the sim-funded balance from $0, so enter dashboard balance + $50,000."
+dailyLoss: null
+payout:
+  capUsd: null
+  minUsd: 500
+  qualifyingDays: null
+  qualifyingDayMinUsd: null
+  cycleDays: null
+  consistencyPct: null
+  maxPayouts: null
+  ladderUsd: null
+  bufferUsd: 2100
+  text: "$2,100 buffer on 50K (trader spec). Minimum request $500, daily requests, no consistency rule in sim-funded; no cap stated (firm help center, read 2026-11-21)."
+inactivityDays: 7
+leverage:
+  caps: {}
+  eventCutText: null
+  maxContracts: 5
+session:
+  flattenByET: "16:00"
+  weekendLock: null
+prohibited:
+  - rule: cross_account_hedging
+    clause: "MyFundedFutures prohibits hedging of any kind. Hedging is defined as a trader entering both buy and sell positions on the same underlying asset, at the same time. (firm help center, read 2026-11-21)"
+  - rule: news_trading
+    clause: "No T1 news trading is allowed on this Sim Funded account. No positions or orders (including limit orders) can be open 2 minutes before and after the release. T1: FOMC Meetings, FOMC Minutes, Employment Report, CPI. (firm help center, read 2026-11-21)"
+  - rule: other
+    clause: "Max size 5 minis / 50 micros (firm help center, read 2026-11-21). Flat before 16:00 ET (trader spec)."
+markDivergencePts: null
+firmRisk: []
+claimPromptGainPct: null
+source:
+  urls:
+    - https://help.myfundedfutures.com/en/articles/13134709-rapid-plan-50k-a-comprehensive-look
+    - https://help.myfundedfutures.com/en/articles/12011241-hedging-what-you-should-know
+    - https://help.myfundedfutures.com/en/articles/8230009-news-trading-policy
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21; firm help center (read 2026-11-21) where marked"

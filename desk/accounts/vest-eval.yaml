@@ -1,0 +1,67 @@
+# Vest Evaluation. Spec section 7 values carry origin "trader spec 2026-11-21"; anything read from the firm is marked in its text.
+# Convention: drawdown.pct and dailyLoss.pctOfSnapshot are percent (6 = 6%). includesOpenPnl = the breach is measured on equity.
+# locksAtBalance = high-water balance at which the trailing floor stops; lockedFloor = the floor from then on.
+# startingBalance 0 = account size unverified, confirm in the firm dashboard. The engine blocks sizing until it is set.
+# URLs: the landing page was read 2026-11-21; the terms and FAQ pages are linked from it but returned no text to the reader. They are listed for the nightly diff.
+id: vest-eval
+firm: "Vest Markets"
+program: "Evaluation"
+name: "Vest Evaluation"
+venue: perp
+startingBalance: 0
+instruments: [NQ-PERP, NVDA, AMZN, INTC, CRWV, SNDK, BTC, ETH]
+drawdown:
+  type: static
+  amountUsd: null
+  pct: 6
+  locksAtBalance: null
+  lockedFloor: null
+  includesOpenPnl: true
+  text: "Static 6% from the starting balance, equity-based including open P&L. vestmarkets.com (read 2026-11-21) lists the same 6% for evaluation tiers. Account size unverified, confirm in the firm dashboard."
+dailyLoss:
+  amountUsd: null
+  pctOfSnapshot: 3
+  snapshotET: "20:00"
+  hardBreach: true
+  text: "3% of the balance snapshot taken at 20:00 ET, hard breach. vestmarkets.com (read 2026-11-21) says no daily loss limit by default; the spec's 3% is kept as the tighter reading."
+payout:
+  capUsd: null
+  minUsd: null
+  qualifyingDays: null
+  qualifyingDayMinUsd: null
+  cycleDays: null
+  consistencyPct: null
+  maxPayouts: null
+  ladderUsd: null
+  bufferUsd: null
+  text: "No cap, no schedule, claim anytime. Default advice: claim often, withdraw same day."
+inactivityDays: null
+leverage:
+  caps: {"NQ-PERP": 50}
+  eventCutText: "Temporary leverage cuts around Tier-1 events, lifted one minute after release. Size of the cut is not in the spec: unverified, confirm in the firm dashboard."
+  maxContracts: null
+session:
+  flattenByET: null
+  weekendLock:
+    fromET: "Fri 20:00"
+    toET: "Sun 18:00"
+    text: "Non-crypto markets lock Fri 20:00 ET to Sun 18:00 ET; no new NQ in that window."
+prohibited:
+  - rule: cross_account_hedging
+    clause: "Vest: coordinating accounts incl. opposite positions is prohibited."
+  - rule: stop_entry_orders
+    clause: "Stop-entry orders are unavailable on Vest."
+markDivergencePts: [10, 40]
+firmRisk:
+  - "Panama-law counterparty; liability capped at fees paid."
+  - "Discretion over \"abusive\" trading."
+  - "Vest marks have diverged 10 to 40 points from CME."
+  - "Claim often, withdraw same day."
+claimPromptGainPct: 25
+source:
+  urls:
+    - https://vestmarkets.com/
+    - https://next.vestmarkets.com/prop-terms-of-service
+    - https://next.vestmarkets.com/faq
+  asOf: '2026-11-21'
+  origin: "trader spec 2026-11-21"
