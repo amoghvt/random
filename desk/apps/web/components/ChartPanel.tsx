@@ -8,7 +8,7 @@ import { useApi } from '@/lib/store';
 import { Card, Chip, ErrorLine, Segmented, Stale } from './ui';
 
 const TFS: ReadonlyArray<{ value: Timeframe; label: string }> = [{ value: '1m', label: '1m' }, { value: '15m', label: '15m' }, { value: '1h', label: '1H' }, { value: '1d', label: 'Daily' }];
-const C = { bg: '#13171c', grid: '#1f262e', text: '#9aa4b2', up: '#3dd68c', down: '#ff6b6b', e20: '#f2b84b', e50: '#7ab4ff', e200: '#c58bf2', liq: '#c9d1db', fvg: '#4fd1c5', ob: '#ff9f5a', fail: '#ff3b3b' };
+const C = { bg: '#13171c', grid: '#1f262e', text: '#9aa4b2', up: '#3dd68c', down: '#ff6b6b', e20: '#b88a22', e50: '#4f94e8', e200: '#d9609c', liq: '#c9d1db', fvg: '#4fd1c5', ob: '#ff9f5a', fail: '#ff3b3b' };
 const DRAWN: Record<string, { color: string; tag: string; name: string }> = {
   liquidity_pool: { color: C.liq, tag: 'LIQ', name: 'Liquidity' }, fvg: { color: C.fvg, tag: 'FVG', name: 'Fair value gap' }, order_block: { color: C.ob, tag: 'OB', name: 'Order block' },
 };

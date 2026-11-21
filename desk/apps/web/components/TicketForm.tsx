@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { StructureEvent, TicketDraft, TicketPreview, TicketReason, TradePlan } from '@desk/contracts';
 import { api } from '@/lib/api';
-import { chartSymbol, countdown, dayTimeET, fmtPrice, fmtUnits, fmtUsd, fmtUsdCompact, fromLocalInput, num, pretty, timeET, toLocalInput } from '@/lib/format';
+import { chartSymbol, countdown, dayTimeET, fmtPrice, fmtPts, fmtUnits, fmtUsd, fmtUsdCompact, fromLocalInput, num, pretty, timeET, toLocalInput } from '@/lib/format';
 import { useApi, useNow } from '@/lib/store';
 import { useCatalysts } from './Catalysts';
 import { Btn, Card, Chip, ErrorLine, Field, Guardrail, Segmented, Stat } from './ui';
@@ -273,7 +273,7 @@ export function TicketForm({ prefill }: { prefill: Prefill }) {
               <Stat label="Notional" value={fmtUsdCompact(sizing.notionalUsd)} sub="at engine max" />
               <Stat label="Leverage" value={sizing.leverage != null ? `${sizing.leverage}x` : '—'} />
               <Stat label="Fail price" tone="down" value={sizing.failPrice != null ? fmtPrice(sizing.failPrice) : '—'}
-                sub={sizing.failDistancePts != null && sizing.failDistancePct != null ? `${fmtPrice(sizing.failDistancePts)} pts · ${sizing.failDistancePct.toFixed(2)}%` : undefined} />
+                sub={sizing.failDistancePts != null && sizing.failDistancePct != null ? `${fmtPts(sizing.failDistancePts)} pts · ${sizing.failDistancePct.toFixed(2)}%` : undefined} />
             </div>
             <p className="text-sm"><span className="text-mute">Worst move ({pretty(sizing.worstMove.basis)}) </span>{sizing.worstMove.text}</p>
             <p className="text-xs text-mute">

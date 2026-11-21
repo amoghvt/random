@@ -2,7 +2,7 @@
 import { useState, type FormEvent } from 'react';
 import type { AccountRow, PositionRow, PositionsView } from '@desk/contracts';
 import { api } from '@/lib/api';
-import { countdown, dayTimeET, fmtPrice, fmtSignedUsd, fmtUnits, fmtUsd, num, timeET } from '@/lib/format';
+import { countdown, dayTimeET, fmtPrice, fmtPts, fmtSignedUsd, fmtUnits, fmtUsd, num, timeET } from '@/lib/format';
 import { keyOf, setCache, useApi, useNow } from '@/lib/store';
 import { Btn, Card, Chip, Empty, ErrorLine, Field, LinkBtn, Loading, Segmented, Sheet, Stale, type Tone } from './ui';
 
@@ -29,7 +29,7 @@ function Row({ r, account, onOpen }: { r: PositionRow; account: string; onOpen: 
         </div>
         <div className="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
           <div><span className="text-mute">P&L </span><span className={`text-lg font-bold ${s && s.pnlUsd < 0 ? 'text-down' : s && s.pnlUsd > 0 ? 'text-up' : ''}`}>{s ? fmtSignedUsd(s.pnlUsd) : '—'}</span></div>
-          <div className="text-right"><span className="text-mute">To fail </span><span className="font-semibold">{s ? `${fmtPrice(s.distancePts)} pts · ${s.distancePct.toFixed(2)}%` : '—'}</span></div>
+          <div className="text-right"><span className="text-mute">To fail </span><span className="font-semibold">{s ? `${fmtPts(s.distancePts)} pts · ${s.distancePct.toFixed(2)}%` : '—'}</span></div>
           <div className="text-mute">Next out <span className="text-ink">{nextTarget ? `${fmtPrice(nextTarget.price)} (${Math.round(nextTarget.fraction * 100)}%)` : '—'}</span></div>
           <div className="text-right text-mute">Time stop <span className="text-ink">{ticket ? timeET(ticket.timeStop) : '—'}</span></div>
         </div>

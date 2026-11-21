@@ -1,7 +1,7 @@
-/* global console, process, fetch, document, window, navigator, setTimeout */
+/* global console, process, fetch, document, window, navigator, setTimeout, URL */
 /**
  * Playwright smoke test.
- *   node scripts/smoke.mjs                 serves ./out-mock (pnpm build:mock) and runs every check, with screenshots
+ *   node scripts/smoke.mjs                 serves ./dist (pnpm build:mock) and runs every check, with screenshots
  *   node scripts/smoke.mjs --url https://… runs the contract-agnostic checks against a live deployment
  *                                          (DESK_TOKEN=<passphrase> logs in through the passphrase screen)
  * Flags: --shots <dir> (default ./screenshots), --no-shots.
@@ -36,8 +36,8 @@ const assert = (cond, msg) => { if (!cond) throw new Error(msg); };
 let stop = () => undefined;
 let base = remote?.replace(/\/$/, '');
 if (mock) {
-  const dir = join(ROOT, 'out-mock');
-  if (!existsSync(join(dir, 'index.html'))) { console.error('No out-mock/. Run `pnpm --filter @desk/web build:mock` first.'); process.exit(1); }
+  const dir = join(ROOT, 'dist');
+  if (!existsSync(join(dir, 'index.html'))) { console.error('No dist/. Run `pnpm --filter @desk/web build:mock` first.'); process.exit(1); }
   const s = await serve(dir);
   base = s.url;
   stop = () => s.server.close();
@@ -336,6 +336,7 @@ await check('Journal: adherence leads, above P&L; calibration chart with n and s
     assert((await p.getByTestId('scorecard').locator('tbody tr').count()) === 4, 'scorecard rows');
   }
   await noOverflow(p, 'Journal');
+  await p.evaluate(() => window.scrollTo(0, 0));
   await shot(p, 'phone-journal');
   await shot(p, 'phone-journal-full', true);
   await clearOfTabs(p, 'Journal');

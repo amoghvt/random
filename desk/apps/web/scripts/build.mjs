@@ -1,7 +1,7 @@
 /* global console, process */
 /**
  * Static export. `node scripts/build.mjs` writes ./out (production; refuses the mock flag and fails if
- * mock fixtures are found in the bundle). `--mock` writes ./out-mock with NEXT_PUBLIC_MOCK=1 for UI verification.
+ * mock fixtures are found in the bundle). `--mock` writes ./dist with NEXT_PUBLIC_MOCK=1 for UI verification.
  */
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -21,7 +21,7 @@ if (mock) env.NEXT_PUBLIC_MOCK = '1';
 else delete env.NEXT_PUBLIC_MOCK;
 
 const out = join(ROOT, 'out');
-const target = join(ROOT, mock ? 'out-mock' : 'out');
+const target = join(ROOT, mock ? 'dist' : 'out');
 const parked = join(ROOT, '.out-parked');
 // A mock build must not clobber an existing production export.
 if (mock && existsSync(out)) renameSync(out, parked);

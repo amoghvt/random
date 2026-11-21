@@ -9,6 +9,8 @@ export const fmtPrice = (x: number): string =>
   Math.abs(x) >= 1000
     ? x.toLocaleString('en-US', { maximumFractionDigits: 2 })
     : x.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+/** Point distances: 278 -> "278", 12.82 -> "12.82". */
+export const fmtPts = (x: number): string => x.toLocaleString('en-US', { maximumFractionDigits: 2 });
 export const fmtPct = (x: number, dp = 2): string => `${x >= 0 ? '+' : MINUS}${Math.abs(x).toFixed(dp)}%`;
 export const fmtUsd = (x: number): string => `${x < 0 ? MINUS : ''}$${fmtNum(Math.abs(Math.round(x)))}`;
 export const fmtSignedUsd = (x: number): string => `${x < 0 ? MINUS : '+'}$${fmtNum(Math.abs(Math.round(x)))}`;

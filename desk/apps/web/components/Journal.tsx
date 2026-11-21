@@ -12,7 +12,7 @@ type Cal = JournalView['calibration'];
 /** Predicted probability against realized hit rate, one dot per bucket. The dashed diagonal is perfect calibration. */
 export function CalibrationChart({ cal }: { cal: Cal }) {
   const [active, setActive] = useState<number | null>(null);
-  const W = 340, H = 210, L = 34, R = 10, T = 14, B = 28;
+  const W = 340, H = 210, L = 42, R = 12, T = 14, B = 28;
   const x0 = 0.5, x1 = 0.85, y0 = 0.3, y1 = 1;
   const px = (p: number) => L + ((p - x0) / (x1 - x0)) * (W - L - R);
   const py = (p: number) => T + (1 - (Math.min(y1, Math.max(y0, p)) - y0) / (y1 - y0)) * (H - T - B);
@@ -28,7 +28,6 @@ export function CalibrationChart({ cal }: { cal: Cal }) {
           </g>
         ))}
         {[0.5, 0.6, 0.7, 0.8].map((g) => <text key={g} x={px(g)} y={H - 10} textAnchor="middle" fontSize="11" fill="var(--color-mute)">{g.toFixed(2)}</text>)}
-        <text x={W - R} y={H - 10} textAnchor="end" fontSize="11" fill="var(--color-dim)">predicted</text>
         <line x1={px(x0)} y1={py(x0)} x2={px(x1)} y2={py(x1)} stroke="var(--color-mute)" strokeWidth="1.5" strokeDasharray="4 4" />
         {cal.buckets.map((b, i) => b.realized == null || b.n === 0 ? null : (
           <g key={i} tabIndex={0} role="button" aria-label={`Bucket ${fmtProb(b.lo)} to ${fmtProb(b.hi)}: predicted ${fmtProb(b.predicted)}, realized ${fmtProb(b.realized)}, n ${b.n}`}
@@ -43,7 +42,7 @@ export function CalibrationChart({ cal }: { cal: Cal }) {
       <figcaption className="mt-1 min-h-10 text-xs text-mute" aria-live="polite">
         {a && a.realized != null
           ? <span className="text-ink">{fmtProb(a.lo)}–{fmtProb(a.hi)}: predicted {fmtProb(a.predicted)}, realized {fmtProb(a.realized)}, n = {a.n}</span>
-          : <>Dots: realized hit rate per bucket; the number above is n. Dashed line: perfect calibration. Above the line is underconfident, below is overconfident.</>}
+          : <>Across: predicted probability. Up: realized hit rate. Dots: one per bucket; the number above is n. Dashed line: perfect calibration. Above the line is underconfident, below is overconfident.</>}
       </figcaption>
       <details className="mt-1 text-sm">
         <summary className="min-h-11 cursor-pointer py-2 text-info">Table</summary>

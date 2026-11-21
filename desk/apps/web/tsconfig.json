@@ -45,6 +45,6 @@
   "exclude": [
     "node_modules",
     "out",
-    "out-mock"
+    "dist"
   ]
 }
