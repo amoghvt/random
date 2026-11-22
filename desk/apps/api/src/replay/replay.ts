@@ -18,7 +18,6 @@ import {
   BiasLabel, CORE_SYMBOLS, DAY, EventCode, KV, MIN, Profile, TF_MS, iso,
   type BaseRate, type BiasCall, type Catalyst, type CollectionName, type Collections, type HistoricalReaction, type Horizon, type Store, type StructureEvent, type Timeframe,
 } from '@desk/contracts';
-import { MemoryStore } from '@desk/db';
 import { bias, catalyst as cat } from '@desk/engines';
 import { createDeps, closeDeps, type DeskDeps } from '../deps';
 import { parseEnv } from '../env';
@@ -30,6 +29,7 @@ import { runStep } from '../services/context';
 import { candleReader, priceSymbolOf } from '../services/market';
 import { baseRatesDue, computeBaseRates, runWatcher } from '../services/watcher';
 import { RecordedView, recordedEnd, resolutionAt } from './view';
+import { ViewStore } from './viewStore';
 
 export const REPLAY_SOURCE = 'replay';
 /** Prefix on `Catalyst.source` for a catalyst the replay wrote. */
@@ -163,7 +163,7 @@ export async function replay(store: Store, opts: ReplayOpts): Promise<ReplaySumm
 
   const symbols = [...new Set([...CORE_SYMBOLS, ...bias.PEER_SYMBOLS, ...called, ...profile.instruments.watchlist.map(priceSymbolOf)])];
   const view = new RecordedView(symbols);
-  const vstore = new MemoryStore();
+  const vstore = new ViewStore();
   const clock = { t: opts.from };
   const deps: DeskDeps = { ...createDeps(parseEnv({}), { store: vstore, clock: () => clock.t }, log), log };
   await vstore.kvSet(KV.profile, profile);
