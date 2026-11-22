@@ -13,12 +13,8 @@
  */
 import { writeFileSync } from 'node:fs';
 import { DAY, iso, type BiasCall, type Timeframe } from '@desk/contracts';
-import { backtest } from '@desk/engines';
-import { buildCatalysts } from '@desk/engines/catalyst/build.ts';
-import { buildRateHistory } from '@desk/engines/catalyst/history.ts';
-import { matchRelease, reanchorPlan } from '@desk/engines/catalyst/live.ts';
-import { generateMatrix, matrixRunTimes } from '@desk/engines/catalyst/matrix.ts';
-import { asKnownAt, candlesAsOf, lastPrice, loadProfile, recordedEvents, regimeAsOf } from '@desk/engines/catalyst/recorded.testkit.ts';
+import { backtest, catalyst as cat } from '@desk/engines';
+import { asKnownAt, candlesAsOf, lastPrice, loadProfile, recordedEvents, regimeAsOf } from '../../../../packages/engines/src/catalyst/recorded.testkit';
 import { loadRecordedCandles } from '@desk/feeds';
 
 function args(argv: string[]): Record<string, string> {
@@ -45,22 +41,22 @@ function main(): void {
     const targets = all.filter((e) => e.code === keyed && !/yoy/i.test(e.name) && e.actual !== null && Date.parse(e.time) > firstBar + 30 * DAY && Date.parse(e.time) < lastBar - DAY);
     for (const target of targets) {
       const tag = `${target.time.slice(0, 10)} ${code}`;
-      const now = Date.parse(matrixRunTimes({ scheduledAt: target.time }).dayBefore);
+      const now = Date.parse(cat.matrixRunTimes({ scheduledAt: target.time }).dayBefore);
       const known = asKnownAt(all, now);
       const todays = known.filter((e) => e.time === target.time);
       const vixBars = candlesAsOf('VIX', now, ['1d'])['1d']!;
       const vix = vixBars[vixBars.length - 1];
       let catalyst;
       try {
-        catalyst = buildCatalysts(todays, [], { now, pastEvents: known, candlesByTf: candlesAsOf('NQ', now), ...(vix ? { vix: { value: vix.c, asOf: iso(vix.t) } } : {}) }).find((c) => c.code === code);
+        catalyst = cat.buildCatalysts(todays, [], { now, pastEvents: known, candlesByTf: candlesAsOf('NQ', now), ...(vix ? { vix: { value: vix.c, asOf: iso(vix.t) } } : {}) }).find((c) => c.code === code);
       } catch (e) { skipped.push(`${tag}: build failed (${String(e).slice(0, 80)})`); continue; }
       if (!catalyst) { skipped.push(`${tag}: no catalyst built`); continue; }
       let matrix;
       try {
-        matrix = generateMatrix(catalyst, { now, referencePrice: lastPrice('NQ', now), regime: regimeAsOf(now, known), predictionMarkets: [], profile, pastEvents: known, rateHistory: buildRateHistory(keyed, known, candlesAsOf('US10Y', now), 8, now) });
+        matrix = cat.generateMatrix(catalyst, { now, referencePrice: lastPrice('NQ', now), regime: regimeAsOf(now, known), predictionMarkets: [], profile, pastEvents: known, rateHistory: cat.buildRateHistory(keyed, known, candlesAsOf('US10Y', now), 8, now) });
       } catch (e) { skipped.push(`${tag}: no matrix (${String(e).slice(0, 80)})`); continue; }
       const secondary = code === 'CPI' ? all.find((e) => e.code === 'CPI' && e.time === target.time && !/yoy/i.test(e.name))?.actual ?? undefined : undefined;
-      const resolved = matchRelease({ ...catalyst, matrix }, { actual: target.actual as number, ...(secondary != null ? { secondary } : {}), ts: target.time }, Date.parse(target.time) + 2000);
+      const resolved = cat.matchRelease({ ...catalyst, matrix }, { actual: target.actual as number, ...(secondary != null ? { secondary } : {}), ts: target.time }, Date.parse(target.time) + 2000);
       const branch = matrix.branches.find((b) => b.id === resolved.resolution?.branchId);
       const base = { date: target.time.slice(0, 10), code, actual: target.actual, consensus: target.consensus, branch: branch ? `${branch.id} ${branch.label}` : null, branchProb: branch?.probability ?? null };
       if (!branch) { rows.push({ ...base, traded: false, why: 'no branch (FOMC hold needs a tone read)' }); continue; }
@@ -69,7 +65,7 @@ function main(): void {
       const entryBar = candles.find((c) => c.t >= entryAt);
       if (!entryBar || entryBar.t - entryAt > 2 * 3_600_000) { rows.push({ ...base, traded: false, why: 'no recorded bar near the entry time' }); continue; }
       // The plan's levels keep their distances from the price at entry (see reanchorPlan).
-      const plan = reanchorPlan(branch.trade, entryBar.o);
+      const plan = cat.reanchorPlan(branch.trade, entryBar.o);
       const stopPts = Math.abs(plan.referencePrice - plan.invalidation.price);
       const sized = Math.min(fullPort, (0.8 * room) / stopPts);
       const result: Record<string, unknown> = { ...base, traded: true, direction: plan.direction, stopPts: Math.round(stopPts), t1Pts: Math.round(Math.abs(plan.targets[0].price - plan.referencePrice)) };
