@@ -101,6 +101,8 @@ describe('decideCall', () => {
     expect(head.trigger).toEqual({ kind: 'headline', ref: 'h_big' });
     const bos = decideCall(real(NOV17 + 5 * MIN, { structure: [...structure, syntheticEvent('ev_bos', NOV17 + 3 * MIN, { detector: 'bos', kind: 'bos_bearish', bias: -1 })] }), first);
     expect(bos.trigger).toEqual({ kind: 'level', ref: 'ev_bos' });
+    const minuteBos = syntheticEvent('ev_bos_1m', NOV17 + 3 * MIN, { detector: 'bos', kind: 'bos_bearish', bias: -1, tf: '1m' });
+    expect(decideCall(real(NOV17 + 5 * MIN, { structure: [...structure, minuteBos] }), first)).toBe(first);
     const through = { ...real(NOV17 + 5 * MIN, { structure }), price: first.killCondition.level! + 1 };
     expect(decideCall(through, first).trigger.kind).toBe('level');
     const stop = decideCall(real(Date.parse(first.trade!.timeStop.at!) + MIN, { structure }), first);

@@ -10,3 +10,4 @@ export * as watcher from './watcher/index';
 export * as guardrails from './guardrails/index';
 export * as notify from './notify/index';
 export * as briefs from './briefs/index';
+export * as backtest from './backtest/index';

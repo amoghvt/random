@@ -5,7 +5,7 @@
  *  - no catalyst inside the horizon and no structure signal = No edge, with what would create one;
  *  - every call carries its inputs and replays to the same output.
  */
-import { BIAS_TEXT, DAY, DEFAULT_WEIGHTS, MIN, hashId, iso, round, type BiasCall, type BiasLabel, type FactorScore } from '@desk/contracts';
+import { BIAS_TEXT, DAY, DEFAULT_WEIGHTS, MIN, TF_MS, hashId, iso, round, type BiasCall, type BiasLabel, type FactorScore, type Horizon, type Timeframe } from '@desk/contracts';
 import { etStamp } from './calendar';
 import { extractInputs } from './extract';
 import { catalystState, scoreFactors, sg, structureSignals, type CatalystState } from './factors';
@@ -15,6 +15,12 @@ import type { BiasInputs, BiasSnapshot, CalibrationMap, DecideOpts, PrevRef, Sto
 
 
 export const FIRST_MOVE_MINUTES = 15;
+/**
+ * The finest timeframe whose structure break counts as new evidence for a horizon. Without this floor a 1m MSS
+ * re-issued an intraday-to-position call almost every step (6,812 of 6,878 replayed calls were level triggers).
+ */
+export const STRUCTURE_FLOOR_TF: Record<Horizon, Timeframe> = { intraday: '15m', swing: '1h', position: '1d' };
+const atLeast = (tf: string, floor: Timeframe): boolean => (TF_MS[tf as Timeframe] ?? 0) >= TF_MS[floor];
 
 export function storedInputs(call: BiasCall): StoredInputs | null {
   const x = call.inputs as Partial<StoredInputs>;
@@ -54,7 +60,8 @@ export function detectTrigger(inp: BiasInputs, prev: PrevRef): BiasCall['trigger
   if (prev.killLevel != null && prev.killSide && (prev.killSide === 'above' ? price > prev.killLevel : price < prev.killLevel)) {
     return { kind: 'level', ref: `kill:${prev.killSide}:${prev.killLevel}` };
   }
-  const ev = inp.structure.find((e) => (e.detector === 'mss' || e.detector === 'bos' || e.confirmedSetup) && isNew(e.id, e.ts, prev.seen?.structure));
+  const floor = STRUCTURE_FLOOR_TF[inp.horizon];
+  const ev = inp.structure.find((e) => (e.detector === 'mss' || e.detector === 'bos' || e.confirmedSetup) && atLeast(e.tf, floor) && isNew(e.id, e.ts, prev.seen?.structure));
   if (ev) return { kind: 'level', ref: ev.id };
   const head = inp.news.items.find((h) => h.impact >= 2 && isNew(h.id, h.ts, prev.seen?.headlines));
   if (head) return { kind: 'headline', ref: head.id };
