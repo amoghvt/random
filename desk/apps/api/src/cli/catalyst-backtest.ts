@@ -1,5 +1,5 @@
 /**
- * `tsx src/cli/catalyst-backtest.ts [--contracts 18.5] [--room 400] [--balance 10000] [--fee 400] [--slip 0.5] [--json out.json]`
+ * `tsx src/cli/catalyst-backtest.ts [--rr 0] [--contracts 18.5] [--room 400] [--balance 10000] [--fee 400] [--slip 0.5] [--json out.json]`
  *
  * The trader's own style, tested on every recorded Tier-1 release (core CPI, PPI, NFP, FOMC) since 2024-07:
  * the matrix is rebuilt as of 20:00 ET the night before from data dated before then, the real print is matched to a
@@ -65,7 +65,10 @@ function main(): void {
       const entryBar = candles.find((c) => c.t >= entryAt);
       if (!entryBar || entryBar.t - entryAt > 2 * 3_600_000) { rows.push({ ...base, traded: false, why: 'no recorded bar near the entry time' }); continue; }
       // The plan's levels keep their distances from the price at entry (see reanchorPlan).
-      const plan = cat.reanchorPlan(branch.trade, entryBar.o);
+      const anchored = cat.reanchorPlan(branch.trade, entryBar.o);
+      // --rr k: targets at k, 1.5k and 2k times the stop distance instead of the plan's own (k = 0 keeps the plan's).
+      const rr = Number(a.rr ?? 0), sgn = anchored.direction === 'long' ? 1 : -1, risk = Math.abs(anchored.referencePrice - anchored.invalidation.price);
+      const plan = rr > 0 ? { ...anchored, targets: [rr, 1.5 * rr, 2 * rr].map((m) => ({ price: anchored.referencePrice + sgn * m * risk, fraction: 1 / 3 })) as typeof anchored.targets } : anchored;
       const stopPts = Math.abs(plan.referencePrice - plan.invalidation.price);
       const sized = Math.min(fullPort, (0.8 * room) / stopPts);
       const result: Record<string, unknown> = { ...base, traded: true, direction: plan.direction, stopPts: Math.round(stopPts), t1Pts: Math.round(Math.abs(plan.targets[0].price - plan.referencePrice)) };
