@@ -1,5 +1,5 @@
 /** Morning brief, the 08:00 ET regeneration, post-close recap, weekly review and the weekly memo proposal. */
-import { DAY, ET, KV, dayKey, fromZoned, iso, zoned, type Brief, type NotificationIntent, type Profile } from '@desk/contracts';
+import { DAY, ET, HOUR, KV, dayKey, fromZoned, iso, zoned, type Brief, type NotificationIntent, type Profile } from '@desk/contracts';
 import { briefs as b, guardrails as g, notify, tickets as tk } from '@desk/engines';
 import { applyProposedWeights, calibrationTable, currentCalls, pendingWeightChanges } from './bias';
 import { lastRun, markRun, profileOf, type DeskDeps } from './context';
@@ -139,14 +139,19 @@ export async function approveMemo(deps: DeskDeps, week: string, text?: string): 
   return approved;
 }
 
+/** How long after its slot a missed brief is still worth writing. Past that (a restart, a fresh install) the slot is skipped, not caught up. */
+const CATCH_UP_MS: Record<b.BriefSlot, number> = { morning: 6 * HOUR, morning_regen: 2 * HOUR, recap: 6 * HOUR, weekly: DAY };
+
 /** Runs every brief whose slot has passed and has not run since. Safe to call every loop and from the cron jobs. */
 export async function runDueBriefs(deps: DeskDeps, now: number): Promise<{ briefs: Brief[]; intents: NotificationIntent[] }> {
   const profile = await profileOf(deps);
   const out: { briefs: Brief[]; intents: NotificationIntent[] } = { briefs: [], intents: [] };
   const take = (r: BriefRun): void => { if (r.replaced) out.briefs.push(r.brief); if (r.intent) out.intents.push(r.intent); };
-  if (b.briefDue('morning', now, profile, await lastRun(deps.store, JOB.morning))) take(await generateMorning(deps, now));
-  if (b.briefDue('morning_regen', now, profile, await lastRun(deps.store, JOB.regen))) take(await regenerateMorning(deps, now));
-  if (b.briefDue('recap', now, profile, await lastRun(deps.store, JOB.recap))) take(await generateRecap(deps, now));
-  if (b.briefDue('weekly', now, profile, await lastRun(deps.store, JOB.weekly))) take(await generateWeekly(deps, now));
+  const due = async (slot: b.BriefSlot, job: string): Promise<boolean> =>
+    b.briefDue(slot, now, profile, await lastRun(deps.store, job)) && now - b.slotTime(slot, now, profile) <= CATCH_UP_MS[slot];
+  if (await due('morning', JOB.morning)) take(await generateMorning(deps, now));
+  if (await due('morning_regen', JOB.regen)) take(await regenerateMorning(deps, now));
+  if (await due('recap', JOB.recap)) take(await generateRecap(deps, now));
+  if (await due('weekly', JOB.weekly)) take(await generateWeekly(deps, now));
   return out;
 }

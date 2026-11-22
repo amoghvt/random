@@ -96,7 +96,10 @@ export function generateUpdates(input: UpdateInput): { updates: WatcherUpdate[];
   const call = input.call && same(input.call.instrument, input.instrument) ? input.call : null;
   const kill = call?.killCondition.level;
   const killSide = call?.killCondition.side;
-  const priceAtKill = kill !== undefined && (near(input.lastPrice, kill) || (killSide === 'above' ? input.lastPrice >= kill : killSide === 'below' ? input.lastPrice <= kill : false));
+  // A No edge call's level is the nearest break that would create an edge: price sits beside it by construction, so only a cross counts.
+  const noEdge = call?.call === 'no_edge';
+  const beyondKill = kill !== undefined && (killSide === 'above' ? input.lastPrice >= kill : killSide === 'below' ? input.lastPrice <= kill : false);
+  const priceAtKill = kill !== undefined && (noEdge ? beyondKill : near(input.lastPrice, kill) || beyondKill);
   const primary = input.primary ?? under(input.instrument) === 'NQ';
 
   const scored: Scored[] = [];
@@ -108,7 +111,7 @@ export function generateUpdates(input: UpdateInput): { updates: WatcherUpdate[];
     const positionIds = material ? positions.map((p) => p.id) : [];
     const ticketIds = tickets.filter((t) => material || [t.entry.price, t.invalidation.price, ...t.targets.map((x) => x.price)].some((lvl) => near(e.level, lvl) || near(e.levelHi, lvl))).map((t) => t.id);
     const spansKill = kill !== undefined && e.level != null && e.levelHi != null && Math.min(e.level, e.levelHi) <= kill && kill <= Math.max(e.level, e.levelHi);
-    const biasKill = kill !== undefined && (near(e.level, kill) || near(e.levelHi, kill) || spansKill || (material && priceAtKill));
+    const biasKill = kill !== undefined && (noEdge ? material && priceAtKill : near(e.level, kill) || near(e.levelHi, kill) || spansKill || (material && priceAtKill));
     if (!positionIds.length && !ticketIds.length && !biasKill && !(primary && e.confidence >= GENERAL_MIN_CONFIDENCE)) continue;
     const adverse = positions.some((p) => e.bias !== 0 && (p.direction === 'long') !== (e.bias === 1));
     scored.push({ e, key, sev, positionIds, ticketIds, biasKill, rank: (biasKill ? 3 : 0) + (adverse ? 2 : 0) + (positionIds.length || ticketIds.length ? 1 : 0) + (e.confirmedSetup ? 1 : 0) + e.confidence });
@@ -124,7 +127,7 @@ export function generateUpdates(input: UpdateInput): { updates: WatcherUpdate[];
   const peer = [...input.allEvents].reverse().find((e) => e.detector === 'divergence' && same(e.instrument, input.instrument) && !usedIds.has(e.id));
   const cap = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
   const callLine = !call ? '' : priceAtKill
-    ? `Kill level ${px(kill!)} reached: ${BIAS_TEXT[call.call]}, ${call.probability.toFixed(2)} under review.`
+    ? `${noEdge ? 'Break level' : 'Kill level'} ${px(kill!)} ${noEdge ? 'crossed' : 'reached'}: ${BIAS_TEXT[call.call]}, ${call.probability.toFixed(2)} under review.`
     : `Call unchanged: ${BIAS_TEXT[call.call]}, ${call.probability.toFixed(2)}, expires ${hhmm(call.expiresAt)} ET.`;
   const openTicket = tickets.find((t) => positions.some((p) => p.ticketId === t.id)) ?? tickets.find((t) => t.status === 'open') ?? tickets[0];
   const text = fit(`${input.instrument} ${px(input.lastPrice)}, ${shortOf(lead.e)}.`, [

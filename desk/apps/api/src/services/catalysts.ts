@@ -19,7 +19,16 @@ const HISTORY_RETRY_MS = 6 * HOUR;
 /** When an empty history table was last attempted, per store, so a catalyst with no past prints is not recomputed every loop. */
 const historyTried = new WeakMap<Store, Map<string, number>>();
 
+/** A resolution first seen this long after the release is recorded on the card and not pushed: its entry window has gone. */
+const LATE_RESOLUTION_MS = HOUR;
+
 const same = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+
+/**
+ * Whether the calendar's actual is the number the matrix is keyed on. Auctions are keyed on the tail in bp and the tone
+ * events on a read, while the calendar prints the auction's high yield: that actual is shown on the card, never matched.
+ */
+const calendarCarriesKeyedMetric = (c: Catalyst): boolean => cat.SPECS[c.code]?.centre !== 'zero';
 
 async function freshDatum(deps: DeskDeps, key: string, now: number): Promise<Datum | null> {
   const d = (await deps.store.dataHistory(key, now - 30 * DAY, now)).at(-1);
@@ -113,7 +122,7 @@ export async function refreshCatalysts(deps: DeskDeps, now: number, reader: Cand
     const actual = s.resolution?.actual ?? null;
     if (prev?.resolution?.branchId) {
       c = { ...c, status: prev.status, resolution: prev.resolution };
-    } else if (c.matrix && actual !== null) {
+    } else if (c.matrix && actual !== null && calendarCarriesKeyedMetric(c)) {
       const stamp = Date.parse(s.resolution?.resolvedAt ?? '');
       const ts = Math.min(now, Math.max(T, Number.isFinite(stamp) ? stamp : now));
       const secondary = s.secondary?.actual ?? undefined;
@@ -315,7 +324,7 @@ export async function resolutionIntent(deps: DeskDeps, c: Catalyst, now: number,
   }
   if (c.tier === 1) return notify.tier1Resolved(c, { lines: bn.lines, plan });
   const { ticketPrefill: _unsized, ...read } = bn.intent;
-  return { ...read, deepLink: `/catalysts?id=${encodeURIComponent(c.id)}`, ...(plan && bn.intent.ticketPrefill ? { ticketPrefill: { ...plan, reason: bn.intent.ticketPrefill.reason } } : {}) };
+  return { ...read, deepLink: `/catalysts?id=${encodeURIComponent(c.id)}`, ...(plan?.size && bn.intent.ticketPrefill ? { ticketPrefill: { ...plan, reason: bn.intent.ticketPrefill.reason } } : {}) };
 }
 
 /** An actual is in but the branch is not decided: said once, with no trade. */
@@ -416,7 +425,12 @@ export async function runCatalysts(deps: DeskDeps, now: number, reader: CandleRe
   for (const g of matrices.generated) byId.set(g.id, g);
   const ctx = await sizeCtx(deps, now, reader, [...byId.values()]);
   const intents: NotificationIntent[] = [...matrices.intents];
-  for (const c of refreshed.matched) { const i = await resolutionIntent(deps, c, now, ctx); if (i) intents.push(i); }
+  for (const c of refreshed.matched) {
+    const late = now - Date.parse(c.scheduledAt);
+    if (late > LATE_RESOLUTION_MS) { logOf(deps).warn(`catalysts: ${c.name} resolved ${Math.round(late / MIN)} min after the release: recorded, not pushed`); continue; }
+    const i = await resolutionIntent(deps, c, now, ctx);
+    if (i) intents.push(i);
+  }
   for (const c of refreshed.pending) { const i = pendingIntent(c, now); if (i) intents.push(i); }
   for (const c of await runReactionClock(deps, now, [...byId.values()])) byId.set(c.id, c);
   intents.push(...await entryTriggers(deps, now, [...byId.values()], ctx));
