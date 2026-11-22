@@ -117,7 +117,25 @@ export interface BranchNotification {
  * The three lines for the push and the plan for the pre-filled ticket. Null until the catalyst is resolved to a branch.
  * `live` is the measured 10Y after the print; without it line 3 carries the branch's expected rates read.
  */
-export function branchNotification(catalyst: CatalystEx, live?: { y10: number; y10ChangeBp: number }): BranchNotification | null {
+/**
+ * The plan moved to a new reference price with every distance kept. Matrix trades are written the night before from
+ * that evening's price; by the release NQ can be hundreds of points away, which left stops and targets on the wrong
+ * side of the entry. Levels round to the 0.25 tick.
+ */
+export function reanchorPlan(plan: TradePlan, price: number): TradePlan {
+  const d = price - plan.referencePrice;
+  if (!Number.isFinite(d) || d === 0) return plan;
+  const s = (x: number): number => Math.round((x + d) * 4) / 4;
+  return {
+    ...plan, referencePrice: price,
+    entry: plan.entry.price != null ? { ...plan.entry, price: s(plan.entry.price) } : plan.entry,
+    targets: plan.targets.map((t) => ({ ...t, price: s(t.price) })) as TradePlan['targets'],
+    invalidation: { ...plan.invalidation, price: s(plan.invalidation.price) },
+  };
+}
+
+/** `price`: the instrument's price now; when given, the branch trade's levels are re-anchored to it before they are shown. */
+export function branchNotification(catalyst: CatalystEx, live?: { y10: number; y10ChangeBp: number }, price?: number): BranchNotification | null {
   const res = catalyst.resolution, matrix = catalyst.matrix;
   const branch = matrix?.branches.find((b) => b.id === res?.branchId);
   if (!res || !matrix || !branch || res.actual === null) return null;
@@ -128,7 +146,7 @@ export function branchNotification(catalyst: CatalystEx, live?: { y10: number; y
     : `${SHORT[catalyst.code] ?? catalyst.name} ${fmtValue(res.actual, spec)} vs ${centre !== undefined ? fmtValue(centre, spec) : 'n/a'}${matrix.inputs.centreBasis === 'prior' ? ' prior' : ''}.`;
   const sec = catalyst.secondary;
   const line1 = sec && sec.actual !== null && sec.consensus !== null ? `${fact} ${SPECS[catalyst.code]?.secondary?.label === 'unemployment' ? 'Unemployment' : sec.code === 'CPI' || sec.code === 'PCE' ? 'Headline' : 'Core'} ${sec.actual.toFixed(1)}% vs ${sec.consensus.toFixed(1)}%.` : fact;
-  const t = branch.trade;
+  const t = branch.trade && price ? reanchorPlan(branch.trade, price) : branch.trade;
   const conviction = branchConviction(matrix, branch.id);
   const call = t && conviction !== null ? `${BIAS_TEXT[`${conviction >= STRONG_CONVICTION ? 'strong' : 'lean'}_${t.direction}`]} ${t.instrument} ${conviction.toFixed(2)}` : '';
   const line2 = t

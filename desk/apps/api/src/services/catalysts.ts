@@ -315,13 +315,13 @@ export async function generateMatrices(deps: DeskDeps, now: number, opts: { forc
 export async function resolutionIntent(deps: DeskDeps, c: Catalyst, now: number, ctx: SizeCtx): Promise<NotificationIntent | null> {
   const T = Date.parse(c.scheduledAt);
   const y10 = await y10Since(deps, T, now);
-  const bn = cat.branchNotification(c, y10 ? { y10: y10.y10, y10ChangeBp: y10.y10ChangeBp } : undefined);
+  // Levels were written the night before; re-anchor them to the price now before they are pushed or sized.
+  const branchTrade = c.matrix?.branches.find((b) => b.id === c.resolution?.branchId)?.trade ?? null;
+  const price = branchTrade ? await lastPrice(deps, branchTrade.instrument, now, ctx.reader) : null;
+  const bn = cat.branchNotification(c, y10 ? { y10: y10.y10, y10ChangeBp: y10.y10ChangeBp } : undefined, price?.price);
   if (!bn) return null;
   let plan = bn.plan;
-  if (plan) {
-    const price = await lastPrice(deps, plan.instrument, now, ctx.reader);
-    if (price) plan = (await sizePlan(plan, price.price, ctx, c.id)).plan;
-  }
+  if (plan && price) plan = (await sizePlan(plan, price.price, ctx, c.id)).plan;
   if (c.tier === 1) return notify.tier1Resolved(c, { lines: bn.lines, plan });
   const { ticketPrefill: _unsized, ...read } = bn.intent;
   return { ...read, deepLink: `/catalysts?id=${encodeURIComponent(c.id)}`, ...(plan?.size && bn.intent.ticketPrefill ? { ticketPrefill: { ...plan, reason: bn.intent.ticketPrefill.reason } } : {}) };

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { Catalyst, MIN } from '@desk/contracts';
+import { Catalyst, MIN, type TradePlan } from '@desk/contracts';
 import type { Headline } from '@desk/contracts';
 import { NO_ANALOG, adhocCatalyst, adhocKind, analogStats } from './adhoc';
 import { partitionErrors } from './branches';
 import { buildCatalysts } from './build';
 import { catalystCard } from './card';
-import { matchBranch, matchRelease, parseReleaseHeadline, reactionClock, verdictFor } from './live';
+import { branchNotification, matchBranch, matchRelease, parseReleaseHeadline, reactionClock, reanchorPlan, verdictFor } from './live';
 import { generateMatrix } from './matrix';
 import { asKnownAt, candlesAsOf, lastPrice, loadAccount, loadProfile, recorded, recordedEvents, regimeAsOf } from './recorded.testkit';
 import { DEFAULT_INDEX_WEIGHTS, INDEX_WEIGHTS_LABEL, tierDetail, tierFor } from './tiering';
@@ -71,6 +71,30 @@ describe('buildCatalysts', () => {
     const nfp = buildCatalysts(asKnownAt(ALL, now).filter((e) => e.time.startsWith('2026-11-06')), [], { now }).filter((c) => c.code === 'NFP');
     expect(nfp).toHaveLength(1);
     expect(nfp[0]).toMatchObject({ consensus: 65, secondary: { code: 'UNEMPLOYMENT', consensus: 4.2 } });
+  });
+});
+
+describe('re-anchoring a night-before plan', () => {
+  // Synthetic plan: a short written at 25,000 the night before, with NQ 300 points lower at the release.
+  const plan: TradePlan = {
+    instrument: 'NQ', direction: 'short', referencePrice: 25_000,
+    entry: { kind: 'condition', text: 'synthetic second move', at: '2026-12-10T13:45:00.000Z' },
+    targets: [{ price: 24_900, fraction: 1 / 3 }, { price: 24_800, fraction: 1 / 3 }, { price: 24_700, fraction: 1 / 3 }],
+    invalidation: { price: 25_060, reason: 'synthetic invalidation' }, timeStop: { text: 'Flat by 16:00 ET' },
+  };
+  it('keeps every distance and moves the levels to the new price', () => {
+    const r = reanchorPlan(plan, 24_700.3);
+    expect(r.referencePrice).toBe(24_700.3);
+    expect(r.targets.map((t) => t.price)).toEqual([24_600.25, 24_500.25, 24_400.25]);
+    expect(r.invalidation.price).toBe(24_760.25);
+    expect(reanchorPlan(plan, 25_000)).toBe(plan);
+  });
+  it('the release push shows levels from the price at release, not the night before', () => {
+    const c = { matrix: { branches: [{ id: 'C', label: 'Hot', trade: plan, secondOrder: 'synthetic', ratesRead: { text: 'synthetic' } }], inputs: {} }, resolution: { branchId: 'C', actual: 0.4, resolvedAt: '2026-12-10T13:30:01.000Z' }, code: 'CORE_CPI', name: 'Core CPI', tier: 1, id: 'cat_x', instruments: ['NQ'] } as unknown as CatalystEx;
+    expect(branchNotification(c)!.plan!.targets[0].price).toBe(24_900);
+    const moved = branchNotification(c, undefined, 24_700)!;
+    expect(moved.plan!.targets[0].price).toBe(24_600);
+    expect(moved.lines[1]).toContain('T1 24,600');
   });
 });
 
