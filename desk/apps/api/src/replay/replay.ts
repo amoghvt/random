@@ -176,6 +176,7 @@ export async function replay(store: Store, opts: ReplayOpts): Promise<ReplaySumm
   const events = new Map<string, StructureEvent>();
   const resolutionOf = new Map<string, Timeframe | null>();
   const spent: Record<string, number> = {};
+  const scored: BiasCall[] = [];
   const keepEvent = (e: StructureEvent): void => { const t = Date.parse(e.ts); if (t >= opts.from && t <= to) events.set(e.id, e); };
   const guarded = async <T>(name: string, at: number, fn: () => Promise<T>): Promise<T | null> => {
     const r = await runStep(deps, name, fn);
@@ -211,11 +212,18 @@ export async function replay(store: Store, opts: ReplayOpts): Promise<ReplaySumm
       run++;
       if (opts.onStep) await opts.onStep(now, vstore);
 
-      // The engines read five days of structure events; older ones leave the view so its scans stay short.
+      // The engines read five days of structure events and, of the calls, the open ones and the current one per
+      // instrument and horizon. Everything older leaves the view so its scans stay short.
       if (now - lastPrune >= DAY) {
         lastPrune = now;
         for (const e of await vstore.list('structure_events', { until: iso(now - 6 * DAY) })) { keepEvent(e); await vstore.remove('structure_events', e.id); }
-        log.info(`replay: ${iso(now).slice(0, 10)} ${resolution ?? '-'} steps ${run}`);
+        const current = new Set<string>();
+        for (const c of await vstore.list('bias_calls')) {
+          const k = `${c.instrument}|${c.horizon}`;
+          if (!current.has(k)) { current.add(k); continue; }
+          if (c.outcome) { scored.push(c); await vstore.remove('bias_calls', c.id); }
+        }
+        log.info(`replay: ${iso(now).slice(0, 10)} ${resolution ?? '-'}, ${run} steps run`);
       }
     }
     const last = view.at;
@@ -226,8 +234,10 @@ export async function replay(store: Store, opts: ReplayOpts): Promise<ReplaySumm
     for (const e of await vstore.list('structure_events')) keepEvent(e);
 
     /* ───────── publish ───────── */
-    const calls = (await vstore.list('bias_calls', { since: iso(opts.from), until: iso(to + 1), order: 'asc' }))
-      .filter((c) => horizons.includes(c.horizon)).map((c) => tagCall(c, resolutionOf.get(c.id) ?? null));
+    const calls = [...scored, ...await vstore.list('bias_calls')]
+      .filter((c) => horizons.includes(c.horizon) && Date.parse(c.createdAt) >= opts.from && Date.parse(c.createdAt) <= to)
+      .sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt) || a.id.localeCompare(b.id))
+      .map((c) => tagCall(c, resolutionOf.get(c.id) ?? null));
     const catalysts = (await vstore.list('catalysts', { since: iso(opts.from), until: iso(to + 1), order: 'asc' })).map(tagCatalyst);
     const structure = [...events.values()].sort((a, b) => Date.parse(a.ts) - Date.parse(b.ts) || a.id.localeCompare(b.id)).map(tagEvent);
     const baseRates = (await vstore.list('base_rates')).sort((a, b) => `${a.instrument}|${a.tf}|${a.pattern}`.localeCompare(`${b.instrument}|${b.tf}|${b.pattern}`));
