@@ -124,14 +124,20 @@ export const isReplayCall = (c: BiasCall): boolean => c.inputs.replay === true;
 
 export interface CalibrationTable { buckets: CalibrationBucket[]; n: number; updatedAt: string | null; source: 'replay' | 'live' | 'mixed' }
 
-/** Weekly: the calibration table from every scored call, and the probability map the engine applies (buckets under 20 calls shift nothing). */
-export async function runCalibration(deps: DeskDeps, now: number): Promise<CalibrationTable> {
+/** The calibration table over every scored call in the store as of `now`. Computes, writes nothing. */
+export async function computeCalibration(deps: DeskDeps, now: number): Promise<{ table: CalibrationTable; map: bias.CalibrationMap }> {
   const calls = (await deps.store.list('bias_calls', { since: iso(now - 400 * DAY), until: iso(now + 1) })).filter(bias.isResolvedDirectional);
   const result = bias.calibration(calls);
   const replay = calls.filter(isReplayCall).length;
   const table: CalibrationTable = { ...result, updatedAt: iso(now), source: calls.length > 0 && replay === calls.length ? 'replay' : replay === 0 ? 'live' : 'mixed' };
+  return { table, map: bias.buildCalibrationMap(result.buckets) };
+}
+
+/** Weekly: the calibration table from every scored call, and the probability map the engine applies (buckets under 20 calls shift nothing). */
+export async function runCalibration(deps: DeskDeps, now: number): Promise<CalibrationTable> {
+  const { table, map } = await computeCalibration(deps, now);
   await deps.store.kvSet(KV.calibrationTable, table);
-  await deps.store.kvSet(KV.calibration, bias.buildCalibrationMap(result.buckets));
+  await deps.store.kvSet(KV.calibration, map);
   return table;
 }
 export async function calibrationTable(deps: DeskDeps): Promise<CalibrationTable> {
