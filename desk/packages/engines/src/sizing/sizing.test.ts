@@ -9,7 +9,8 @@ import { lastClose, recorded, rulesOf, syntheticCatalyst, syntheticState } from 
 const NQ = recorded('NQ');
 /** Tue Nov 17 2026, 14:45 ET: inside the recorded 1m week. */
 const T = fromZoned(2026, 11, 17, 14, 45);
-const vest = (size = 10_000): AccountRules => ({ ...rulesOf('vest-instant'), startingBalance: size });
+/** The spec's Vest rules (static 6%, daily 3%) at a chosen size; Vest Evaluation still carries them. */
+const vest = (size = 10_000): AccountRules => ({ ...rulesOf('vest-eval'), startingBalance: size });
 
 describe('acceptance', () => {
   it('a 50x Vest position with a 0.6% fail price returns Critical and a survivable size', () => {
@@ -117,6 +118,18 @@ describe('drawdown math per firm type', () => {
     expect(room.cushionPct).toBe(20);
   });
 
+  it('Vest Instant as confirmed: $400 static floor on $10,000, so 50x full port fails 0.08% away when the drawdown binds', () => {
+    const rules = rulesOf('vest-instant');
+    const fresh = syntheticState(rules, T, { balance: 10_000, equity: 10_000, highWaterBalance: 10_000, dayStartBalance: 10_000 });
+    expect(drawdownFloor(rules, fresh)).toBe(9_600);
+    const room = accountRoom(rules, fresh, T);
+    expect(room.toDrawdownUsd).toBe(400);
+    expect(room.toDailyLimitUsd).toBeCloseTo(300, 6); // the spec's 3% daily limit is still on file
+    expect(room.binding).toBe('daily_limit');
+    // Size-independent: $400 of room on 50 x $10,000 notional is 0.08% of price.
+    expect(400 / (50 * 10_000)).toBeCloseTo(0.0008, 10);
+  });
+
   it('MFFU Builder: EOD trailing $2,000 that locks at +$100; $1,000 daily limit binds', () => {
     const rules = rulesOf('mffu-builder-50k');
     const fresh = syntheticState(rules, T);
@@ -173,7 +186,7 @@ describe('drawdown math per firm type', () => {
   });
 
   it('unverified rules block sizing and name the rule: Apex, Tradeify, Vest without a size', () => {
-    for (const id of ['apex-50k', 'tradeify-50k', 'vest-instant', 'vest-eval']) {
+    for (const id of ['apex-50k', 'tradeify-50k', 'vest-eval']) {
       const rules = rulesOf(id);
       const state = syntheticState(rules, T, id.startsWith('vest') ? { balance: 10_000, equity: 10_000, dayStartBalance: 10_000 } : {});
       const room = accountRoom(rules, state, T);
@@ -585,7 +598,7 @@ describe('monitorPosition', () => {
     expect(s.nextLockOrSnapshot).toEqual({ what: 'Daily-loss snapshot 20:00 ET', at: iso(fromZoned(2026, 11, 17, 20, 0)) });
     expect(s.distancePct).toBeCloseTo(6, 6); // $300 on $5,000 notional
     expect(s.status).toBe('Safe');
-    const unv = monitorPosition({ position: p, rules: rulesOf('vest-instant'), state: syntheticState(v, T), mark, now: T, catalysts: [], candles: NQ });
+    const unv = monitorPosition({ position: p, rules: rulesOf('vest-eval'), state: syntheticState(v, T), mark, now: T, catalysts: [], candles: NQ });
     expect(unv.status).toBe('Critical');
     expect(unv.line).toMatch(/no fail price until this is confirmed: account size/);
   });

@@ -35,7 +35,7 @@ describe('accounts/*.yaml', () => {
       if (r.drawdown.amountUsd === null && r.drawdown.pct === null) expect(r.drawdown.text, r.id).toContain('unverified, confirm in the firm dashboard');
       if (r.dailyLoss && r.dailyLoss.amountUsd === null && r.dailyLoss.pctOfSnapshot === null) expect(r.dailyLoss.text, r.id).toContain('unverified, confirm in the firm dashboard');
     }
-    expect(all.filter((r) => unverifiedRules(r).length > 0).map((r) => r.id).sort()).toEqual(['apex-50k', 'tradeify-50k', 'vest-eval', 'vest-instant']);
+    expect(all.filter((r) => unverifiedRules(r).length > 0).map((r) => r.id).sort()).toEqual(['apex-50k', 'tradeify-50k', 'vest-eval']);
   });
 
   it('all firms prohibit cross-account hedging, with a clause to quote', () => {
@@ -54,7 +54,11 @@ describe('accounts/*.yaml', () => {
       const r = rulesOf(id);
       expect(r.source.origin).toBe(SPEC);
       expect(r.venue).toBe('perp');
-      expect(r.drawdown).toMatchObject({ type: 'static', pct: 6, amountUsd: null, includesOpenPnl: true, locksAtBalance: null });
+      // Instant: $400 on $10,000, confirmed by the trader 2026-11-22. Evaluation keeps the spec's 6% until confirmed.
+      if (id === 'vest-instant') {
+        expect(r.startingBalance).toBe(10_000);
+        expect(r.drawdown).toMatchObject({ type: 'static', pct: 4, amountUsd: 400, includesOpenPnl: true, locksAtBalance: null });
+      } else expect(r.drawdown).toMatchObject({ type: 'static', pct: 6, amountUsd: null, includesOpenPnl: true, locksAtBalance: null });
       expect(r.dailyLoss).toMatchObject({ pctOfSnapshot: 3, snapshotET: '20:00', hardBreach: true });
       expect(r.leverage.caps['NQ-PERP']).toBe(50);
       expect(r.leverage.eventCutText).toMatch(/lifted one minute after release/);

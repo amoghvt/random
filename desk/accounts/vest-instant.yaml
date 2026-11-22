@@ -8,16 +8,16 @@ firm: "Vest Markets"
 program: "Instant"
 name: "Vest Instant"
 venue: perp
-startingBalance: 0
+startingBalance: 10000
 instruments: [NQ-PERP, NVDA, AMZN, INTC, CRWV, SNDK, BTC, ETH]
 drawdown:
   type: static
-  amountUsd: null
-  pct: 6
+  amountUsd: 400
+  pct: 4
   locksAtBalance: null
   lockedFloor: null
   includesOpenPnl: true
-  text: "Static 6% from the starting balance, equity-based including open P&L. Conflict: vestmarkets.com (read 2026-11-21) lists Instant max drawdown as 4% of capital ($400 on $10,000); confirm in the Vest dashboard. Account size unverified, confirm in the firm dashboard."
+  text: "Static $400 (4%) below the $10,000 starting balance, equity-based including open P&L. Confirmed by the trader 2026-11-22; matches vestmarkets.com (read 2026-11-21). The account costs a $400 fee. The spec's earlier 6% is superseded."
 dailyLoss:
   amountUsd: null
   pctOfSnapshot: 3
