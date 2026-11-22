@@ -35,13 +35,17 @@ describe('accounts service', () => {
 
   it('Vest stays blocked until the trader enters the account size', async () => {
     const d = await desk(NOW);
-    const blocked = await putAccountState(d.deps, 'vest-instant', { balance: 10_000 }, NOW);
+    // Evaluation still has no confirmed size; Instant was confirmed at $10,000 on 2026-11-22.
+    const blocked = await putAccountState(d.deps, 'vest-eval', { balance: 10_000 }, NOW);
     expect(blocked.blockReason).toMatch(/no size until the rule is confirmed: account size/);
     expect(blocked.usableUsd).toBe(0);
-    const open = await putAccountState(d.deps, 'vest-instant', { balance: 10_000, startingBalance: 10_000 }, NOW);
+    const open = await putAccountState(d.deps, 'vest-eval', { balance: 10_000, startingBalance: 10_000 }, NOW);
     expect(open.blockReason).toBeNull();
     // 3% of the snapshot is the nearer limit: $300, $240 after the cushion.
     expect(open.usableUsd).toBe(240);
+    const instant = await putAccountState(d.deps, 'vest-instant', { balance: 10_000 }, NOW);
+    expect(instant.blockReason).toBeNull();
+    expect(instant.usableUsd).toBe(240);
     const rows = await accountRows(d.deps, NOW);
     expect(rows.find((r) => r.rules.id === 'apex-50k')?.blockReason).toMatch(/drawdown amount/);
   });
