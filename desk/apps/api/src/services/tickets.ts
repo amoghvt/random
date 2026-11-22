@@ -3,7 +3,7 @@
  * the tickets engine and passed through the guardrails here, and only what survives all three is written to the journal.
  */
 import {
-  DAY, INSTRUMENTS, KV, MIN, TicketDraft as TicketDraftSchema, TicketReason, hhmm, iso, ms, pnlUsd,
+  DAY, INSTRUMENTS, MIN, TicketDraft as TicketDraftSchema, TicketReason, hhmm, iso, ms, pnlUsd,
   type Fill, type GuardrailFiring, type OverrideKind, type OverrideLedger, type OverridePrompt, type Position, type SizingResult,
   type StructureEvent, type Ticket, type TicketDraft, type TicketPreview, type TicketSaveResult,
 } from '@desk/contracts';

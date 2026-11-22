@@ -55,8 +55,6 @@ export function register(app: FastifyInstance, deps: AppDeps): void {
   app.put<{ Params: { id: string } }>('/api/accounts/:id/state', async (req): Promise<ApiRoutes['PUT /api/accounts/:id/state']['res']> => {
     const b = parseWith(AccountStateIn, req.body);
     if (!(await loadRules(deps)).some((r) => r.id === req.params.id)) throw new HttpError(404, 'No such account');
-    // Keys the trader left out stay absent so the stored values are kept.
-    const body = Object.fromEntries(Object.entries(b).filter(([, v]) => v !== undefined)) as typeof b;
-    return putAccountState(deps, req.params.id, body as ApiRoutes['PUT /api/accounts/:id/state']['body'], deps.clock());
+    return putAccountState(deps, req.params.id, b, deps.clock());
   });
 }
