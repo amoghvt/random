@@ -59,7 +59,9 @@ describe('accounts/*.yaml', () => {
         expect(r.startingBalance).toBe(10_000);
         expect(r.drawdown).toMatchObject({ type: 'static', pct: 4, amountUsd: 400, includesOpenPnl: true, locksAtBalance: null });
       } else expect(r.drawdown).toMatchObject({ type: 'static', pct: 6, amountUsd: null, includesOpenPnl: true, locksAtBalance: null });
-      expect(r.dailyLoss).toMatchObject({ pctOfSnapshot: 3, snapshotET: '20:00', hardBreach: true });
+      // Instant has no daily loss limit (trader, 2026-11-22; matches vestmarkets.com). Evaluation keeps the spec's 3%.
+      if (id === 'vest-instant') expect(r.dailyLoss).toBeNull();
+      else expect(r.dailyLoss).toMatchObject({ pctOfSnapshot: 3, snapshotET: '20:00', hardBreach: true });
       expect(r.leverage.caps['NQ-PERP']).toBe(50);
       expect(r.leverage.eventCutText).toMatch(/lifted one minute after release/);
       expect(r.session.weekendLock).toMatchObject({ fromET: 'Fri 20:00', toET: 'Sun 18:00' });

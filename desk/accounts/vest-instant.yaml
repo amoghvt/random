@@ -18,12 +18,7 @@ drawdown:
   lockedFloor: null
   includesOpenPnl: true
   text: "Static $400 (4%) below the $10,000 starting balance, equity-based including open P&L. Confirmed by the trader 2026-11-22; matches vestmarkets.com (read 2026-11-21). The account costs a $400 fee. The spec's earlier 6% is superseded."
-dailyLoss:
-  amountUsd: null
-  pctOfSnapshot: 3
-  snapshotET: "20:00"
-  hardBreach: true
-  text: "3% of the balance snapshot taken at 20:00 ET, hard breach. vestmarkets.com (read 2026-11-21) says no daily loss limit by default; the spec's 3% is kept as the tighter reading."
+dailyLoss: null
 payout:
   capUsd: null
   minUsd: null

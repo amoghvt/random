@@ -118,14 +118,15 @@ describe('drawdown math per firm type', () => {
     expect(room.cushionPct).toBe(20);
   });
 
-  it('Vest Instant as confirmed: $400 static floor on $10,000, so 50x full port fails 0.08% away when the drawdown binds', () => {
+  it('Vest Instant as confirmed: $400 static floor on $10,000 and no daily limit, so 50x full port fails 0.08% away', () => {
     const rules = rulesOf('vest-instant');
     const fresh = syntheticState(rules, T, { balance: 10_000, equity: 10_000, highWaterBalance: 10_000, dayStartBalance: 10_000 });
     expect(drawdownFloor(rules, fresh)).toBe(9_600);
     const room = accountRoom(rules, fresh, T);
     expect(room.toDrawdownUsd).toBe(400);
-    expect(room.toDailyLimitUsd).toBeCloseTo(300, 6); // the spec's 3% daily limit is still on file
-    expect(room.binding).toBe('daily_limit');
+    expect(room.toDailyLimitUsd).toBeNull(); // no daily loss limit on Instant
+    expect(room.binding).toBe('drawdown');
+    expect(room.usableUsd).toBeCloseTo(320, 6); // $400 less the 20% cushion
     // Size-independent: $400 of room on 50 x $10,000 notional is 0.08% of price.
     expect(400 / (50 * 10_000)).toBeCloseTo(0.0008, 10);
   });

@@ -45,7 +45,8 @@ describe('accounts service', () => {
     expect(open.usableUsd).toBe(240);
     const instant = await putAccountState(d.deps, 'vest-instant', { balance: 10_000 }, NOW);
     expect(instant.blockReason).toBeNull();
-    expect(instant.usableUsd).toBe(240);
+    // No daily limit on Instant: the $400 floor binds, $320 after the cushion.
+    expect(instant.usableUsd).toBe(320);
     const rows = await accountRows(d.deps, NOW);
     expect(rows.find((r) => r.rules.id === 'apex-50k')?.blockReason).toMatch(/drawdown amount/);
   });
