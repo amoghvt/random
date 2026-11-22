@@ -71,7 +71,16 @@ export interface ReplaySummary {
   from: string; to: string; stepMin: number; instruments: string[]; horizons: Horizon[];
   periods: ReplayPeriod[];
   steps: { run: number; marketClosed: number; failures: Array<{ at: string; step: string; error: string }>; failureCount: number };
-  calls: { total: number; byLabel: Record<BiasLabel, number>; byHorizon: Record<string, number>; directional: number; resolvedDirectional: number; correct: number; unresolved: number };
+  calls: {
+    total: number; byLabel: Record<BiasLabel, number>; byHorizon: Record<string, number>;
+    /** What made each call new: the first call, a print, a level (kill level or a new MSS / BOS / confirmed setup), a time stop, an expiry. */
+    byTrigger: Record<string, number>;
+    directional: number; resolvedDirectional: number; correct: number;
+    /** Scored directional calls per horizon. */
+    hitRateByHorizon: Record<string, { n: number; correct: number }>;
+    /** Calls whose expiry lies past the end of the recording: no outcome yet. */
+    unresolved: number;
+  };
   /** Predicted probability against realized hit rate, from every scored directional call in the target store. */
   calibration: CalibrationTable;
   catalysts: { total: number; withMatrix: number; resolved: number; tier1: ReplayTier1[] };
@@ -270,16 +279,18 @@ export async function replay(store: Store, opts: ReplayOpts): Promise<ReplaySumm
     await store.kvSet(REPLAY_KV.reactionTables, { asOf: iso(last), source: REPLAY_SOURCE, instrument: 'NQ', tables: Object.fromEntries(tables.map((t) => [t.code, t.rows])) });
 
     const byLabel = Object.fromEntries(BiasLabel.options.map((l) => [l, 0])) as Record<BiasLabel, number>;
-    const byHorizon: Record<string, number> = {};
-    for (const c of calls) { byLabel[c.call]++; byHorizon[c.horizon] = (byHorizon[c.horizon] ?? 0) + 1; }
+    const byHorizon: Record<string, number> = {}, byTrigger: Record<string, number> = {};
+    for (const c of calls) { byLabel[c.call]++; byHorizon[c.horizon] = (byHorizon[c.horizon] ?? 0) + 1; byTrigger[c.trigger.kind] = (byTrigger[c.trigger.kind] ?? 0) + 1; }
     const directional = calls.filter((c) => c.call !== 'no_edge');
     const resolved = directional.filter(bias.isResolvedDirectional);
+    const hitRateByHorizon: Record<string, { n: number; correct: number }> = {};
+    for (const c of resolved) { const h = (hitRateByHorizon[c.horizon] ??= { n: 0, correct: 0 }); h.n++; if (c.outcome?.correct === true) h.correct++; }
     const summary: ReplaySummary = {
       source: REPLAY_SOURCE, from: iso(opts.from), to: iso(to), stepMin, instruments: [...new Set(plan.map((p) => p.instrument))], horizons,
       periods, steps: { run, marketClosed, failures, failureCount },
       calls: {
-        total: calls.length, byLabel, byHorizon, directional: directional.length, resolvedDirectional: resolved.length,
-        correct: resolved.filter((c) => c.outcome?.correct === true).length, unresolved: calls.filter((c) => !c.outcome).length,
+        total: calls.length, byLabel, byHorizon, byTrigger, directional: directional.length, resolvedDirectional: resolved.length,
+        correct: resolved.filter((c) => c.outcome?.correct === true).length, hitRateByHorizon, unresolved: calls.filter((c) => !c.outcome).length,
       },
       calibration,
       catalysts: {
