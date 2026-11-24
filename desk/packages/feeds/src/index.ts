@@ -8,6 +8,7 @@ export * from './headlines';
 export * from './rules';
 export * from './registry';
 export * from './adapters/tradingview';
+export * from './adapters/tradingview-stream';
 export * from './adapters/yahoo';
 export * from './adapters/fed';
 export * from './adapters/predictions';

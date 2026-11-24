@@ -5,7 +5,7 @@
  */
 import { CORE_SYMBOLS, DAY, ET, KV, MIN, dayKey, isUsHours, iso, zoned, type BiasCall, type Catalyst, type Notification, type NotificationIntent, type NowView, type RuleDiff, type Timeframe } from '@desk/contracts';
 import { notify } from '@desk/engines';
-import { backfillCandles, buildFeeds, checkFirmRules, ingestOnce, type Feeds, type IngestReport } from '@desk/feeds';
+import { backfillCandles, buildFeeds, checkFirmRules, ingestOnce, streamCoverage, type Feeds, type IngestReport } from '@desk/feeds';
 import type { DeskDeps } from './deps';
 import { errText } from './log';
 import { applyRuleDiffs, loadRules } from './services/accounts';
@@ -41,8 +41,16 @@ export interface LoopReport {
 }
 
 /** The environment as the feed layer reads it: the process environment (feature flags such as FEED_CBOE live only there) under the validated keys. */
-const feedEnv = (deps: DeskDeps): Record<string, string | undefined> =>
-  ({ ...process.env, ...Object.fromEntries(Object.entries(deps.env).map(([k, v]) => [k, v === undefined ? undefined : String(v)])) });
+/**
+ * The desk's primary index reads IG's US Tech 100 cash on TradingView by default: it streams tick by tick, where the
+ * free CME future is 10 minutes late. `TV_STREAM_SYMBOLS=off` turns the stream off; tests never open a socket.
+ */
+export const DEFAULT_STREAM_SYMBOLS = 'NQ=IG:NASDAQ';
+export const feedEnv = (deps: DeskDeps): Record<string, string | undefined> => {
+  const env: Record<string, string | undefined> = { ...process.env, ...Object.fromEntries(Object.entries(deps.env).map(([k, v]) => [k, v === undefined ? undefined : String(v)])) };
+  if (env.TV_STREAM_SYMBOLS === undefined && env.NODE_ENV !== 'test' && !env.VITEST) env.TV_STREAM_SYMBOLS = DEFAULT_STREAM_SYMBOLS;
+  return env;
+};
 const feedsOf = (deps: DeskDeps): Feeds => deps.feeds ?? buildFeeds(feedEnv(deps));
 
 /** Quotes are all the position monitor needs when everything else is switched off. */
@@ -166,7 +174,7 @@ export async function backfillOnBoot(deps: DeskDeps, now: number): Promise<numbe
   if (daily.length >= 250 && last && now - last.t < 5 * DAY) return 0;
   const profile = await profileOf(deps);
   const symbols = [...new Set([...CORE_SYMBOLS, ...profile.instruments.watchlist, ...profile.instruments.occasional, 'CL', 'GC', 'BTC', 'RSP', 'QQQ', 'XLP', 'XLU'])];
-  const r = await backfillCandles(deps.store, symbols, BACKFILL_TFS, deps.fetch ? { fetch: deps.fetch } : {});
+  const r = await backfillCandles(deps.store, symbols, BACKFILL_TFS, { ...(deps.fetch ? { fetch: deps.fetch } : {}), exclude: deps.feeds ? [] : streamCoverage(feedEnv(deps)) });
   for (const s of r.series.filter((x) => x.error)) logOf(deps).warn(`backfill: ${s.symbol} ${s.tf}: ${s.error}`);
   return r.candles;
 }

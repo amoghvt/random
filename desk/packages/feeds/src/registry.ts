@@ -18,6 +18,7 @@ import {
 } from './adapters/paid';
 import { kalshi, polymarket } from './adapters/predictions';
 import { spread2s10s, tradingViewCalendar, tradingViewQuotes, tradingViewRates, tradingViewVol, volData } from './adapters/tradingview';
+import { streamCoverage, tradingViewStreamCandles, tradingViewStreamQuotes } from './adapters/tradingview-stream';
 import { BACKFILL_RANGE, yahooCandleFeed, yahooCandles, yahooCoverage, yahooOptions, yahooQuotes, yahooRates, yahooRatesHistory, yahooVol } from './adapters/yahoo';
 import { dedupeHeadlines } from './headlines';
 import { mapLimit } from './http';
@@ -43,8 +44,9 @@ export function buildFeeds(env: Env): Feeds {
   const table: FeedSlot[] = [
     // Calendar first: the Fed slot needs the FOMC date from it.
     { kind: 'calendar', mode: 'first', feeds: [f(tradingEconomics), f(tradingViewCalendar), f(forexFactory)] },
-    { kind: 'quotes', mode: 'first', feeds: [f(polygonQuotes), f(tradierQuotes), f(alpacaQuotes), f(tradingViewQuotes), f(yahooQuotes)], want: priceSymbols },
-    { kind: 'candles', mode: 'all', feeds: [f(databentoCandleFeed), f(polygonCandleFeed), ...(['1m', '5m', '15m', '1h', '1d'] as Timeframe[]).map((tf) => f(yahooCandleFeed(tf)))] },
+    // The real-time stream leads for the symbols it is mapped to; everything else falls through to the delayed sources.
+    { kind: 'quotes', mode: 'first', feeds: [f(tradingViewStreamQuotes), f(polygonQuotes), f(tradierQuotes), f(alpacaQuotes), f(tradingViewQuotes), f(yahooQuotes)], want: priceSymbols },
+    { kind: 'candles', mode: 'all', feeds: [f(tradingViewStreamCandles()), f(databentoCandleFeed), f(polygonCandleFeed), ...(['1m', '5m', '15m', '1h', '1d'] as Timeframe[]).map((tf) => f(yahooCandleFeed(tf)))] },
     { kind: 'rates', mode: 'first', feeds: [f(tradingViewRates), f(yahooRates), f(fredRates)], want: () => ['rate.US2Y', 'rate.US10Y', 'rate.US30Y'] },
     { kind: 'rates_history', mode: 'all', feeds: [f(yahooRatesHistory)] },
     { kind: 'vol', mode: 'first', feeds: [f(tradingViewVol), f(yahooVol)], want: () => ['vol.VIX', 'vol.VIX3M'] },
@@ -176,7 +178,12 @@ export async function ingestOnce(store: Store, feeds: Feeds, now: number, opts: 
     if (opts.kinds && !opts.kinds.includes(slot.kind)) continue;
     try {
       if (slot.mode === 'all') {
-        for (const feed of slot.feeds) if (due(feed)) await run(feed, slot, symbols, null);
+        // A symbol the stream covers takes its candles from the stream only: one series is never two instruments.
+        const streamed = slot.kind === 'candles' ? streamCoverage(env) : new Set<string>();
+        for (const feed of slot.feeds) {
+          if (!due(feed)) continue;
+          await run(feed, slot, symbols, streamed.size && !feed.name.startsWith('tradingview.stream') ? (k) => !streamed.has(k) : null);
+        }
         continue;
       }
       if (!slot.feeds[0] || !due(slot.feeds[0])) continue;
@@ -211,8 +218,10 @@ export async function ingestOnce(store: Store, feeds: Feeds, now: number, opts: 
 export interface BackfillReport { candles: number; series: Array<{ symbol: string; tf: Timeframe; bars: number; error: string | null }> }
 
 /** Load the deepest history Yahoo serves per timeframe (1m 7d, 5m/15m 60d, 1h 730d, 1d 5y). Failures are reported per series. */
-export async function backfillCandles(store: Store, symbols: string[], tfs: Timeframe[], opts: { fetch?: FetchLike } = {}): Promise<BackfillReport> {
-  const jobs = yahooCoverage(symbols).flatMap((symbol) => tfs.map((tf) => ({ symbol, tf })));
+export async function backfillCandles(store: Store, symbols: string[], tfs: Timeframe[], opts: { fetch?: FetchLike; exclude?: Iterable<string> } = {}): Promise<BackfillReport> {
+  // Symbols the real-time stream covers are left out: their history comes from the stream itself.
+  const skip = new Set(opts.exclude ?? []);
+  const jobs = yahooCoverage(symbols.filter((x) => !skip.has(x))).flatMap((symbol) => tfs.map((tf) => ({ symbol, tf })));
   const results = await mapLimit(jobs, 4, async ({ symbol, tf }) => {
     const candles = await yahooCandles(symbol, tf, BACKFILL_RANGE[tf], opts.fetch);
     if (candles.length) await store.upsertCandles(candles);

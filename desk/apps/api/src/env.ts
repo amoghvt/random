@@ -26,6 +26,7 @@ const Schema = z.object({
   /** Overrides the profile's timezone (quiet hours, the 06:30 brief). */
   DESK_TZ: str,
   TV_WEBHOOK_SECRET: str,
+  TV_STREAM_SYMBOLS: str,
   ...feedShape,
 }).superRefine((e, ctx) => {
   if (e.NODE_ENV === 'production' && !e.DESK_TOKEN) ctx.addIssue({ code: 'custom', path: ['DESK_TOKEN'], message: 'DESK_TOKEN is required in production' });
