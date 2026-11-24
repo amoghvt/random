@@ -178,7 +178,7 @@ p { margin: 0; }
       }).join('') + '</div></section></div>';
 
     var bad = (N.feedHealth || []).filter(function (f) { return !f.ok; });
-    h += '<section class="panel"><p class="eyebrow">Feeds</p><p>' + (N.feedHealth || []).length + ' feeds polled, ' + bad.length + ' failing.' + (bad.length ? ' <span class="warn">' + esc(bad.map(function (f) { return f.feed; }).join(', ')) + '</span>' : '') + '</p><p class="dim" style="font-size:13px;margin-top:6px">Free data: CME quotes are 10 minutes delayed, and there is no intraday 2Y history.</p></section>';
+    h += '<section class="panel"><p class="eyebrow">Feeds</p><p>' + (N.feedHealth || []).length + ' feeds polled, ' + bad.length + ' failing.' + (bad.length ? ' <span class="warn">' + esc(bad.map(function (f) { return f.feed; }).join(', ')) + '</span>' : '') + '</p><p class="dim" style="font-size:13px;margin-top:6px">NQ reads IG's US Tech 100 cash in real time (cash-index levels, below the future by the basis). Other CME quotes are 10 minutes delayed, and there is no intraday 2Y history.</p></section>';
     view.innerHTML = h;
   }
 
@@ -214,7 +214,7 @@ p { margin: 0; }
     var ch = (D.charts || {})[chartTf];
     var h = '<section class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><p class="eyebrow" style="margin:0">NQ</p><div class="seg" role="group" aria-label="Timeframe">' + ['15m', '1h', '1d'].map(function (t) { return '<button data-tf="' + t + '" aria-pressed="' + (t === chartTf) + '">' + (t === '1d' ? 'Daily' : t === '1h' ? '1H' : t) + '</button>'; }).join('') + '</div></div><div id="chart"></div>' +
       '<div class="legend"><span><i style="background:#e8b04a"></i>EMA 20</span><span><i style="background:#5b9bf0"></i>EMA 50</span><span><i style="background:#c66bd0"></i>EMA 200</span><span><i style="background:#8b9ab3"></i>Watcher levels</span></div>' +
-      '<p class="dim" style="font-size:12px;margin-top:8px">' + (ch && ch.candles.length ? 'Last bar ' + et(new Date(ch.candles[ch.candles.length - 1][0]).toISOString(), true) + ' · source ' + esc(ch.source) + ' (delayed)' : 'No candles in this snapshot.') + '</p></section>';
+      '<p class="dim" style="font-size:12px;margin-top:8px">' + (ch && ch.candles.length ? 'Last bar ' + et(new Date(ch.candles[ch.candles.length - 1][0]).toISOString(), true) + ' · source ' + esc(ch.source) + '' : 'No candles in this snapshot.') + '</p></section>';
     var ev = (D.structure || []).filter(function (e) { return e.tf === chartTf; });
     h += '<section class="panel"><p class="eyebrow">What the watcher sees on ' + chartTf + '</p>' + (ev.length ? '<div class="list">' + ev.slice(0, 12).map(function (e) { return '<div class="item"><div>' + esc(e.text) + '</div><div class="dim num" style="font-size:12px">' + esc(e.detector.replace('_', ' ')) + ' · confidence ' + e.confidence.toFixed(2) + '</div></div>'; }).join('') + '</div>' : '<p class="dim">No structure events on this timeframe in the snapshot.</p>') + '</section>';
     view.innerHTML = h;
