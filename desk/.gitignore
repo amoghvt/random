@@ -9,3 +9,5 @@ dist
 coverage
 apps/web/tsconfig.tsbuildinfo
 .pgdata
+__pycache__/
+*.pyc
