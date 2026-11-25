@@ -1,0 +1,73 @@
+//@version=5
+// Desk: with-trend EMA strategy for the Nasdaq (built for IG:NASDAQ on the 5-minute chart).
+// Mirrors desk/research/ema_trend_backtest.py: trend = close beyond EMA200 with EMA50 beyond EMA200 and EMA20 beyond EMA50;
+// optional entry filter "close within 0.5 ATR of EMA20"; volatility filter ATR(14) >= minimum; fixed stop and target in points;
+// one position at a time; entries only inside the New York cash session; time exit after a maximum number of bars.
+// Orders fill at the next bar's open. Set slippage and commission in the strategy's Properties tab to match your venue.
+strategy("Desk: EMA trend (5m Nasdaq)", overlay = true, initial_capital = 50000, default_qty_type = strategy.fixed,
+     default_qty_value = 18.5, pyramiding = 0, calc_on_every_tick = false, process_orders_on_close = false)
+
+// ───────── Inputs ─────────
+entryMode  = input.string("Pullback to EMA20", "Entry", options = ["Pullback to EMA20", "Any with-trend bar"])
+stopPts    = input.float(40.0, "Stop (points)", minval = 1)
+targetPts  = input.float(200.0, "Target (points)", minval = 1)
+minAtr     = input.float(45.0, "Minimum ATR(14) in points (0 = off)", minval = 0)
+zoneAtr    = input.float(0.5, "Pullback zone: distance from EMA20 in ATRs", minval = 0.05, step = 0.05)
+sessionStr = input.session("0930-1600:23456", "Entry session (New York time)")
+maxBars    = input.int(48, "Exit after this many bars", minval = 1)
+allowLong  = input.bool(true, "Take longs")
+allowShort = input.bool(true, "Take shorts")
+maxLossDay = input.int(0, "Stop for the day after this many losses (0 = off)", minval = 0)
+
+// ───────── Indicators ─────────
+e20  = ta.ema(close, 20)
+e50  = ta.ema(close, 50)
+e200 = ta.ema(close, 200)
+atr  = ta.sma(ta.tr(true), 14)
+
+inSession = not na(time(timeframe.period, sessionStr, "America/New_York"))
+trendUp   = close > e200 and e50 > e200 and e20 > e50
+trendDown = close < e200 and e50 < e200 and e20 < e50
+nearEma   = math.abs(close - e20) <= zoneAtr * atr
+volOk     = minAtr == 0 or atr >= minAtr
+entryOk   = entryMode == "Any with-trend bar" or nearEma
+
+// ───────── Losses today (New York day) ─────────
+newDay = ta.change(time("D", "0000-0000", "America/New_York")) != 0
+var int lossesToday = 0
+if newDay
+    lossesToday := 0
+if strategy.closedtrades > strategy.closedtrades[1]
+    lastProfit = strategy.closedtrades.profit(strategy.closedtrades - 1)
+    if lastProfit <= 0
+        lossesToday += 1
+dayOk = maxLossDay == 0 or lossesToday < maxLossDay
+
+// ───────── Entries: one position at a time, stop and target attached to the entry ─────────
+flat      = strategy.position_size == 0
+canTrade  = flat and inSession and volOk and entryOk and dayOk and barstate.isconfirmed
+stopTicks = stopPts / syminfo.mintick
+tgtTicks  = targetPts / syminfo.mintick
+
+if canTrade and trendUp and allowLong
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Long exit", from_entry = "Long", loss = stopTicks, profit = tgtTicks)
+if canTrade and trendDown and allowShort
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Short exit", from_entry = "Short", loss = stopTicks, profit = tgtTicks)
+
+// ───────── Time exit ─────────
+if strategy.position_size != 0
+    barsHeld = bar_index - strategy.opentrades.entry_bar_index(strategy.opentrades - 1)
+    if barsHeld >= maxBars
+        strategy.close_all(comment = "Time exit")
+
+// ───────── Plots ─────────
+plot(e20, "EMA 20", color = color.new(color.orange, 0))
+plot(e50, "EMA 50", color = color.new(color.blue, 0))
+plot(e200, "EMA 200", color = color.new(color.purple, 0), linewidth = 2)
+bgcolor(inSession and volOk and trendUp ? color.new(color.green, 92) : inSession and volOk and trendDown ? color.new(color.red, 92) : na, title = "Trend and volatility filter on")
+
+// ───────── Alerts (for the live signal) ─────────
+alertcondition(canTrade and trendUp and allowLong, "Desk EMA trend: long signal", "Desk EMA trend LONG {{ticker}} {{close}}")
+alertcondition(canTrade and trendDown and allowShort, "Desk EMA trend: short signal", "Desk EMA trend SHORT {{ticker}} {{close}}")
