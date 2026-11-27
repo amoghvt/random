@@ -33,7 +33,7 @@ def kill_switch_on(cfg):
     return os.path.exists(os.path.join(cfg["_root"], cfg["risk"]["kill_file"]))
 
 
-def pre_check(cfg, state, now=None):
+def pre_check(cfg, state, now=None, catalyst=False):
     """Session-level gates. Returns Verdict. `state` is the journal's day state."""
     r, s = cfg["risk"], cfg["session"]
     tz = ZoneInfo(s["timezone"])
@@ -45,13 +45,17 @@ def pre_check(cfg, state, now=None):
         reasons.append("no-trade date")
     if now_et.weekday() >= 5:
         reasons.append("weekend")
-    if not features.in_window(now_et, s["trade_windows"]):
+    ccfg = cfg.get("catalyst", {})
+    if not features.in_window(now_et, s["trade_windows"]) and not (catalyst and ccfg.get("allow_outside_windows", False)):
         reasons.append("outside trade windows %s" % s["trade_windows"])
     label = features.in_blackout(now_et, s.get("event_blackouts"))
     if label:
         reasons.append("event blackout: %s" % label)
-    for start, end, label in (state.get("intel") or {}).get("blackouts", []):
-        if start <= now_et.timestamp() <= end:
+    for b in (state.get("intel") or {}).get("blackouts", []):
+        start, end, label = b[0], b[1], b[2]
+        released = len(b) > 3 and now_et.timestamp() >= b[3]
+        # before the number is out nobody knows it: always blocked. After it, a catalyst trade may act on it.
+        if start <= now_et.timestamp() <= end and not (catalyst and released):
             reasons.append("calendar blackout: %s" % label)
     day = state.get("day", {})
     if day.get("realized_pnl", 0.0) <= -abs(r["max_daily_loss_usd"]):
@@ -115,7 +119,16 @@ def check(cfg, decision, state, price=None):
             left = abs(r["max_daily_loss_usd"]) + state.get("day", {}).get("realized_pnl", 0.0)
             if worst > left:
                 reasons.append("worst case $%.0f exceeds remaining daily loss room $%.0f" % (worst, left))
-    if cfg.get("intel", {}).get("require_with_trend_call"):
+    by_catalyst = decision.get("basis") == "catalyst"
+    if by_catalyst:
+        cat = (state.get("intel") or {}).get("catalyst")
+        if not cfg.get("catalyst", {}).get("enabled", True):
+            reasons.append("catalyst trades are switched off (catalyst.enabled)")
+        elif not cat:
+            reasons.append("basis is 'catalyst' but no fresh high-impact catalyst is on record")
+        elif cat["id"] in state.get("catalysts_used", []):
+            reasons.append("this catalyst was already traded once")
+    if cfg.get("intel", {}).get("require_with_trend_call") and not by_catalyst:
         call = (state.get("intel") or {}).get("session_call") or {}
         want = "up" if action == "long" else "down"
         if call.get("status") not in ("up", "down"):

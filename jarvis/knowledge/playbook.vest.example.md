@@ -24,6 +24,15 @@ Built from the trader's own log (1,136 trades, Oct 7 to Nov 24 2026, net -$85,93
 - The call is right about direction 63% of the time with the trend, and price usually goes 65 points against it
   before the close. Never enter on the call itself with a tight stop: wait for the entry below.
 
+## When news takes over
+- A fresh high-impact catalyst (a surprise data print, a Trump statement on tariffs, the Fed or the market, a Fed
+  decision, a military strike) outranks the session call and the trend. No confluence is needed.
+- Trade the confirmed reaction, not the headline: wait for the first push to pause and the first pullback to hold,
+  then enter in the direction of the reaction. Stop beyond the pullback or the pre-news price.
+- If price has already run far by the time you see it, the chasers are the exit liquidity: stand aside.
+- Evidence so far: trading every Tier-1 release branch at full size lost $14,800 across 59 releases; sized to the
+  plan's stop it was about break-even. The edge, if any, is in picking the few that are real surprises.
+
 ## The entry
 1. Call fired, agrees with the trend.
 2. Price pulls back against the call and stops: a swing forms, or a prior swing is swept by less than 15 points.

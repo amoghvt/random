@@ -10,8 +10,11 @@ is outside its normal range from the open for that time of day. 57% of calls clo
 call first. Entering on it with a 20 to 40 point stop was about break-even in the same data: it tells direction, it
 is not an entry.
 """
+import hashlib
 import json
+import re
 import time
+from email.utils import parsedate_to_datetime
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -23,6 +26,7 @@ MACRO = [("VIX", "^VIX"), ("US 10Y yield", "^TNX"), ("Dollar index", "DX-Y.NYB")
          ("Semiconductors (SMH)", "SMH"), ("Crude oil", "CL=F"), ("Gold", "GC=F"), ("Bitcoin", "BTC-USD")]
 CALENDAR_URL = "https://economic-calendar.tradingview.com/events?from=%s&to=%s&countries=US"
 WIRE_RSS = "https://www.financialjuice.com/feed.ashx?xy=rss"
+TRUMP_RSS = "https://www.trumpstruth.org/feed"  # public archive of Truth Social posts
 CHECKS = list(range(600, 931, 30))  # 10:00 .. 15:30 as minutes of the day
 OPEN_MIN, CLOSE_MIN, LOOKBACK, MIN_SESSIONS, TREND_DAYS = 570, 960, 14, 10, 50
 RECORD = {"all_right_pct": 57, "with_trend_right_pct": 63, "against_trend_right_pct": 49, "typical_heat_points": 65,
@@ -81,14 +85,112 @@ def calendar(now, tz_name="America/New_York", fetch=_get_json):
 
 def blackouts(events, before_min=10, after_min=15):
     """[start_ts, end_ts, label] around every high-importance release."""
-    return [[e["ts"] - before_min * 60, e["ts"] + after_min * 60, e["title"]] for e in events]
+    return [[e["ts"] - before_min * 60, e["ts"] + after_min * 60, e["title"], e["ts"]] for e in events]
 
 
-def wire(limit=12):
+def _stamp(items, prefix=""):
+    out = []
+    for it in items:
+        try:
+            ts = parsedate_to_datetime(it.get("published", "")).timestamp()
+        except (TypeError, ValueError):
+            ts = None
+        title = re.sub(r"^FinancialJuice:\s*", "", it["title"])
+        out.append({"title": prefix + title, "published": it.get("published", ""), "ts": ts})
+    return out
+
+
+def wire(limit=40):
     try:
-        return data_mod.parse_rss(data_mod._get(WIRE_RSS), limit=limit)
+        return _stamp(data_mod.parse_rss(data_mod._get(WIRE_RSS), limit=limit))
     except data_mod.DataError:
         return []
+
+
+def trump_posts(limit=15):
+    try:
+        items = data_mod.parse_rss(data_mod._get(TRUMP_RSS), limit=limit)
+    except data_mod.DataError:
+        return []
+    return _stamp([i for i in items if not re.match(r"(Image|Video) post from", i["title"])], prefix="Trump (Truth Social): ")
+
+
+# ---- which headlines can move the index on their own ----------------------------------------------------------------
+_DATA = r"\b(core cpi|cpi|core pce|pce|non-?farm payrolls|nfp|unemployment rate|gdp|ism (manufacturing|services)|retail sales|initial jobless claims|jobless claims|ppi|jolts)\b"
+_POLICY = (r"tariffs?|\bfed\b|federal reserve|powell|interest rates?|rate cuts?|trade deal|trade war|executive order|nvidia|\bchips?\b|semiconductors?|"
+           r"export controls?|sanctions?|government shutdown|debt ceiling|stock market|stocks are|nasdaq|china (trade|deal|tariff)|tax cuts?")
+IMPACT_3 = [
+    ("trump policy", r"\btrump\b.*(%s)|(%s).*\btrump\b" % (_POLICY, _POLICY)),
+    ("fed decision", r"\b(fed|fomc|powell)\b.*\b(cuts? rates|hikes? rates|rate (cut|hike)|emergency|rate decision|statement|raises rates|lowers rates|holds rates|leaves rates unchanged)\b"),
+    ("data release", r"^(us|u\.s\.)\s.*" + _DATA + r".*\bactual\b"),
+    ("geopolitical shock", r"\b(missile (strike|attack)|invades|invasion of|declares war|nuclear (strike|test|weapon)|assassinat|launch(es|ed)? strikes on|attack on (us|u\.s\.|american|israel|iran|taiwan))\b"),
+    ("market stress", r"\b(circuit breaker|trading halt(ed)?|emergency (fed )?meeting|downgrades? (the )?(us|u\.s\.)|us default)\b"),
+]
+IMPACT_2 = [
+    ("tariffs", r"\btariffs?\b"), ("fed speaker", r"\b(powell|fomc|fed's|fed chair|fed governor)\b"), ("white house", r"\btrump\b|white house"),
+    ("megacap", r"\b(nvidia|apple|microsoft|amazon|alphabet|google|meta|tesla|broadcom)\b.*\b(earnings|guidance|results|revenue|ban|probe|export)\b"),
+    ("china", r"\bchina\b.*\b(export|chip|retaliat|sanction|rare earth)"), ("supply", r"\b(opec|treasury auction|refunding)\b"),
+    ("us data", r"^(us|u\.s\.)\s.*\bactual\b"), ("geopolitics", r"\b(ceasefire|missile|nuclear|strikes?)\b"),
+]
+_TRUMP_PREFIX = "trump (truth social): "
+_PRINT = re.compile(r"actual\s*(-?[\d.]+)\s*[%kmb]*\s*\(forecast\s*(-?[\d.]+)", re.I)
+
+
+def score(title):
+    """(impact 0-3, tag). 3 = can move the index by itself; 2 = matters; below that it is background.
+    A Truth Social post is scored on its text alone (every one of them mentions Trump). A data print that only
+    matches its forecast is not a surprise and is held at 2."""
+    t = title.lower()
+    own_post = t.startswith(_TRUMP_PREFIX)
+    body = t[len(_TRUMP_PREFIX):] if own_post else t
+    if own_post:
+        return (3, "trump policy") if re.search(_POLICY, body) else (1, "trump post")
+    for tag, rx in IMPACT_3:
+        if re.search(rx, body):
+            if tag == "data release":
+                m = _PRINT.search(body)
+                if m and float(m.group(1)) == float(m.group(2)):
+                    return 2, "data in line with forecast"
+            return 3, tag
+    for tag, rx in IMPACT_2:
+        if re.search(rx, body):
+            return 2, tag
+    return 0, None
+
+
+def _cid(text):
+    return hashlib.sha1(text[:90].lower().encode()).hexdigest()[:12]
+
+
+def release_catalysts(events, now, max_age_min):
+    """A scheduled high-importance release whose actual number is out."""
+    out = []
+    for e in events:
+        if e.get("actual") is None or not 0 <= now - e["ts"] <= max_age_min * 60:
+            continue
+        text = "DATA: %s actual %s%s (forecast %s, previous %s)" % (e["title"], e["actual"], e.get("unit") or "", e.get("forecast"), e.get("previous"))
+        out.append({"id": _cid("release " + e["title"] + e["date"]), "impact": 3, "tag": "data release", "title": text, "ts": e["ts"], "source": "calendar"})
+    return out
+
+
+def headline_catalysts(items, now, max_age_min, min_impact, source):
+    out = []
+    for it in items:
+        if it.get("ts") is None or not 0 <= now - it["ts"] <= max_age_min * 60:
+            continue
+        impact, tag = score(it["title"])
+        if impact >= min_impact:
+            out.append({"id": _cid(it["title"]), "impact": impact, "tag": tag, "title": it["title"], "ts": it["ts"], "source": source})
+    return out
+
+
+def pick_catalyst(candidates, used_ids, now):
+    """The strongest, then newest, catalyst that has not been traded yet."""
+    fresh = [c for c in candidates if c["id"] not in set(used_ids)]
+    if not fresh:
+        return None
+    best = sorted(fresh, key=lambda c: (-c["impact"], -c["ts"]))[0]
+    return dict(best, age_minutes=round((now - best["ts"]) / 60, 1), others=[c["title"][:140] for c in fresh if c["id"] != best["id"]][:4])
 
 
 # ---- session direction call ----------------------------------------------------------------------------------------
@@ -197,11 +299,29 @@ class Intel:
         self._cache[key] = (self.now(), val)
         return val
 
+    def _events(self, now):
+        tz = self.cfg["session"]["timezone"]
+        hit = self._cache.get("calendar")
+        # poll fast around a release so the actual number is seen within seconds, slowly otherwise
+        near = bool(hit) and any(e.get("actual") is None and -120 <= now - e["ts"] <= 600 for e in hit[1])
+        return self._cached("calendar", 20 if near else 1800, lambda: calendar(now, tz), [])
+
+    def catalyst(self, used_ids=()):
+        """The freshest high-impact item not yet traded, or None. Cheap enough to run every heartbeat."""
+        c = self.cfg.get("catalyst", {})
+        if not c.get("enabled", True):
+            return None
+        now, age, floor = self.now(), c.get("max_age_minutes", 10), c.get("min_impact", 3)
+        cands = release_catalysts(self._events(now), now, age)
+        cands += headline_catalysts(self._cached("wire", 20, wire, []), now, age, floor, "FinancialJuice")
+        cands += headline_catalysts(self._cached("trump", 30, trump_posts, []), now, age, floor, "Truth Social")
+        return pick_catalyst(cands, used_ids, now)
+
     def gather(self, bars):
         tz = self.cfg["session"]["timezone"]
         sym = self.cfg["instrument"]["yahoo_symbol"]
         now = self.now()
-        events = self._cached("calendar", 1800, lambda: calendar(now, tz), [])
+        events = self._events(now)
         hist = self._cached("hist", 6 * 3600, lambda: _yahoo(sym, "60d", "15m")[0], [])
         daily = self._cached("daily", 6 * 3600, lambda: [b["c"] for b in _yahoo(sym, "6mo", "1d")[0]], [])
         today = datetime.fromtimestamp(now, ZoneInfo(tz)).strftime("%Y-%m-%d")
@@ -214,6 +334,7 @@ class Intel:
             "session_call": call,
             "macro": self._cached("macro", 300, macro_snapshot, []),
             "calendar_high_importance": [dict(e, minutes_away=round((e["ts"] - now) / 60)) for e in events if e["date"] >= today][:12],
-            "wire": self._cached("wire", 120, wire, []),
+            "wire": [dict(w, impact=score(w["title"])[0]) for w in self._cached("wire", 20, wire, [])[:15]],
+            "trump_posts": [w["title"][:400] + " (%s)" % w["published"] for w in self._cached("trump", 30, trump_posts, [])[:4]],
             "blackouts": blackouts(events),
         }

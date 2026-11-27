@@ -77,6 +77,13 @@
     "require_with_trend_call": false
   },
 
+  "catalyst": {
+    "enabled": true,
+    "min_impact": 3,
+    "max_age_minutes": 10,
+    "allow_outside_windows": false
+  },
+
   "knowledge": {
     "dir": "knowledge",
     "top_k": 6,

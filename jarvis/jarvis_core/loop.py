@@ -30,6 +30,8 @@ class Jarvis:
         self.journal = Journal(config_mod.path(cfg, cfg["state_dir"]), cfg["session"]["timezone"])
         self.broker = broker or broker_mod.make_broker(cfg, self.journal.state.get("broker"))
         self._last_bars = None
+        self._catalyst = None
+        self._last_catalyst = None
         self.intel = intel_mod.Intel(cfg, now_fn=self.now) if (fetch_news and cfg.get("intel", {}).get("enabled", True)) else None
         self.source = source or data_mod.make_source(cfg)
         self.brain = brain or Brain(cfg["model"], cfg["effort"])
@@ -93,7 +95,8 @@ class Jarvis:
         intel = None
         if self.intel is not None:
             intel = self.intel.gather(self._last_bars or [])
-            self.journal.state["intel"] = {"session_call": intel.get("session_call"), "blackouts": intel.get("blackouts", [])}
+            intel["catalyst"] = self._catalyst
+            self.journal.state["intel"] = {"session_call": intel.get("session_call"), "blackouts": intel.get("blackouts", []), "catalyst": self._catalyst}
         return {
             "intel": intel,
             "picture": pic,
@@ -211,7 +214,14 @@ class Jarvis:
             return {"flattened": True}
 
         in_position = bool(self.broker.positions())
-        pre = risk.pre_check(cfg, self.journal.state, now=self.now())
+        cat = None
+        if self.intel is not None:
+            cat = self.intel.catalyst(self.journal.state.get("catalysts_used", []))
+            if cat and cat["id"] != self._last_catalyst:
+                self._last_catalyst = cat["id"]
+                say("CATALYST impact %d (%s, %.1f min old): %s" % (cat["impact"], cat["tag"], cat["age_minutes"], cat["title"][:200]), cfg, "alert")
+        self._catalyst = cat
+        pre = risk.pre_check(cfg, self.journal.state, now=self.now(), catalyst=bool(cat))
         if not in_position and not pre and not force_brain:
             self._persist()
             return {"skipped": repr(pre), "price": price, "phase": pic["phase"]}
@@ -248,6 +258,10 @@ class Jarvis:
                         d["target_price"], d["confidence"], d["thesis"], d["invalidation"], pid), cfg, "alert")
                 elif mode == "auto":
                     executed = self._execute_entry(d, price)
+                    if executed and d.get("basis") == "catalyst" and self._catalyst:
+                        used = self.journal.state.setdefault("catalysts_used", [])
+                        used.append(self._catalyst["id"])
+                        del used[:-200]
             else:
                 say("brain wanted %s, %r" % (d["action"], verdict), cfg)
         elif d["action"] in ("close", "move_stop") and in_position:

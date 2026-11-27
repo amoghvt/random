@@ -116,6 +116,30 @@ Every decision also gets an `intel` block (`jarvis_core/intel.py`, on by default
 `"intel": {"require_with_trend_call": true}` makes the risk layer refuse any entry unless a session call has fired,
 agrees with the 50-day trend, and points the same way as the entry.
 
+### Catalyst mode: when news outranks the chart
+
+Every heartbeat the loop looks for a fresh, high-impact item that has not been traded yet:
+
+- a scheduled high-importance US release whose actual number is out (the calendar is polled every 20 seconds around a release);
+- a FinancialJuice wire line scored 3: a Trump statement on tariffs, the Fed, chips, sanctions or the stock market; a Fed
+  rate decision; a US data print that differs from its forecast; a military strike or attack; a trading halt or downgrade;
+- a Trump Truth Social post (from the public archive at trumpstruth.org) on one of those policy subjects.
+
+When one appears it is logged as `CATALYST`, handed to the brain in the intel block, and the brain may enter with
+`"basis": "catalyst"`. For that trade, once per catalyst, the risk layer waives the with-trend gate and the
+post-release half of the calendar blackout. It never waives the stop, the stop width, size, the daily loss limit, the
+trade count, the consecutive-loss stop or the kill switch, and the blackout before a release always holds.
+
+```json
+"catalyst": { "enabled": true, "min_impact": 3, "max_age_minutes": 10, "allow_outside_windows": false }
+```
+
+Limits you should know: the wire is an RSS feed read every 20 seconds and the brain takes several seconds to decide,
+so the bot acts tens of seconds after a headline, after the first move. It trades the reaction, not the print. Lower
+`heartbeat_seconds` (for example 20) to tighten that. There is no X/Twitter reader: X has no free read access, so it
+would need a paid API key. Headline scoring is a keyword filter (`intel.score`); it decides what wakes the brain, and
+the brain decides what the headline means.
+
 `knowledge/playbook.vest.example.md` is a playbook written from the trader's own trade log and the backtests in
 `desk/research/`. Copy it to `knowledge/playbook.md` and edit it.
 

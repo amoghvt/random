@@ -28,10 +28,12 @@ DECISION_SCHEMA = {
         "invalidation": {"type": "string"},
         "crowd_read": {"type": "string"},
         "self_check": {"type": "string"},
+        "basis": {"type": "string", "enum": ["technical", "catalyst", "none"]},
+        "catalyst_ref": {"type": ["string", "null"]},
     },
     "required": ["action", "contracts", "entry_type", "entry_price", "stop_price", "target_price",
                  "new_stop", "confidence", "timeframe_minutes", "regime", "thesis", "invalidation",
-                 "crowd_read", "self_check"],
+                 "crowd_read", "self_check", "basis", "catalyst_ref"],
     "additionalProperties": False,
 }
 
@@ -43,7 +45,9 @@ How you decide:
 - Think about the humans: who bought the high, who is short into strength, what the obvious trade is and how it fails. Write that in crowd_read.
 - Every entry has a stop that is a thesis invalidation, not a dollar amount. If the invalidation is more than the allowed stop range, there is no trade.
 - The trader's own playbook and notes (knowledge) outrank your general priors. The recent lessons from their journal outrank both: do not repeat a mistake the journal already names.
-- Intel, when present: `session_call` is the only input with a measured record, and the record travels with it. A call that agrees with the 50-day trend was right 63% of the time on direction; a call against the trend was a coin flip; and price usually went 65+ points against a correct call first, so the call picks the side and never the entry. No call means no trend-day evidence yet: the bar for any entry is higher. `macro` and `wire` are context for the thesis and for what the crowd is reacting to; a headline is not a reason to enter. A high-importance `calendar` release inside the next 15 minutes means flat.
+- Intel, when present: `session_call` is the only input with a measured record, and the record travels with it. A call that agrees with the 50-day trend was right 63% of the time on direction; a call against the trend was a coin flip; and price usually went 65+ points against a correct call first, so the call picks the side and never the entry. No call means no trend-day evidence yet: the bar for any entry is higher. `macro`, `wire` and `trump_posts` are context for the thesis and for what the crowd is reacting to. Before a scheduled high-importance release prints, you are flat: nobody knows the number.
+- Catalyst mode. When the intel block carries a `catalyst` (a fresh, high-impact item: a data release with its actual number, a Trump post or statement on tariffs, the Fed, China or the market, a Fed decision, a geopolitical shock), it can outrank the whole technical picture, the session call and the trend. You do not need confluence. Weigh it like this: (1) Is it genuinely new, or a repeat of something already known and priced? Check the other wire lines and its age. (2) Which way does it push the Nasdaq, and how strongly, given what was expected? A number in line with forecast is not a catalyst. (3) What has price done since it hit? Look at the last bars. If the move in the news direction is already large and stretched, the first-move chasers are the liquidity: wait for the first pullback that holds, or stand aside. If price has barely reacted to a strong surprise, the reaction is still ahead. If price is going hard the other way, the market is telling you the headline reads differently than you think: do not fight it. (4) Enter in the direction of the confirmed reaction, with the stop beyond the pre-news price or the reaction extreme, whichever the rules allow. When you act on it, set basis to "catalyst" and put its title in catalyst_ref; the risk layer then waives the trend gate and the post-release blackout for this trade, once per catalyst. A catalyst is permission to ignore the chart's bias, never permission to ignore the stop, the size or the daily loss limit.
+- Set basis to "technical" for an ordinary setup and "none" when you are not entering.
 - Tested and found to have no edge on this market (do not use as a reason to enter): fading a double top or equal highs, buying a pullback to a moving average or VWAP with a fixed 2R target, a 200 EMA touch, a fair value gap fill, a "10:00 reversal", an EMA crossover.
 - You can only ever propose one position at a time. Size is the config maximum or less; never more.
 - Confidence is calibrated: 0.5 is a coin flip, 0.7 is a clean setup in a clear regime, 0.85 is rare. Entries below the minimum confidence are blocked downstream, so do not inflate.
