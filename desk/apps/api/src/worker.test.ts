@@ -20,7 +20,7 @@ describe('runLoop on the recorded Nov 17 2026 session', () => {
     const d = await recordedDesk(at);
     const r1 = await runLoop(d.deps, at);
     expect(r1.steps.filter((s) => !s.ok)).toEqual([]);
-    expect(r1.steps.map((s) => s.name)).toEqual(['ingest', 'watcher', 'catalysts', 'bias', 'positions', 'tickets', 'guardrails', 'reminders', 'notifications', 'now', 'health']);
+    expect(r1.steps.map((s) => s.name)).toEqual(['ingest', 'watcher', 'catalysts', 'session', 'bias', 'positions', 'tickets', 'guardrails', 'reminders', 'notifications', 'now', 'health']);
 
     const events = await d.store.list('structure_events', { instrument: 'NQ' });
     expect(events.length).toBeGreaterThan(100);

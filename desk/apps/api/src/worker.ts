@@ -19,6 +19,7 @@ import { dueReminders, offerAll, sweepIgnored } from './services/notify';
 import { nowView } from './services/now';
 import { runPositions, runTickets, type Held } from './services/positions';
 import { baseRatesDue, computeBaseRates, runWatcher } from './services/watcher';
+import { runSession } from './services/session';
 
 export interface WorkerHandle { stop(): Promise<void> }
 
@@ -86,6 +87,9 @@ export async function runLoop(deps: DeskDeps, now: number): Promise<LoopReport> 
 
     const cats = await step('catalysts', () => runCatalysts(deps, now, reader));
     if (cats) { report.matched = cats.matched; intents.push(...cats.intents); }
+
+    const sess = await step('session', () => runSession(deps, now));
+    if (sess) intents.push(...sess.intents);
 
     const calls = await step('bias', async () => { await scoreExpiredCalls(deps, now); return runBias(deps, now, reader); });
     if (calls) { report.calls = calls.changed; intents.push(...calls.intents); }

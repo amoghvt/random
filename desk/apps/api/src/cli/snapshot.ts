@@ -10,6 +10,7 @@ import { createDeps, closeDeps } from '../deps';
 import { parseEnv } from '../env';
 import { backfillOnBoot, runLoop, runMatrices } from '../worker';
 import { loadRules } from '../services/accounts';
+import { sessionView } from '../services/session';
 
 const ema = (cs: Candle[], n: number): Array<{ t: number; v: number }> => {
   const k = 2 / (n + 1);
@@ -48,6 +49,7 @@ async function main(): Promise<void> {
     notifications: await store.list('notifications', { limit: 30 }),
     briefs: await store.list('briefs', { limit: 5 }),
     rules: await loadRules(deps),
+    session: await sessionView(deps, Date.now()),
     charts,
   };
   writeFileSync(out, JSON.stringify(doc));

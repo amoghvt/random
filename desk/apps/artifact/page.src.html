@@ -135,8 +135,37 @@ p { margin: 0; }
       '<dt>Size</dt><dd>' + (t.size ? '<span class="num">$' + n(t.size.notionalUsd) + (t.size.leverage ? ' · ' + n(t.size.leverage, 1) + 'x' : '') + (t.size.failPrice ? ' · fail ' + n(t.size.failPrice, 2) : '') + '</span>' : '<span class="dim">unsized: no active account with a balance entered</span>') + '</dd></dl>';
   }
 
+  function sessionPanel() {
+    var S = D.session;
+    if (!S || !S.call) return '';
+    var c = S.call, sc = S.scorecard || {}, k = c.call, h = '';
+    var word = c.status === 'up' ? 'UP' : c.status === 'down' ? 'DOWN' : c.status === 'no_call_yet' ? 'No call yet' : c.status === 'no_call_today' ? 'No call today' : c.status === 'before_first_check' ? 'Waiting for 10:00' : c.status === 'not_enough_history' ? 'Not enough history' : 'Market closed';
+    var tone = c.status === 'up' ? 'up' : c.status === 'down' ? 'down' : '';
+    h += '<section class="panel"><p class="eyebrow">Session direction call · ' + esc(c.instrument) + ' · as of ' + et(c.asOf) + '</p>' +
+      '<div class="callrow"><div class="calllabel ' + tone + '">' + word + '</div>' + (k ? '<div class="callprob">' + (k.agreesTrend === true ? '63%' : k.agreesTrend === false ? '49%' : '57%') + '</div>' : '') + '</div>' +
+      '<p style="margin:8px 0">' + esc(c.read) + '</p><dl class="kv">';
+    if (k) {
+      h += '<dt>Fired</dt><dd>' + esc(k.time) + ' ET at <span class="num">' + n(k.price, 0) + '</span>, band <span class="num">' + n(k.band, 0) + '</span></dd>' +
+        '<dt>Trend / gap</dt><dd>' + (k.agreesTrend == null ? 'trend unknown' : k.agreesTrend ? 'with the 50-day trend' : 'against the 50-day trend') + ' · ' + (k.agreesGap ? 'with the gap' : 'against the gap') + '</dd>' +
+        '<dt>Since the call</dt><dd><span class="num ' + cls(k.pointsSince) + '">' + (k.pointsSince == null ? '–' : (k.pointsSince >= 0 ? '+' : '−') + n(Math.abs(k.pointsSince), 0) + ' pts') + '</span>' + (k.stillBeyondBand === false ? ' · <span class="warn">price is back inside the band</span>' : '') + '</dd>';
+    }
+    if (c.watch) h += '<dt>Next check</dt><dd>' + esc(c.watch.time) + ' ET · UP above <span class="num">' + n(c.watch.upper, 0) + '</span> · DOWN below <span class="num">' + n(c.watch.lower, 0) + '</span>' + (c.last == null ? '' : ' · last <span class="num">' + n(c.last, 0) + '</span>') + '</dd>';
+    h += '</dl>';
+    if (sc.all && sc.all.n) {
+      var t = function (x) { return x && x.n ? x.right + ' of ' + x.n + ' right (' + x.rightPct + '%), avg ' + (x.avgPts >= 0 ? '+' : '−') + n(Math.abs(x.avgPts), 0) + ' pts' : 'none'; };
+      h += '<p class="eyebrow" style="margin-top:14px">The desk record, ' + esc(sc.from) + ' to ' + esc(sc.to) + ' (' + sc.sessions + ' sessions)</p>' +
+        '<dl class="kv"><dt>All calls</dt><dd>' + t(sc.all) + '</dd><dt>With trend</dt><dd>' + t(sc.withTrend) + '</dd><dt>Against trend</dt><dd>' + t(sc.againstTrend) + '</dd></dl>' +
+        '<div class="scroll"><table><thead><tr><th>Day</th><th>Call</th><th>Time</th><th>Entry</th><th>To close</th><th>Heat</th><th>Trend</th></tr></thead><tbody>' +
+        (sc.last || []).slice(0, 10).map(function (x) {
+          return '<tr><td class="num">' + esc(x.day.slice(5)) + '</td><td class="' + (x.side === 'up' ? 'up' : 'down') + '">' + (x.side === 'up' ? 'Up' : 'Down') + '</td><td class="num">' + esc(x.time) + '</td><td class="num">' + n(x.entry, 0) + '</td><td class="num ' + cls(x.points) + '">' + (x.points >= 0 ? '+' : '−') + n(Math.abs(x.points), 0) + '</td><td class="num dim">' + n(x.heat, 0) + '</td><td class="dim">' + (x.agreesTrend == null ? '–' : x.agreesTrend ? 'with' : 'against') + '</td></tr>';
+        }).join('') + '</tbody></table></div>';
+    }
+    h += '<p class="dim" style="font-size:12px;margin-top:10px">Rule: first half-hour check (10:00 to 15:30 ET) where price is outside its normal range from the open for that time of day. Tested on ' + c.research.sessions + ' sessions, ' + esc(c.research.period) + ': ' + c.research.all.rightPct + '% of calls closed further in the called direction, ' + c.research.withTrend.rightPct + '% with the trend. A direction filter, not an entry: price typically moved ' + c.research.withTrend.heatPts + ' points against the call first.</p></section>';
+    return h;
+  }
+
   function renderNow() {
-    var N = D.now, p = N.primary, h = '';
+    var N = D.now, p = N.primary, h = sessionPanel();
     if (p) {
       h += '<section class="panel"><div class="meta" style="margin:0 0 6px"><b style="color:var(--fg)">' + esc(p.instrument) + '</b> · ' + esc(p.horizon) + ' · ref <span class="num">' + n(p.referencePrice, 2) + '</span></div>' +
         '<div class="callrow"><div class="calllabel ' + callCls(p.call) + '">' + LABEL[p.call] + '</div><div class="callprob">' + p.probability.toFixed(2) + '</div></div>' +

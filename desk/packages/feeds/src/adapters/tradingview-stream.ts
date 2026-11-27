@@ -18,7 +18,8 @@ export const TV_WS_URL = 'wss://data.tradingview.com/socket.io/websocket?type=ch
 const RESOLUTION: Record<Timeframe, string> = { '1m': '1', '5m': '5', '15m': '15', '1h': '60', '1d': '1D' };
 const TF_OF: Record<string, Timeframe> = Object.fromEntries(Object.entries(RESOLUTION).map(([tf, r]) => [r, tf as Timeframe]));
 /** Bars asked for per timeframe when a series is opened. */
-const HISTORY_BARS: Record<Timeframe, number> = { '1m': 1500, '5m': 1500, '15m': 1500, '1h': 1500, '1d': 1500 };
+/** 15m carries the session call's 14-session lookback plus its replayed record, so it asks for the most the feed gives. */
+const HISTORY_BARS: Record<Timeframe, number> = { '1m': 1500, '5m': 1500, '15m': 5000, '1h': 1500, '1d': 1500 };
 const KEEP_BARS = 3000;
 
 /* ───────────── wire format (pure) ───────────── */
