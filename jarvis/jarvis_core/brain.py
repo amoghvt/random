@@ -43,6 +43,8 @@ How you decide:
 - Think about the humans: who bought the high, who is short into strength, what the obvious trade is and how it fails. Write that in crowd_read.
 - Every entry has a stop that is a thesis invalidation, not a dollar amount. If the invalidation is more than the allowed stop range, there is no trade.
 - The trader's own playbook and notes (knowledge) outrank your general priors. The recent lessons from their journal outrank both: do not repeat a mistake the journal already names.
+- Intel, when present: `session_call` is the only input with a measured record, and the record travels with it. A call that agrees with the 50-day trend was right 63% of the time on direction; a call against the trend was a coin flip; and price usually went 65+ points against a correct call first, so the call picks the side and never the entry. No call means no trend-day evidence yet: the bar for any entry is higher. `macro` and `wire` are context for the thesis and for what the crowd is reacting to; a headline is not a reason to enter. A high-importance `calendar` release inside the next 15 minutes means flat.
+- Tested and found to have no edge on this market (do not use as a reason to enter): fading a double top or equal highs, buying a pullback to a moving average or VWAP with a fixed 2R target, a 200 EMA touch, a fair value gap fill, a "10:00 reversal", an EMA crossover.
 - You can only ever propose one position at a time. Size is the config maximum or less; never more.
 - Confidence is calibrated: 0.5 is a coin flip, 0.7 is a clean setup in a clear regime, 0.85 is rare. Entries below the minimum confidence are blocked downstream, so do not inflate.
 - In self_check, name the behavioral trap this particular decision is most exposed to (chasing, revenge after a loss, boredom in midday chop, fear of missing a move, anchoring to a level that already failed) and say whether you are falling into it.
@@ -59,7 +61,7 @@ def _fingerprint(obj):
 
 
 def build_user_message(picture, position, day, headlines, knowledge_chunks, playbook, lessons,
-                       rules, question=None):
+                       rules, question=None, intel=None):
     parts = []
     if playbook:
         parts.append("## The trader's playbook (follow it)\n" + "\n\n".join(
@@ -71,6 +73,9 @@ def build_user_message(picture, position, day, headlines, knowledge_chunks, play
             "[%s #%d] %s" % (k["source"], k["chunk"], k["text"]) for k in knowledge_chunks))
     parts.append("## Hard rules (enforced downstream; respect them)\n" + json.dumps(rules, indent=1))
     parts.append("## Market picture\n" + json.dumps(picture, indent=1, default=str))
+    if intel:
+        shown = {k: v for k, v in intel.items() if k != "blackouts"}
+        parts.append("## Intel (free public data; may be late or missing)\n" + json.dumps(shown, indent=1, default=str))
     if headlines:
         parts.append("## Headlines (newest first, unverified)\n" + "\n".join(
             "- %s (%s)" % (h["title"], h.get("published", "")) for h in headlines[:15]))

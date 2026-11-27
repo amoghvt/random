@@ -13,6 +13,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from . import broker as broker_mod
+from . import intel as intel_mod
 from . import config as config_mod
 from . import data as data_mod
 from . import features, knowledge, risk
@@ -28,6 +29,8 @@ class Jarvis:
         self.tz = ZoneInfo(cfg["session"]["timezone"])
         self.journal = Journal(config_mod.path(cfg, cfg["state_dir"]), cfg["session"]["timezone"])
         self.broker = broker or broker_mod.make_broker(cfg, self.journal.state.get("broker"))
+        self._last_bars = None
+        self.intel = intel_mod.Intel(cfg, now_fn=self.now) if (fetch_news and cfg.get("intel", {}).get("enabled", True)) else None
         self.source = source or data_mod.make_source(cfg)
         self.brain = brain or Brain(cfg["model"], cfg["effort"])
         self.fetch_news = fetch_news
@@ -70,6 +73,7 @@ class Jarvis:
 
     def picture(self):
         bars, meta = self.source.bars()
+        self._last_bars = bars
         pic = features.compute(bars, now=self.now(), tz_name=self.cfg["session"]["timezone"],
                                tick=self.cfg["instrument"]["tick_size"])
         pic["symbol"] = self.cfg["instrument"]["symbol"]
@@ -86,7 +90,12 @@ class Jarvis:
         query = " ".join(str(x) for x in [pic.get("phase"), pic.get("trend_ema"), "NQ", "level",
                                             "vwap", "opening range", question or ""])
         chunks = knowledge.search(self.kindex, query, k=self.cfg["knowledge"]["top_k"]) if self.kindex else []
+        intel = None
+        if self.intel is not None:
+            intel = self.intel.gather(self._last_bars or [])
+            self.journal.state["intel"] = {"session_call": intel.get("session_call"), "blackouts": intel.get("blackouts", [])}
         return {
+            "intel": intel,
             "picture": pic,
             "position": self._position_view(price),
             "day": self.journal.state["day"],

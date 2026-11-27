@@ -5,4 +5,5 @@ STOP
 knowledge/*
 !knowledge/README.md
 !knowledge/playbook.example.md
+!knowledge/playbook.vest.example.md
 __pycache__/

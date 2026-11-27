@@ -99,6 +99,29 @@ market hours, then one smallest-size trade with `submit_orders` on while you wat
 
 The computer must stay on, awake and logged in to Vest for the bot to run.
 
+## Intel: what the brain sees besides price
+
+Every decision also gets an `intel` block (`jarvis_core/intel.py`, on by default, all free public data):
+
+- **Session direction call.** The first half-hour check from 10:00 to 15:30 New York where price is outside its
+  normal range from the open for that time of day. It is the one input with a measured record, and the record is
+  sent with it: right on direction 57% of the time, 63% when it agrees with the 50-day trend, 49% when it does not
+  (731 sessions, 2023-01 to 2026-10). It picks the side; it is not an entry.
+- **Macro snapshot:** VIX, 10-year yield, dollar, S&P futures, semiconductors, oil, gold, bitcoin, each with its
+  change from the prior close.
+- **Economic calendar:** today's and tomorrow's high-importance US releases with forecast and actual. A blackout
+  from 10 minutes before to 15 minutes after each one is applied automatically by the risk layer.
+- **News wire:** the latest FinancialJuice headlines, alongside the Yahoo headlines.
+
+`"intel": {"require_with_trend_call": true}` makes the risk layer refuse any entry unless a session call has fired,
+agrees with the 50-day trend, and points the same way as the entry.
+
+`knowledge/playbook.vest.example.md` is a playbook written from the trader's own trade log and the backtests in
+`desk/research/`. Copy it to `knowledge/playbook.md` and edit it.
+
+`python3 jarvis.py stats` prints the record so far from the journal: trades, win rate, profit factor, drawdown.
+Judge the brain on that, in paper mode, before any live order.
+
 ## The risk layer (deterministic, no model)
 
 `jarvis_core/risk.py` blocks, with a reason, anything that breaks:

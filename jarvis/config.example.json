@@ -72,6 +72,11 @@
     ]
   },
 
+  "intel": {
+    "enabled": true,
+    "require_with_trend_call": false
+  },
+
   "knowledge": {
     "dir": "knowledge",
     "top_k": 6,

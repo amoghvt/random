@@ -157,6 +157,35 @@ def cmd_vest_check(j, args):
     s.close()
 
 
+def cmd_stats(j, args):
+    """The record so far: what the bot actually did, from state/trades.jsonl."""
+    ts = [t for t in j.journal.trades() if "pnl" in t]
+    if not ts:
+        print("no closed trades yet")
+        return
+    wins = [t for t in ts if t["pnl"] > 0]
+    losses = [t for t in ts if t["pnl"] <= 0]
+    gross_w, gross_l = sum(t["pnl"] for t in wins), -sum(t["pnl"] for t in losses)
+    eq = peak = dd = 0.0
+    for t in ts:
+        eq += t["pnl"]
+        peak = max(peak, eq)
+        dd = min(dd, eq - peak)
+    print("closed trades: %d   wins: %d (%.0f%%)" % (len(ts), len(wins), 100.0 * len(wins) / len(ts)))
+    print("net: $%.2f   average win: $%.2f   average loss: $%.2f" % (eq, gross_w / max(1, len(wins)), -gross_l / max(1, len(losses))))
+    print("profit factor: %s   worst drawdown: $%.2f" % ("%.2f" % (gross_w / gross_l) if gross_l else "n/a", dd))
+    by = {}
+    for t in ts:
+        k = str(t.get("reason", "")).split(" ")[0]
+        by.setdefault(k, [0, 0.0])
+        by[k][0] += 1
+        by[k][1] += t["pnl"]
+    for k, (n, p) in sorted(by.items()):
+        print("  exit by %-10s %3d trades  $%.2f" % (k, n, p))
+    if len(ts) < 30:
+        print("fewer than 30 trades: too few to say whether this is skill or luck")
+
+
 def cmd_reset_paper(j, args):
     if j.cfg["broker"]["kind"] != "paper":
         sys.exit("broker is not paper")
@@ -171,7 +200,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config", default=None, help="path to config.json (default: jarvis/config.json)")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("status", "picture", "brief", "flatten", "stop", "resume", "reset-paper", "vest-check"):
+    for name in ("status", "picture", "brief", "flatten", "stop", "resume", "reset-paper", "vest-check", "stats"):
         sub.add_parser(name)
     ig = sub.add_parser("ingest"); ig.add_argument("--dir", action="append", help="extra folder to index in place (repeatable)")
     a = sub.add_parser("ask"); a.add_argument("question")
@@ -185,7 +214,7 @@ def main(argv=None):
         cfg = config_mod.load(args.config)
     except config_mod.ConfigError as e:
         sys.exit("config: %s" % e)
-    needs_net = args.cmd not in ("stop", "resume", "ingest", "reset-paper", "status")
+    needs_net = args.cmd not in ("stop", "resume", "ingest", "reset-paper", "status", "stats", "vest-check")
     j = Jarvis(cfg, fetch_news=needs_net)
     globals()["cmd_" + args.cmd.replace("-", "_")](j, args)
 

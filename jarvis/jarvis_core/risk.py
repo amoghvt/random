@@ -50,6 +50,9 @@ def pre_check(cfg, state, now=None):
     label = features.in_blackout(now_et, s.get("event_blackouts"))
     if label:
         reasons.append("event blackout: %s" % label)
+    for start, end, label in (state.get("intel") or {}).get("blackouts", []):
+        if start <= now_et.timestamp() <= end:
+            reasons.append("calendar blackout: %s" % label)
     day = state.get("day", {})
     if day.get("realized_pnl", 0.0) <= -abs(r["max_daily_loss_usd"]):
         reasons.append("daily loss limit hit (%.2f)" % day.get("realized_pnl", 0.0))
@@ -112,6 +115,15 @@ def check(cfg, decision, state, price=None):
             left = abs(r["max_daily_loss_usd"]) + state.get("day", {}).get("realized_pnl", 0.0)
             if worst > left:
                 reasons.append("worst case $%.0f exceeds remaining daily loss room $%.0f" % (worst, left))
+    if cfg.get("intel", {}).get("require_with_trend_call"):
+        call = (state.get("intel") or {}).get("session_call") or {}
+        want = "up" if action == "long" else "down"
+        if call.get("status") not in ("up", "down"):
+            reasons.append("no session direction call yet (intel.require_with_trend_call)")
+        elif call["status"] != want:
+            reasons.append("entry is against the session call (%s)" % call["status"])
+        elif call.get("agrees_with_trend") is not True:
+            reasons.append("the session call does not agree with the 50-day trend")
     for key in ("entry_price", "stop_price", "target_price"):
         v = decision.get(key)
         if v is not None and abs(round(v / tick) * tick - v) > 1e-9:
