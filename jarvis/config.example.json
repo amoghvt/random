@@ -27,6 +27,14 @@
     "paper_starting_equity": 25000,
     "paper_slippage_ticks": 1,
     "paper_commission_per_side": 2.25,
+    "vest_browser": {
+      "market": "NQ-PERP",
+      "position_label": "NQ",
+      "channel": "chrome",
+      "headless": false,
+      "submit_orders": false,
+      "max_notional_usd": 60000
+    },
     "tradovate": {
       "env": "demo",
       "username_env": "TRADOVATE_USER",

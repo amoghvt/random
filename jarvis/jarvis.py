@@ -136,6 +136,27 @@ def cmd_review(j, args):
     print("\nsaved %s" % p)
 
 
+def cmd_vest_check(j, args):
+    """Open the Vest page in the bot's browser profile and report what the bot can see. Places nothing."""
+    from jarvis_core import vest_browser as vb
+    s = vb.session_for(j.cfg)
+    page = s.page
+    print("page:        %s" % page.url)
+    print("logged in:   %s" % s.logged_in())
+    missing = [k for k, sel in vb.SEL.items() if k not in ("tp", "sl", "tpsl_price") and not page.query_selector(sel)]
+    print("selectors:   %s" % ("all found" if not missing else "MISSING " + ", ".join(missing)))
+    print("mid price:   %s" % s.mid())
+    print("blocked:     %s" % (s.blocked() or "no"))
+    print("trading power: %s   account value: %s" % (s.text(vb.SEL["power"]), s.text(vb.SEL["account_value"])))
+    print("position:    %s" % (s.position_text() or "flat"))
+    print("submit_orders: %s (paper=%s)" % (j.cfg["broker"].get("vest_browser", {}).get("submit_orders", False), j.cfg["paper"]))
+    if not s.logged_in():
+        input("Log in to Vest in the window that opened, pick the account to trade, then press Enter here...")
+        print("logged in:   %s" % s.logged_in())
+    print("screenshot:  %s" % s.screenshot("vest-check"))
+    s.close()
+
+
 def cmd_reset_paper(j, args):
     if j.cfg["broker"]["kind"] != "paper":
         sys.exit("broker is not paper")
@@ -150,7 +171,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config", default=None, help="path to config.json (default: jarvis/config.json)")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("status", "picture", "brief", "flatten", "stop", "resume", "reset-paper"):
+    for name in ("status", "picture", "brief", "flatten", "stop", "resume", "reset-paper", "vest-check"):
         sub.add_parser(name)
     ig = sub.add_parser("ingest"); ig.add_argument("--dir", action="append", help="extra folder to index in place (repeatable)")
     a = sub.add_parser("ask"); a.add_argument("question")

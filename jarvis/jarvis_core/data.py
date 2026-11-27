@@ -96,6 +96,9 @@ def make_source(cfg):
         return YahooDelayed(cfg["instrument"]["yahoo_symbol"], d["interval"], d["lookback_days"])
     if d["source"] == "tradovate":
         return TradovateData()
+    if d["source"] == "vest_page":
+        from . import vest_browser as vb
+        return vb.VestPageData(vb.session_for(cfg), YahooDelayed(cfg["instrument"]["yahoo_symbol"], d["interval"], d["lookback_days"]))
     raise DataError("unknown data.source %r" % d["source"])
 
 

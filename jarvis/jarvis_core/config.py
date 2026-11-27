@@ -65,8 +65,10 @@ def load(path=None):
 def validate(cfg):
     if cfg["mode"] not in MODES:
         raise ConfigError("mode must be one of %s" % (MODES,))
-    if cfg["broker"]["kind"] not in ("paper", "tradovate"):
-        raise ConfigError("broker.kind must be 'paper' or 'tradovate'")
+    if cfg["broker"]["kind"] not in ("paper", "tradovate", "vest_browser"):
+        raise ConfigError("broker.kind must be 'paper', 'tradovate' or 'vest_browser'")
+    if cfg["broker"]["kind"] == "vest_browser" and not cfg["broker"].get("vest_browser", {}).get("max_notional_usd"):
+        raise ConfigError("broker.vest_browser.max_notional_usd is required: the largest order, in dollars, the bot may place")
     live = cfg["broker"]["kind"] != "paper" and not cfg["paper"]
     if cfg["mode"] == "auto" and live and not cfg["i_accept_live_autonomous_risk"]:
         raise ConfigError(

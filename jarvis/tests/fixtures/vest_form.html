@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><title>Vest replica</title>
+<!-- Minimal replica of the Vest order form: same data-testid values as next.vestmarkets.com/trade/NDX-USD-PERP on 2026-11-27. -->
+<div><button id="login" style="display:none">Log In</button></div>
+<div data-testid="market-info"><span data-testid="market-midPrice">$26,756.75</span><span data-testid="market-indexPrice">$26,755.45</span></div>
+<div id="acct"><div data-testid="trade-account-tabs"><button data-testid="account-tab-active-positions">Active Positions</button></div>
+<table><thead><tr><th>Market</th><th>Value</th></tr></thead><tbody id="rows"></tbody></table><p id="empty">No positions yet</p></div>
+<span data-testid="account-value">$10,000.00</span>
+<div data-testid="order-form">
+ <button data-testid="ordertype-tab-market">Market</button>
+ <button data-testid="trading-power">$500,000.00</button>
+ <input data-testid="size-input" placeholder="0.00"><button data-testid="size-unit-select">USD</button><button data-testid="size-pct-100">100%</button>
+ <button data-testid="tpsl-toggle" role="checkbox" aria-checked="false">TP/SL</button>
+ <button data-testid="reduce-only-checkbox" role="checkbox" aria-checked="false" disabled>Reduce Only</button>
+ <div id="tpsl" style="display:none"><button data-testid="tpsl-unit-price">At Price</button><input data-testid="tpsl-input-tp"><input data-testid="tpsl-input-sl"></div>
+ <div>Order Value <span id="ov">$0.00</span></div><div id="notice"></div>
+ <button data-testid="submit-long" disabled>Buy/Long</button><button data-testid="submit-short" disabled>Sell/Short</button>
+</div>
+<script>
+const $ = (t) => document.querySelector('[data-testid="' + t + '"]');
+window.orders = []; let pos = null;
+const toggle = (el) => el.addEventListener('click', () => {
+  el.setAttribute('aria-checked', el.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
+  if (el === $('tpsl-toggle')) document.getElementById('tpsl').style.display = el.getAttribute('aria-checked') === 'true' ? '' : 'none';
+});
+toggle($('tpsl-toggle')); toggle($('reduce-only-checkbox'));
+const scale = new URLSearchParams(location.search).get('scale') || 1;
+$('size-input').addEventListener('input', (e) => {
+  const v = parseFloat(e.target.value) || 0;
+  document.getElementById('ov').textContent = '$' + (v * scale).toLocaleString('en-US', { minimumFractionDigits: 2 });
+  $('submit-long').disabled = $('submit-short').disabled = !(v > 0);
+});
+if (location.search.includes('halted')) document.getElementById('notice').textContent = 'Trading Halted';
+if (location.search.includes('loggedout')) document.getElementById('login').style.display = '';
+const render = () => {
+  document.getElementById('rows').innerHTML = pos ? '<tr><td>NQ</td><td>' + pos.side + ' $' + pos.usd + '</td></tr>' : '';
+  document.getElementById('empty').style.display = pos ? 'none' : '';
+  $('reduce-only-checkbox').disabled = !pos;
+};
+const submit = (side) => () => {
+  const o = { side, usd: parseFloat($('size-input').value), sl: $('tpsl-input-sl').value, tp: $('tpsl-input-tp').value,
+    reduceOnly: $('reduce-only-checkbox').getAttribute('aria-checked') === 'true', tpsl: $('tpsl-toggle').getAttribute('aria-checked') === 'true' };
+  window.orders.push(o);
+  pos = o.reduceOnly ? null : { side, usd: o.usd };
+  setTimeout(render, 300);
+};
+$('submit-long').addEventListener('click', submit('long')); $('submit-short').addEventListener('click', submit('short'));
+window.exchangeClose = () => { pos = null; render(); };
+</script>

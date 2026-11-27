@@ -61,6 +61,44 @@ needs `"i_accept_live_autonomous_risk": true`, on purpose. The suggested path is
 weeks in `observe` and `propose` on paper, reading the reviews, tuning the playbook,
 then `auto` on paper, then live with one contract if the journal earns it.
 
+## Trading a Vest Markets account through the browser
+
+Vest has no API for funded accounts, so `broker.kind: "vest_browser"` drives the order form in a Chrome window
+that you logged in to. Vest's Prop Terms (section 9) class bots and scripts as third-party tools used at your own
+risk: Vest does not support them and is not liable for a failed or unintended trade.
+
+```bash
+pip install playwright
+python3 jarvis.py vest-check        # opens Chrome with the bot's own profile; log in once, pick the account
+```
+
+Config, on top of the usual sections:
+
+```json
+"instrument": { "symbol": "NQ", "yahoo_symbol": "NQ=F", "tick_size": 0.25, "point_value": 1.0 },
+"data": { "source": "vest_page", "interval": "1m", "lookback_days": 2 },
+"broker": { "kind": "vest_browser",
+            "vest_browser": { "market": "NQ-PERP", "channel": "chrome", "submit_orders": false, "max_notional_usd": 60000 } }
+```
+
+- `point_value` is 1.0: one unit of the Vest NQ perp is one index point per dollar. `risk.max_contracts` is in those units.
+- `data.source: "vest_page"` builds real-time 1-minute bars from the page's mid price; older bars are a delayed
+  Yahoo backfill shifted to the live price, used only to warm up indicators.
+- `submit_orders: false` is a dry run: the form is filled and checked, a screenshot is saved in `state/`, nothing is
+  clicked. Orders are submitted only with `submit_orders: true` **and** `"paper": false`; `mode: "auto"` then also
+  needs `"i_accept_live_autonomous_risk": true`.
+- Every entry is a market order with the stop-loss and target attached on the exchange, so the stop does not depend
+  on this process staying up. The order is abandoned if the page's order value differs from the intended one by more
+  than 2%, if the market is halted or closed, if you are logged out, or if a position Jarvis did not open is present.
+- A close is a reduce-only market order. Moving a stop is not supported yet (the brain can close instead).
+
+**Not yet verified with a logged-in account** (the adapter was written against the public page): the confirmation
+dialog after submit, the positions-table row layout, and the reduce-only close. Each stops with an error and a
+screenshot if the page does not behave as expected. Before letting it run: `vest-check`, then a dry run during
+market hours, then one smallest-size trade with `submit_orders` on while you watch.
+
+The computer must stay on, awake and logged in to Vest for the bot to run.
+
 ## The risk layer (deterministic, no model)
 
 `jarvis_core/risk.py` blocks, with a reason, anything that breaks:

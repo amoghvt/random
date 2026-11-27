@@ -244,4 +244,10 @@ def make_broker(cfg, state=None):
                            b["paper_commission_per_side"], b["paper_starting_equity"], state)
     if b["kind"] == "tradovate":
         return TradovateBroker(b.get("tradovate", {}), inst["tradovate_symbol"], paper=cfg["paper"])
+    if b["kind"] == "vest_browser":
+        from . import vest_browser as vb
+        v = b.get("vest_browser", {})
+        return vb.VestBrowserBroker(vb.session_for(cfg), inst["point_value"], state,
+                                    submit_orders=v.get("submit_orders", False) and not cfg["paper"],
+                                    max_notional_usd=v.get("max_notional_usd"))
     raise BrokerError("unknown broker.kind %r" % b["kind"])
